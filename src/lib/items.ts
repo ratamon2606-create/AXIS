@@ -10,12 +10,29 @@ import type { Prisma } from "@prisma/client";
  * SRS-1  เห็นเฉพาะที่เผยแพร่แล้ว
  * SRS-8  ผู้ที่ไม่มี session ไม่เห็นรายการที่ตั้งเป็น KU_ONLY
  */
-export function visibleWhere(signedIn: boolean): Prisma.ContentItemWhereInput {
+function baseVisibility(signedIn: boolean): Prisma.ContentItemWhereInput {
   return {
     status: "PUBLISHED",
-    parentId: null, // โพสต์ต่อในเธรดไม่ขึ้นในฟีด ขึ้นเฉพาะในหน้าเธรดของโพสต์แม่
+    // หมดอายุแล้วต้องไม่แสดง ไม่ว่าจะอยู่ในฟีดหรือหน้าเธรด
+    OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
     ...(signedIn ? {} : { visibility: "PUBLIC" }),
   };
+}
+
+/** ใช้กับฟีดหลัก: เฉพาะโพสต์แม่ (parentId เป็น null) */
+export function visibleWhere(signedIn: boolean): Prisma.ContentItemWhereInput {
+  return {
+    ...baseVisibility(signedIn),
+    parentId: null, // โพสต์ต่อในเธรดไม่ขึ้นในฟีด ขึ้นเฉพาะในหน้าเธรดของโพสต์แม่
+  };
+}
+
+/**
+ * ใช้กับหน้ารายละเอียด/เธรด (/items/[id]) และการโหลดโพสต์ต่อ
+ * ไม่จำกัด parentId เพราะต้องดึงได้ทั้งโพสต์แม่และโพสต์ต่อ
+ */
+export function visibleItemWhere(signedIn: boolean): Prisma.ContentItemWhereInput {
+  return baseVisibility(signedIn);
 }
 
 /** ป้ายชื่อประเภทและช่องรายละเอียดของแต่ละประเภท ใช้ร่วมกันทั้งฟอร์มและหน้าแสดงผล */
