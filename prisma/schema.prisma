@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  READER
+  EDITOR
+  ADMIN
+}
+
+enum Department {
+  CPE
+  SKE
+}
+
+/// ห้าประเภทตามที่ตกลงกัน ช่องรายละเอียดจะเปลี่ยนตามค่านี้
+enum ItemType {
+  NEWS
+  OPPORTUNITY
+  ACTIVITY
+  ALERT
+  DOCUMENT
+}
+
+enum ItemStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum Visibility {
+  PUBLIC
+  KU_ONLY
+}
+
+model User {
+  id         String      @id @default(cuid())
+  email      String      @unique
+  name       String?
+  image      String?
+  role       Role        @default(READER)
+  department Department?
+  year       Int?
+  createdAt  DateTime    @default(now())
+
+  items ContentItem[]
+}
+
+/// อีเมลที่ใส่ไว้ล่วงหน้า เพื่อให้ได้สิทธิ์ทันทีที่ล็อกอินครั้งแรก
+model Allowlist {
+  email String @id
+  role  Role   @default(EDITOR)
+  note  String?
+}
+
+model ContentItem {
+  id         String     @id @default(cuid())
+  title      String
+  body       String
+  type       ItemType   @default(NEWS)
+  department Department
+  visibility Visibility @default(KU_ONLY)
+  status     ItemStatus @default(DRAFT)
+
+  /// สามช่องที่เปลี่ยนตามประเภท เก็บเป็น JSON เพื่อไม่ต้อง migrate เมื่อเพิ่มประเภทใหม่
+  /// เช่น {"when":"12 ก.ย. 09:00","where":"ห้อง s603","who":"CPE และ SKE ทุกชั้นปี"}
+  details Json?
+
+  /// สองค่านี้แยกออกมาเป็นคอลัมน์จริงเพราะระบบต้อง query และเรียงลำดับ
+  eventStart DateTime?
+  expiresAt  DateTime?
+
+  imageUrl String?
+
+  /// โพสต์ต่อในเธรดใช้ตารางเดียวกับโพสต์แม่
+  parentId String?
+  parent   ContentItem?  @relation("Thread", fields: [parentId], references: [id], onDelete: Cascade)
+  children ContentItem[] @relation("Thread")
+
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, visibility])
+  @@index([parentId])
+}
