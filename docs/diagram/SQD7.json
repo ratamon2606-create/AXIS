@@ -1,0 +1,248 @@
+{
+  "version": "31.4.4",
+  "pages": [
+    {
+      "id": "PuxHNvtwC40GiwqnHDJw",
+      "name": "Page-1",
+      "cells": [
+        {
+          "id": "1",
+          "type": "layer"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-1",
+          "type": "node",
+          "parent": "1",
+          "label": "System Clock"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-2",
+          "type": "node",
+          "parent": "1",
+          "label": "Expiry Job"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-3",
+          "type": "node",
+          "parent": "1",
+          "label": "Content Model"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-4",
+          "type": "node",
+          "parent": "1",
+          "label": "Database"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-5",
+          "type": "node",
+          "parent": "1",
+          "label": "Student View"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-6",
+          "type": "node",
+          "parent": "1",
+          "label": "Content Controller"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-7",
+          "type": "node",
+          "parent": "1",
+          "label": "SQD-7: System Automatically Expires Content",
+          "html": "<h2><span lang=\"EN-US\">SQD-7: System Automatically Expires Content</span></h2>"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-8",
+          "type": "edge",
+          "parent": "1",
+          "target": "lM2pq3S7t6DC9GS_oocf-1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-9",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-10",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-11",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-12",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-13",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-14",
+          "type": "node",
+          "parent": "1",
+          "label": "1. Trigger scheduled expiry check",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">1. Trigger scheduled expiry check</span>"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-15",
+          "type": "edge",
+          "parent": "1",
+          "source": "lM2pq3S7t6DC9GS_oocf-14",
+          "target": "lM2pq3S7t6DC9GS_oocf-14"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-16",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-17",
+          "type": "node",
+          "parent": "1",
+          "label": "2. Find published items whose \nexpiry date has passed",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;\">2. Find published items whose&nbsp;</span><div style=\"text-align: center;\"><span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;\">expiry date has passed</span></div>"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-19",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-20",
+          "type": "node",
+          "parent": "1",
+          "label": "3. Query expired-by-date published items",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">3. Query expired-by-date published items</span>"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-21",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-22",
+          "type": "node",
+          "parent": "1",
+          "label": "4. Return matching items",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">4. Return matching items</span>"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-23",
+          "type": "edge",
+          "parent": "1",
+          "source": "lM2pq3S7t6DC9GS_oocf-24"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-24",
+          "type": "node",
+          "parent": "1",
+          "label": "5. Set matching items to expired",
+          "html": "<span style=\"font-size: 11px; text-align: center; white-space: nowrap; background-color: rgb(255, 255, 255);\">5. Set matching items to expired</span>"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-25",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-26",
+          "type": "node",
+          "parent": "1",
+          "label": "6. Confirm status updates",
+          "html": "<span style=\"font-size: 11px; text-align: center; white-space: nowrap; background-color: rgb(255, 255, 255);\">6. Confirm status updates</span>"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-27",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-28",
+          "type": "node",
+          "parent": "1",
+          "label": "7. Expiry processing complete",
+          "html": "<span style=\"font-size: 11px; text-align: center; white-space: nowrap; background-color: rgb(255, 255, 255);\">7. Expiry processing complete</span>"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-30",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-31",
+          "type": "node",
+          "parent": "1",
+          "label": "8. Request/refresh hub feed",
+          "html": "<span style=\"font-size: 11px; text-align: center; white-space: nowrap; background-color: rgb(255, 255, 255);\">8. Request/refresh hub feed</span>"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-32",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-33",
+          "type": "node",
+          "parent": "1",
+          "label": "9. Request current visible items",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">9. Request current visible items</span>"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-34",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-35",
+          "type": "node",
+          "parent": "1",
+          "label": "10. Query published, non-expired, \nnon-archived items",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;\">10. Query published, non-expired,&nbsp;</span><div style=\"text-align: center;\"><span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;\">non-archived items</span></div>"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-36",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-37",
+          "type": "node",
+          "parent": "1",
+          "label": "11. Return current items",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; float: none; display: inline !important;\">11. Return current items</span>"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-38",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-39",
+          "type": "node",
+          "parent": "1",
+          "label": "12. Return current feed",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">12. Return current feed</span>"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-40",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lM2pq3S7t6DC9GS_oocf-41",
+          "type": "node",
+          "parent": "1",
+          "label": "13. Render updated feed",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">13. Render updated feed</span>"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "version": "31.4.4",
+  "pages": [
+    {
+      "id": "ULWbMcqmCHGIAvvccGj5",
+      "name": "Page-1",
+      "cells": [
+        {
+          "id": "1",
+          "type": "layer"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-1",
+          "type": "node",
+          "parent": "1",
+          "label": "SQD-5: Administrator creates/edits content item - Error path"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-2",
+          "type": "node",
+          "parent": "1",
+          "label": "Adminstrator"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-3",
+          "type": "node",
+          "parent": "1",
+          "label": "Admin View"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-4",
+          "type": "node",
+          "parent": "1",
+          "label": "Content controller"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-5",
+          "type": "node",
+          "parent": "1",
+          "label": "Content model"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-6",
+          "type": "edge",
+          "parent": "1",
+          "target": "jIi_Bhpo60HNvWX_K-yI-2"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-7",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-8",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-9",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-10",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-11",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-12",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-13",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-14",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-15",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-16",
+          "type": "node",
+          "parent": "1",
+          "label": "1. Summit create/edit form"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-17",
+          "type": "node",
+          "parent": "1",
+          "label": "2.POST/PUT content item"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-18",
+          "type": "node",
+          "parent": "1",
+          "label": "3.Check administrator authorisation"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-19",
+          "type": "node",
+          "parent": "1",
+          "label": "4.Validate required content data"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-20",
+          "type": "node",
+          "parent": "1",
+          "label": "5. Return validation error if missing/invalid"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-21",
+          "type": "node",
+          "parent": "1",
+          "label": "6. Return validation or access- denied response"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-22",
+          "type": "node",
+          "parent": "1",
+          "label": "7.Display error and do not save"
+        },
+        {
+          "id": "jIi_Bhpo60HNvWX_K-yI-23",
+          "type": "node",
+          "parent": "1",
+          "label": "Unauthorised requests are rejected before any write operation. Invalid content is not saved"
+        }
+      ]
+    }
+  ]
+}
