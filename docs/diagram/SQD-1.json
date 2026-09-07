@@ -1,0 +1,174 @@
+{
+  "version": "31.4.4",
+  "data": "<mxfile host=\"Electron\"><diagram name=\"Page-1\" id=\"nLmZ5UijWAmWI0Ds8zn4\"><mxGraphModel dx=\"816\" dy=\"1000\" grid=\"1\" gridSize=\"10\" guides=\"1\" tooltips=\"1\" connect=\"1\" arrows=\"1\" fold=\"1\" page=\"1\" pageScale=\"1\" pageWidth=\"850\" pageHeight=\"1100\" math=\"0\" shadow=\"0\"><root><mxCell id=\"0\"/><mxCell id=\"1\" parent=\"0\"/><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-1\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;SQD-1: Student Views the Hub Feed&lt;/font&gt;&lt;/b&gt;\" vertex=\"1\"><mxGeometry height=\"30\" width=\"340\" x=\"30\" y=\"40\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-2\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"Student\" vertex=\"1\"><mxGeometry height=\"40\" width=\"120\" x=\"40\" y=\"120\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-3\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"View\" vertex=\"1\"><mxGeometry height=\"40\" width=\"120\" x=\"200\" y=\"120\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-4\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"Content&lt;div&gt;Controller&lt;/div&gt;\" vertex=\"1\"><mxGeometry height=\"40\" width=\"120\" x=\"360\" y=\"120\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-5\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"Content Model\" vertex=\"1\"><mxGeometry height=\"40\" width=\"120\" x=\"520\" y=\"120\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-6\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"Database\" vertex=\"1\"><mxGeometry height=\"40\" width=\"120\" x=\"680\" y=\"120\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-7\" edge=\"1\" parent=\"1\" style=\"endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" target=\"lPzjpPk2FIBe2iNpSoZS-2\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"100\" y=\"560\" as=\"sourcePoint\"/><mxPoint x=\"410\" y=\"460\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-8\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;html=1;rounded=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"100\" y=\"240\" as=\"sourcePoint\"/><mxPoint x=\"260\" y=\"240\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-9\" edge=\"1\" parent=\"1\" style=\"endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"259.40999999999997\" y=\"560\" as=\"sourcePoint\"/><mxPoint x=\"259.40999999999997\" y=\"160\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-10\" edge=\"1\" parent=\"1\" style=\"endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"418.99999999999994\" y=\"560\" as=\"sourcePoint\"/><mxPoint x=\"418.99999999999994\" y=\"160\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-11\" edge=\"1\" parent=\"1\" style=\"endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"579\" y=\"560\" as=\"sourcePoint\"/><mxPoint x=\"579\" y=\"160\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-12\" edge=\"1\" parent=\"1\" style=\"endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"739.41\" y=\"560\" as=\"sourcePoint\"/><mxPoint x=\"739.41\" y=\"160\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-13\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;html=1;rounded=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"260\" y=\"280\" as=\"sourcePoint\"/><mxPoint x=\"420\" y=\"280\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-14\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;html=1;rounded=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"420\" y=\"320\" as=\"sourcePoint\"/><mxPoint x=\"580\" y=\"320\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-15\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;html=1;rounded=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"580\" y=\"360\" as=\"sourcePoint\"/><mxPoint x=\"740\" y=\"360\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-16\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;dashed=1;html=1;rounded=0;endFill=1;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"740\" y=\"400\" as=\"sourcePoint\"/><mxPoint x=\"580\" y=\"400\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-17\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;dashed=1;html=1;rounded=0;endFill=1;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"580\" y=\"440\" as=\"sourcePoint\"/><mxPoint x=\"420\" y=\"440\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-18\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;dashed=1;html=1;rounded=0;endFill=1;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"420\" y=\"480\" as=\"sourcePoint\"/><mxPoint x=\"260\" y=\"480\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-19\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;dashed=1;html=1;rounded=0;endFill=1;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"260\" y=\"520\" as=\"sourcePoint\"/><mxPoint x=\"100\" y=\"520\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-20\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"1. Open the hub page\" vertex=\"1\"><mxGeometry height=\"30\" width=\"120\" x=\"120\" y=\"210\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-21\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"2. Request the current content Feed\" vertex=\"1\"><mxGeometry height=\"30\" width=\"120\" x=\"280\" y=\"240\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-22\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"3. Get visible content items\" vertex=\"1\"><mxGeometry height=\"30\" width=\"150\" x=\"425\" y=\"280\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-23\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"4. Query published items , not past, not hidden\" vertex=\"1\"><mxGeometry height=\"30\" width=\"160\" x=\"575\" y=\"320\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-24\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"5. Return items ordered with painned items first\" vertex=\"1\"><mxGeometry height=\"30\" width=\"130\" x=\"590\" y=\"370\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-25\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"6. Return content list\" vertex=\"1\"><mxGeometry height=\"30\" width=\"150\" x=\"425\" y=\"410\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-26\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"7. Return content for rendering\" vertex=\"1\"><mxGeometry height=\"30\" width=\"110\" x=\"285\" y=\"450\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-27\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"8. Display hub feed\" vertex=\"1\"><mxGeometry height=\"30\" width=\"110\" x=\"125\" y=\"490\" as=\"geometry\"/></mxCell><mxCell id=\"lPzjpPk2FIBe2iNpSoZS-28\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"Each item title, type, department, target audience, and publication date (SRS-2).\" vertex=\"1\"><mxGeometry height=\"20\" width=\"430\" x=\"80\" y=\"580\" as=\"geometry\"/></mxCell></root></mxGraphModel></diagram></mxfile>",
+  "pages": [
+    {
+      "id": "nLmZ5UijWAmWI0Ds8zn4",
+      "name": "Page-1",
+      "cells": [
+        {
+          "id": "1",
+          "type": "layer"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-1",
+          "type": "node",
+          "parent": "1",
+          "label": "SQD-1: Student Views the Hub Feed",
+          "html": "<b><font style=\"font-size: 18px;\">SQD-1: Student Views the Hub Feed</font></b>"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-2",
+          "type": "node",
+          "parent": "1",
+          "label": "Student"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-3",
+          "type": "node",
+          "parent": "1",
+          "label": "View"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-4",
+          "type": "node",
+          "parent": "1",
+          "label": "Content\nController",
+          "html": "Content<div>Controller</div>"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-5",
+          "type": "node",
+          "parent": "1",
+          "label": "Content Model"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-6",
+          "type": "node",
+          "parent": "1",
+          "label": "Database"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-7",
+          "type": "edge",
+          "parent": "1",
+          "target": "lPzjpPk2FIBe2iNpSoZS-2"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-8",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-9",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-10",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-11",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-12",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-13",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-14",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-15",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-16",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-17",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-18",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-19",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-20",
+          "type": "node",
+          "parent": "1",
+          "label": "1. Open the hub page"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-21",
+          "type": "node",
+          "parent": "1",
+          "label": "2. Request the current content Feed"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-22",
+          "type": "node",
+          "parent": "1",
+          "label": "3. Get visible content items"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-23",
+          "type": "node",
+          "parent": "1",
+          "label": "4. Query published items , not past, not hidden"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-24",
+          "type": "node",
+          "parent": "1",
+          "label": "5. Return items ordered with painned items first"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-25",
+          "type": "node",
+          "parent": "1",
+          "label": "6. Return content list"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-26",
+          "type": "node",
+          "parent": "1",
+          "label": "7. Return content for rendering"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-27",
+          "type": "node",
+          "parent": "1",
+          "label": "8. Display hub feed"
+        },
+        {
+          "id": "lPzjpPk2FIBe2iNpSoZS-28",
+          "type": "node",
+          "parent": "1",
+          "label": "Each item title, type, department, target audience, and publication date (SRS-2)."
+        }
+      ]
+    }
+  ]
+}

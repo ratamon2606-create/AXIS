@@ -1,0 +1,255 @@
+{
+  "version": "31.4.4",
+  "data": "<mxfile host=\"Electron\"><diagram name=\"Page-1\" id=\"eg9-PoOekj-iF6Z9bYSQ\"><mxGraphModel dx=\"925\" dy=\"2233\" grid=\"1\" gridSize=\"10\" guides=\"1\" tooltips=\"1\" connect=\"1\" arrows=\"1\" fold=\"1\" page=\"1\" pageScale=\"1\" pageWidth=\"850\" pageHeight=\"1100\" math=\"0\" shadow=\"0\"><root><mxCell id=\"0\"/><mxCell id=\"1\" parent=\"0\"/><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-1\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"&lt;b&gt;&lt;font style=&quot;font-size: 18px;&quot;&gt;SQD-4: Editor creates or Edits and Content Item - Success Path&lt;/font&gt;&lt;/b&gt;\" vertex=\"1\"><mxGeometry height=\"30\" width=\"550\" x=\"40\" y=\"-1080\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-2\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"Student\" vertex=\"1\"><mxGeometry height=\"40\" width=\"120\" x=\"40\" y=\"-1000\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-3\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"View\" vertex=\"1\"><mxGeometry height=\"40\" width=\"120\" x=\"200\" y=\"-1000\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-4\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"Content&lt;div&gt;Controller&lt;/div&gt;\" vertex=\"1\"><mxGeometry height=\"40\" width=\"120\" x=\"360\" y=\"-1000\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-5\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"Content Model\" vertex=\"1\"><mxGeometry height=\"40\" width=\"120\" x=\"520\" y=\"-1000\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-6\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"Database\" vertex=\"1\"><mxGeometry height=\"40\" width=\"120\" x=\"680\" y=\"-1000\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-7\" edge=\"1\" parent=\"1\" style=\"endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" target=\"dQa0rtfaxiFcoEdvk7FJ-2\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"100\" y=\"-320\" as=\"sourcePoint\"/><mxPoint x=\"410\" y=\"-660\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-8\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;html=1;rounded=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"100\" y=\"-880\" as=\"sourcePoint\"/><mxPoint x=\"260\" y=\"-880\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-9\" edge=\"1\" parent=\"1\" style=\"endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"259.41\" y=\"-320\" as=\"sourcePoint\"/><mxPoint x=\"259.40999999999997\" y=\"-960\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-10\" edge=\"1\" parent=\"1\" style=\"endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"420\" y=\"-320\" as=\"sourcePoint\"/><mxPoint x=\"419\" y=\"-960\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-11\" edge=\"1\" parent=\"1\" style=\"endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"580\" y=\"-320\" as=\"sourcePoint\"/><mxPoint x=\"579\" y=\"-960\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-12\" edge=\"1\" parent=\"1\" source=\"dQa0rtfaxiFcoEdvk7FJ-64\" style=\"endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"740\" y=\"-320\" as=\"sourcePoint\"/><mxPoint x=\"739.4099999999999\" y=\"-960\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-13\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;html=1;rounded=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"260\" y=\"-840\" as=\"sourcePoint\"/><mxPoint x=\"420\" y=\"-840\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-14\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;html=1;rounded=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"420\" y=\"-800\" as=\"sourcePoint\"/><mxPoint x=\"580\" y=\"-800\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-15\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;html=1;rounded=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><Array as=\"points\"><mxPoint x=\"640\" y=\"-760\"/><mxPoint x=\"640\" y=\"-720\"/></Array><mxPoint x=\"580\" y=\"-760\" as=\"sourcePoint\"/><mxPoint x=\"580\" y=\"-720\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-16\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;dashed=1;html=1;rounded=0;endFill=1;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"900\" y=\"-640\" as=\"sourcePoint\"/><mxPoint x=\"580\" y=\"-640\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-20\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"1. Submit create or edit forn\" vertex=\"1\"><mxGeometry height=\"30\" width=\"160\" x=\"100\" y=\"-920\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-21\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"2. Post or Put content item\" vertex=\"1\"><mxGeometry height=\"30\" width=\"150\" x=\"260\" y=\"-870\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-22\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"3. Check editor or administrator authorisation\" vertex=\"1\"><mxGeometry height=\"30\" width=\"150\" x=\"425\" y=\"-830\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-23\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"4. Validate title, body,&amp;nbsp;&lt;div&gt;type, department,&amp;nbsp;&lt;/div&gt;&lt;div&gt;target audience, visibility&lt;/div&gt;\" vertex=\"1\"><mxGeometry height=\"30\" width=\"160\" x=\"580\" y=\"-800\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-24\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"5. Store optional attachment\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" x=\"590\" y=\"-710\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-28\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;align=left;\" value=\"An item is saved in either the draft or the published state (SRS-16).\" vertex=\"1\"><mxGeometry height=\"20\" width=\"360\" x=\"80\" y=\"-290\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-32\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"File Store\" vertex=\"1\"><mxGeometry height=\"40\" width=\"120\" x=\"840\" y=\"-1000\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-33\" edge=\"1\" parent=\"1\" style=\"endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"900.0900000000001\" y=\"-320\" as=\"sourcePoint\"/><mxPoint x=\"899.5\" y=\"-960\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-44\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;html=1;rounded=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"580\" y=\"-680\" as=\"sourcePoint\"/><mxPoint x=\"900\" y=\"-680\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-47\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"6. Return file reference\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" x=\"590\" y=\"-670\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-48\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;html=1;rounded=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><Array as=\"points\"><mxPoint x=\"640\" y=\"-600\"/><mxPoint x=\"640\" y=\"-570\"/></Array><mxPoint x=\"580\" y=\"-600\" as=\"sourcePoint\"/><mxPoint x=\"580\" y=\"-570\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-49\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;html=1;rounded=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><Array as=\"points\"><mxPoint x=\"635\" y=\"-520\"/></Array><mxPoint x=\"575\" y=\"-520\" as=\"sourcePoint\"/><mxPoint x=\"740\" y=\"-520\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-51\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;html=1;rounded=0;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><Array as=\"points\"><mxPoint x=\"635\" y=\"-480\"/></Array><mxPoint x=\"575\" y=\"-480\" as=\"sourcePoint\"/><mxPoint x=\"740\" y=\"-480\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-52\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;dashed=1;html=1;rounded=0;startArrow=none;startFill=0;endFill=1;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"740\" y=\"-440\" as=\"sourcePoint\"/><mxPoint x=\"580\" y=\"-440\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-54\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;dashed=1;html=1;rounded=0;startArrow=none;startFill=0;endFill=1;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"580\" y=\"-400\" as=\"sourcePoint\"/><mxPoint x=\"420\" y=\"-400\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-55\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;dashed=1;html=1;rounded=0;startArrow=none;startFill=0;endFill=1;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"420\" y=\"-360\" as=\"sourcePoint\"/><mxPoint x=\"260\" y=\"-360\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-56\" edge=\"1\" parent=\"1\" style=\"endArrow=classic;dashed=1;html=1;rounded=0;startArrow=none;startFill=0;endFill=1;\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"260\" y=\"-320\" as=\"sourcePoint\"/><mxPoint x=\"100\" y=\"-320\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-58\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"13. Show save confirmation\" vertex=\"1\"><mxGeometry height=\"30\" width=\"150\" x=\"105\" y=\"-350\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-59\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"12. Render success\" vertex=\"1\"><mxGeometry height=\"30\" width=\"150\" x=\"260\" y=\"-400\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-60\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"11. Return saved content item\" vertex=\"1\"><mxGeometry height=\"30\" width=\"150\" x=\"430\" y=\"-430\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-61\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"10. Confirm saved item\" vertex=\"1\"><mxGeometry height=\"30\" width=\"150\" x=\"585\" y=\"-470\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-62\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"9. Record account, item, action and time in audit log\" vertex=\"1\"><mxGeometry height=\"30\" width=\"150\" x=\"585\" y=\"-510\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-63\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"8. insert or update item&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;with state and attachment&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;reference&lt;/span&gt;&lt;/div&gt;\" vertex=\"1\"><mxGeometry height=\"30\" width=\"160\" x=\"585\" y=\"-560\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-65\" edge=\"1\" parent=\"1\" style=\"endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" target=\"dQa0rtfaxiFcoEdvk7FJ-64\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"740\" y=\"-320\" as=\"sourcePoint\"/><mxPoint x=\"739.4099999999999\" y=\"-960\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-64\" parent=\"1\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"7. Apply university account only when no visibility is chosen\" vertex=\"1\"><mxGeometry height=\"30\" width=\"170\" x=\"655\" y=\"-600\" as=\"geometry\"/></mxCell><mxCell id=\"dQa0rtfaxiFcoEdvk7FJ-66\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;align=left;\" value=\"Every write is recorded in the audit log (SRS-21).\" vertex=\"1\"><mxGeometry height=\"20\" width=\"360\" x=\"80\" y=\"-260\" as=\"geometry\"/></mxCell></root></mxGraphModel></diagram></mxfile>",
+  "pages": [
+    {
+      "id": "eg9-PoOekj-iF6Z9bYSQ",
+      "name": "Page-1",
+      "cells": [
+        {
+          "id": "1",
+          "type": "layer"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-1",
+          "type": "node",
+          "parent": "1",
+          "label": "SQD-4: Editor creates or Edits and Content Item - Success Path",
+          "html": "<b><font style=\"font-size: 18px;\">SQD-4: Editor creates or Edits and Content Item - Success Path</font></b>"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-2",
+          "type": "node",
+          "parent": "1",
+          "label": "Student"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-3",
+          "type": "node",
+          "parent": "1",
+          "label": "View"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-4",
+          "type": "node",
+          "parent": "1",
+          "label": "Content\nController",
+          "html": "Content<div>Controller</div>"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-5",
+          "type": "node",
+          "parent": "1",
+          "label": "Content Model"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-6",
+          "type": "node",
+          "parent": "1",
+          "label": "Database"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-7",
+          "type": "edge",
+          "parent": "1",
+          "target": "dQa0rtfaxiFcoEdvk7FJ-2"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-8",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-9",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-10",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-11",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-12",
+          "type": "edge",
+          "parent": "1",
+          "source": "dQa0rtfaxiFcoEdvk7FJ-64"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-13",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-14",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-15",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-16",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-20",
+          "type": "node",
+          "parent": "1",
+          "label": "1. Submit create or edit forn"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-21",
+          "type": "node",
+          "parent": "1",
+          "label": "2. Post or Put content item"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-22",
+          "type": "node",
+          "parent": "1",
+          "label": "3. Check editor or administrator authorisation"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-23",
+          "type": "node",
+          "parent": "1",
+          "label": "4. Validate title, body, \ntype, department, \ntarget audience, visibility",
+          "html": "4. Validate title, body,&nbsp;<div>type, department,&nbsp;</div><div>target audience, visibility</div>"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-24",
+          "type": "node",
+          "parent": "1",
+          "label": "5. Store optional attachment"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-28",
+          "type": "node",
+          "parent": "1",
+          "label": "An item is saved in either the draft or the published state (SRS-16)."
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-32",
+          "type": "node",
+          "parent": "1",
+          "label": "File Store"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-33",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-44",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-47",
+          "type": "node",
+          "parent": "1",
+          "label": "6. Return file reference"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-48",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-49",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-51",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-52",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-54",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-55",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-56",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-58",
+          "type": "node",
+          "parent": "1",
+          "label": "13. Show save confirmation"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-59",
+          "type": "node",
+          "parent": "1",
+          "label": "12. Render success"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-60",
+          "type": "node",
+          "parent": "1",
+          "label": "11. Return saved content item"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-61",
+          "type": "node",
+          "parent": "1",
+          "label": "10. Confirm saved item"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-62",
+          "type": "node",
+          "parent": "1",
+          "label": "9. Record account, item, action and time in audit log"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-63",
+          "type": "node",
+          "parent": "1",
+          "label": "8. insert or update item with state and attachment\nreference",
+          "html": "8. insert or update item&nbsp;<span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">with state and attachment</span><div><span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">reference</span></div>"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-65",
+          "type": "edge",
+          "parent": "1",
+          "target": "dQa0rtfaxiFcoEdvk7FJ-64"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-64",
+          "type": "node",
+          "parent": "1",
+          "label": "7. Apply university account only when no visibility is chosen"
+        },
+        {
+          "id": "dQa0rtfaxiFcoEdvk7FJ-66",
+          "type": "node",
+          "parent": "1",
+          "label": "Every write is recorded in the audit log (SRS-21)."
+        }
+      ]
+    }
+  ]
+}
