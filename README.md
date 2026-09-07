@@ -1,5 +1,8 @@
-Group name: AXIS
-Group members:
+ISP26  
+Project C: Department Information and Communication Hub  
+
+Group name: AXIS  
+Group members:  
   1. Jehan Tohdeng (jehan-t)
   2. Thanakorn Innok (NoTTy-Thanakorn)
   3. Piyatida Muanjaingam (piyatida-pm)
