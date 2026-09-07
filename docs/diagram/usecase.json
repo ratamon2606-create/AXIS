@@ -1,0 +1,230 @@
+{
+  "version": "31.4.4",
+  "pages": [
+    {
+      "id": "J9nJ64j3f-NRba-4z_8a",
+      "name": "Page-1",
+      "cells": [
+        {
+          "id": "1",
+          "type": "layer"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-1",
+          "type": "node",
+          "parent": "1"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-2",
+          "type": "node",
+          "parent": "1",
+          "label": "UC-1 View hub feed",
+          "html": "<div><br></div><div><br></div><div>UC-1 View hub feed</div>"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-4",
+          "type": "node",
+          "parent": "1",
+          "label": "UC-2 Filter and search content",
+          "html": "<div><br></div><div><br></div><div><span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">UC-2&nbsp;</span>Filter and search content</div>"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-5",
+          "type": "node",
+          "parent": "1",
+          "label": "UC-3 View detail/ download file",
+          "html": "<div><br></div><div><br></div><div><span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">UC-3&nbsp;</span>View detail/ download file</div>"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-6",
+          "type": "node",
+          "parent": "1",
+          "label": "UC-4 Sigh in with KU Google account",
+          "html": "<div><br></div><div><br></div><div><span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">UC-4&nbsp;</span>Sigh in with KU Google account</div>"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-7",
+          "type": "node",
+          "parent": "1",
+          "label": "UC-5 Create or edit content item",
+          "html": "<div><br></div><div><br></div><div><span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">UC-5&nbsp;</span>Create or edit content item</div>"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-8",
+          "type": "node",
+          "parent": "1",
+          "label": "UC-6 Set visibility, pin, and state",
+          "html": "<div><br></div><div><br></div><div><span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">UC-6&nbsp;</span>Set visibility, pin, and state</div>"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-9",
+          "type": "node",
+          "parent": "1",
+          "label": "UC-7 Expire or extend item",
+          "html": "<div><br></div><div><br></div><div><span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">UC-7&nbsp;</span>Expire or extend item</div>"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-10",
+          "type": "node",
+          "parent": "1",
+          "label": "UC-8 Hide item permanently",
+          "html": "<div><br></div><div><br></div><div><span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">UC-8&nbsp;</span>Hide item permanently</div>"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-11",
+          "type": "node",
+          "parent": "1",
+          "label": "UC-9 Manage user roles",
+          "html": "<div><br></div><div><br></div><div><span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">UC-9&nbsp;</span>Manage user roles</div>"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-12",
+          "type": "node",
+          "parent": "1",
+          "label": "UC-10 Validate content information",
+          "html": "<div><br></div><div><br></div><div><span style=\"background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));\">UC-10&nbsp;</span>Validate content information</div>"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-13",
+          "type": "node",
+          "parent": "1",
+          "label": "Department Infomation &amp; Communication Hub"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-14",
+          "type": "node",
+          "parent": "1",
+          "label": "Content editor"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-15",
+          "type": "node",
+          "parent": "1",
+          "label": "Student"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-16",
+          "type": "edge",
+          "parent": "1",
+          "target": "7NBSqUOCFMzXXCxyK5AS-2"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-17",
+          "type": "edge",
+          "parent": "1",
+          "target": "7NBSqUOCFMzXXCxyK5AS-4"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-18",
+          "type": "edge",
+          "parent": "1",
+          "target": "7NBSqUOCFMzXXCxyK5AS-5"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-19",
+          "type": "edge",
+          "parent": "1",
+          "target": "7NBSqUOCFMzXXCxyK5AS-6"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-20",
+          "type": "edge",
+          "parent": "1",
+          "target": "7NBSqUOCFMzXXCxyK5AS-6"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-21",
+          "type": "edge",
+          "parent": "1",
+          "target": "7NBSqUOCFMzXXCxyK5AS-7"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-22",
+          "type": "edge",
+          "parent": "1",
+          "target": "7NBSqUOCFMzXXCxyK5AS-8"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-23",
+          "type": "edge",
+          "parent": "1",
+          "source": "7NBSqUOCFMzXXCxyK5AS-9"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-24",
+          "type": "node",
+          "parent": "1",
+          "label": "Department\nadministrator",
+          "html": "Department<div>administrator</div>"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-25",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-26",
+          "type": "edge",
+          "parent": "1",
+          "source": "7NBSqUOCFMzXXCxyK5AS-10"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-27",
+          "type": "edge",
+          "parent": "1",
+          "source": "7NBSqUOCFMzXXCxyK5AS-11"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-28",
+          "type": "node",
+          "parent": "1",
+          "label": "administrator is also an editor"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-32",
+          "type": "node",
+          "parent": "1",
+          "label": "include"
+        },
+        {
+          "id": "7NBSqUOCFMzXXCxyK5AS-33",
+          "type": "node",
+          "parent": "1",
+          "label": "include"
+        },
+        {
+          "id": "lw3mnj1aRPmdNStEa9BE-1",
+          "type": "node",
+          "parent": "1",
+          "label": "UC-11 Sign out"
+        },
+        {
+          "id": "lw3mnj1aRPmdNStEa9BE-2",
+          "type": "edge",
+          "parent": "1",
+          "target": "lw3mnj1aRPmdNStEa9BE-1"
+        },
+        {
+          "id": "lw3mnj1aRPmdNStEa9BE-3",
+          "type": "edge",
+          "parent": "1",
+          "target": "lw3mnj1aRPmdNStEa9BE-1"
+        },
+        {
+          "id": "lw3mnj1aRPmdNStEa9BE-4",
+          "type": "edge",
+          "parent": "1",
+          "source": "7NBSqUOCFMzXXCxyK5AS-12",
+          "target": "7NBSqUOCFMzXXCxyK5AS-7"
+        },
+        {
+          "id": "lw3mnj1aRPmdNStEa9BE-5",
+          "type": "edge",
+          "parent": "1",
+          "source": "7NBSqUOCFMzXXCxyK5AS-12",
+          "target": "7NBSqUOCFMzXXCxyK5AS-8"
+        }
+      ]
+    }
+  ]
+}
