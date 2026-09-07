@@ -1,0 +1,236 @@
+{
+  "version": "31.4.4",
+  "pages": [
+    {
+      "id": "o4dQeTOI6m4vJnJwKrjW",
+      "name": "Page-1",
+      "cells": [
+        {
+          "id": "1",
+          "type": "layer"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-1",
+          "type": "node",
+          "parent": "1",
+          "label": "SQD-11: Student Includes Past Items, and a Restricted Item Is Refused"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-2",
+          "type": "node",
+          "parent": "1",
+          "label": "Student"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-3",
+          "type": "node",
+          "parent": "1",
+          "label": "View"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-4",
+          "type": "node",
+          "parent": "1",
+          "label": "Content Controller"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-5",
+          "type": "node",
+          "parent": "1",
+          "label": "Content Model"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-6",
+          "type": "node",
+          "parent": "1",
+          "label": "Database"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-7",
+          "type": "edge",
+          "parent": "1",
+          "target": "-_Vh8gEIivyaE9tTxm08-2"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-8",
+          "type": "edge",
+          "parent": "1",
+          "target": "-_Vh8gEIivyaE9tTxm08-3"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-9",
+          "type": "edge",
+          "parent": "1",
+          "target": "-_Vh8gEIivyaE9tTxm08-4"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-10",
+          "type": "edge",
+          "parent": "1",
+          "target": "-_Vh8gEIivyaE9tTxm08-5"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-11",
+          "type": "edge",
+          "parent": "1",
+          "target": "-_Vh8gEIivyaE9tTxm08-6"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-13",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-14",
+          "type": "node",
+          "parent": "1",
+          "label": "1.Search with past items included"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-15",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-16",
+          "type": "node",
+          "parent": "1",
+          "label": "2.Send. search request, past items requested"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-17",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-18",
+          "type": "node",
+          "parent": "1",
+          "label": "3.Apply search criteria over current and past items"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-19",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-20",
+          "type": "node",
+          "parent": "1",
+          "label": "4.Query published items, expiry ignored, hidden excluded"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-21",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-22",
+          "type": "node",
+          "parent": "1",
+          "label": "5.Return matching items"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-23",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-24",
+          "type": "node",
+          "parent": "1",
+          "label": "6.Return results, past items marked"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-25",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-26",
+          "type": "node",
+          "parent": "1",
+          "label": "7.Return results for. rendering"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-27",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-28",
+          "type": "node",
+          "parent": "1",
+          "label": "8.Display results, past items labelled as concluded"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-29",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-30",
+          "type": "node",
+          "parent": "1",
+          "label": "9.Open. the address of a restricted item directly"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-31",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-32",
+          "type": "node",
+          "parent": "1",
+          "label": "10.Request item, no valid session on the request"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-33",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-34",
+          "type": "node",
+          "parent": "1",
+          "label": "11.Check session and item visibility"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-35",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-37",
+          "type": "node",
+          "parent": "1",
+          "label": "12.Refuse: return no item and no attachment link"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-38",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-39",
+          "type": "node",
+          "parent": "1",
+          "label": "13.Show access decided"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-40",
+          "type": "node",
+          "parent": "1",
+          "label": "Access is refused however the address was obtained (SRS-8)"
+        },
+        {
+          "id": "-_Vh8gEIivyaE9tTxm08-41",
+          "type": "node",
+          "parent": "1",
+          "label": "Items hidden by an administrator never appear, in search or in the past view (SRS-20)"
+        }
+      ]
+    }
+  ]
+}

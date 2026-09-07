@@ -1,0 +1,253 @@
+{
+  "version": "31.4.4",
+  "pages": [
+    {
+      "id": "_fmBXOukg8gDm_P8IHvx",
+      "name": "Page-1",
+      "cells": [
+        {
+          "id": "1",
+          "type": "layer"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-1",
+          "type": "node",
+          "parent": "1",
+          "label": "SQD-10: Administrator Changes an Account Role"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-2",
+          "type": "node",
+          "parent": "1",
+          "label": "Administrator"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-3",
+          "type": "node",
+          "parent": "1",
+          "label": "Admin View"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-4",
+          "type": "node",
+          "parent": "1",
+          "label": "Content Controller"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-5",
+          "type": "node",
+          "parent": "1",
+          "label": "Authentication Module"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-6",
+          "type": "node",
+          "parent": "1",
+          "label": "Database"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-7",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-8",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-9",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-10",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-11",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-12",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-13",
+          "type": "node",
+          "parent": "1",
+          "label": "1.Open role management"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-14",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-15",
+          "type": "node",
+          "parent": "1",
+          "label": "2.Request accounts and roles"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-16",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-17",
+          "type": "node",
+          "parent": "1",
+          "label": "3.Query accounts"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-18",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-19",
+          "type": "node",
+          "parent": "1",
+          "label": "4.Return accounts with current roles"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-20",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-21",
+          "type": "node",
+          "parent": "1",
+          "label": "5.Return account list"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-22",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-23",
+          "type": "node",
+          "parent": "1",
+          "label": "6.Display accounts and roles"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-24",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-25",
+          "type": "node",
+          "parent": "1",
+          "label": "7.Select an account and a new role"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-26",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-27",
+          "type": "node",
+          "parent": "1",
+          "label": "8.PATCH account role"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-28",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-29",
+          "type": "node",
+          "parent": "1",
+          "label": "9.Check administrator authorisation"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-30",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-31",
+          "type": "node",
+          "parent": "1",
+          "label": "10.Authorisation confirmed"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-32",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-33",
+          "type": "node",
+          "parent": "1",
+          "label": "11.Update the role held by the account"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-34",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-35",
+          "type": "node",
+          "parent": "1",
+          "label": "12.Record account, action, and time in audit log"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-36",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-37",
+          "type": "node",
+          "parent": "1",
+          "label": "13.Confirm update"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-38",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-39",
+          "type": "node",
+          "parent": "1",
+          "label": "14.Return updated account"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-40",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-41",
+          "type": "node",
+          "parent": "1",
+          "label": "15.Show confirmation"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-43",
+          "type": "node",
+          "parent": "1",
+          "label": "The new role is applied from that account's next request onward (SRS-12)"
+        },
+        {
+          "id": "AoRGJm3gCLxZdATn4l1M-44",
+          "type": "node",
+          "parent": "1",
+          "label": "Every role change is recorded in the audit log (SRS-21)"
+        }
+      ]
+    }
+  ]
+}

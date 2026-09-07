@@ -1,0 +1,244 @@
+{
+  "version": "31.4.4",
+  "pages": [
+    {
+      "id": "EMNDz27FsrU4a4NaKjZh",
+      "name": "Page-1",
+      "cells": [
+        {
+          "id": "1",
+          "type": "layer"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-1",
+          "type": "node",
+          "parent": "1",
+          "label": "SQD-9: Member Signs In and Sighs Out"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-2",
+          "type": "node",
+          "parent": "1",
+          "label": "Member"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-6",
+          "type": "node",
+          "parent": "1",
+          "label": "View"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-7",
+          "type": "node",
+          "parent": "1",
+          "label": "Authentication\nModule",
+          "html": "Authentication<br>Module"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-8",
+          "type": "node",
+          "parent": "1",
+          "label": "Google OAuth 2.0"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-9",
+          "type": "node",
+          "parent": "1",
+          "label": "Database"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-10",
+          "type": "edge",
+          "parent": "1",
+          "target": "K7OjyHfZ5mFdm18QkQWx-2"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-11",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-12",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-13",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-14",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-15",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-16",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-17",
+          "type": "node",
+          "parent": "1",
+          "label": "1.Choose sign in"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-18",
+          "type": "node",
+          "parent": "1",
+          "label": "2.Begin authentication"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-19",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-20",
+          "type": "node",
+          "parent": "1",
+          "label": "3.Redirect to Google OAuth 2.0"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-21",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-22",
+          "type": "node",
+          "parent": "1",
+          "label": "4.Return verified account"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-23",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-24",
+          "type": "node",
+          "parent": "1",
+          "label": "6.[Domain not permitted] Show reason, create no session"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-25",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-26",
+          "type": "node",
+          "parent": "1",
+          "label": "7.[Domain permitted] Look up account and role"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-27",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-28",
+          "type": "node",
+          "parent": "1",
+          "label": "8.Return role, or create the account with the reader role"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-29",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-30",
+          "type": "node",
+          "parent": "1",
+          "label": "9.Create session"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-31",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-32",
+          "type": "node",
+          "parent": "1",
+          "label": "10.Show personalised feed"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-33",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-34",
+          "type": "node",
+          "parent": "1",
+          "label": "11.Choose sign out"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-35",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-36",
+          "type": "node",
+          "parent": "1",
+          "label": "12.End session"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-37",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-38",
+          "type": "node",
+          "parent": "1",
+          "label": "13.Confirm the session has ended"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-39",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-40",
+          "type": "node",
+          "parent": "1",
+          "label": "14.Return to the public view"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-41",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-42",
+          "type": "node",
+          "parent": "1",
+          "label": "5.Check the email domain is permitted"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-43",
+          "type": "node",
+          "parent": "1",
+          "label": "No session is created for an account outside the permitted domain, and the reason is displayed (SRS-10)"
+        },
+        {
+          "id": "K7OjyHfZ5mFdm18QkQWx-45",
+          "type": "node",
+          "parent": "1",
+          "label": "A new account takes the reader role unless its address is registered in advance (SRS-11)"
+        }
+      ]
+    }
+  ]
+}
