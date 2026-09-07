@@ -1,0 +1,252 @@
+{
+  "version": "31.3.2",
+  "pages": [
+    {
+      "id": "pJTT8hL9wtw0lAZWwSt_",
+      "name": "Page-1",
+      "cells": [
+        {
+          "id": "1",
+          "type": "layer"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-1",
+          "type": "node",
+          "parent": "1",
+          "label": "Administrator"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-2",
+          "type": "node",
+          "parent": "1",
+          "label": "Admin View"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-3",
+          "type": "node",
+          "parent": "1",
+          "label": "Content Controller"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-4",
+          "type": "node",
+          "parent": "1",
+          "label": "Content Model"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-5",
+          "type": "node",
+          "parent": "1",
+          "label": "Database"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-6",
+          "type": "node",
+          "parent": "1",
+          "label": "Student View"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-7",
+          "type": "edge",
+          "parent": "1",
+          "target": "eV1btcOyBLS0DoZ0OPbs-1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-8",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-9",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-10",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-11",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-12",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-13",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-14",
+          "type": "node",
+          "parent": "1",
+          "label": "1. Change status, pin setting, or expiry date",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">1. Change status, pin setting, or expiry date</span>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-15",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-16",
+          "type": "node",
+          "parent": "1",
+          "label": "2. PATCH content item",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">2. PATCH content item</span>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-17",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-18",
+          "type": "node",
+          "parent": "1",
+          "label": "3. Check administrator authorisation",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">3. Check administrator authorisation</span>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-19",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-21",
+          "type": "node",
+          "parent": "1",
+          "label": "5. Update content record",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">5. Update content record</span>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-26",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-27",
+          "type": "node",
+          "parent": "1",
+          "label": "6. Confirm update",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">6. Confirm update</span>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-28",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-29",
+          "type": "node",
+          "parent": "1",
+          "label": "7. Return updated item",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">7. Return updated item</span>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-30",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-31",
+          "type": "node",
+          "parent": "1",
+          "label": "8. Render update success",
+          "html": "<div style=\"text-align: center;\"><span style=\"font-size: 11px; white-space: nowrap; background-color: rgb(255, 255, 255);\">8. Render update success</span></div>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-32",
+          "type": "node",
+          "parent": "1",
+          "label": "4. Apply status/pin/expiry change",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">4. Apply status/pin/expiry change</span>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-33",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-34",
+          "type": "node",
+          "parent": "1",
+          "label": "9. Request/refresh hub feed",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">9. Request/refresh hub feed</span>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-35",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-36",
+          "type": "node",
+          "parent": "1",
+          "label": "10. Request current visible items",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">10. Request current visible items</span>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-37",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-38",
+          "type": "node",
+          "parent": "1",
+          "label": "11. Query latest saved state",
+          "html": "<span style=\"font-size: 11px; text-align: center; white-space: nowrap; background-color: rgb(255, 255, 255);\">11. Query latest saved state</span>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-39",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-40",
+          "type": "node",
+          "parent": "1",
+          "label": "12. Return updated data",
+          "html": "<span style=\"font-size: 11px; text-align: center; white-space: nowrap; background-color: rgb(255, 255, 255);\">12. Return updated data</span>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-41",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-42",
+          "type": "node",
+          "parent": "1",
+          "label": "13. Return current feed",
+          "html": "<span style=\"font-size: 11px; text-align: center; white-space: nowrap; background-color: rgb(255, 255, 255);\">13. Return current feed</span>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-43",
+          "type": "edge",
+          "parent": "1"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-44",
+          "type": "node",
+          "parent": "1",
+          "label": "14. Render feed reflecting saved change",
+          "html": "<span style=\"color: rgb(0, 0, 0); font-family: Helvetica; font-size: 11px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: center; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; white-space: nowrap; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;\">14. Render feed reflecting saved change</span>"
+        },
+        {
+          "id": "eV1btcOyBLS0DoZ0OPbs-45",
+          "type": "node",
+          "parent": "1",
+          "label": "SQD-6: Administrator Updates Status, Pin, and Expiry",
+          "html": "<h2 style=\"margin: 10pt 0cm 0cm; line-height: 19.9333px; break-after: avoid; font-size: 13pt; font-family: Calibri, sans-serif; text-align: start;\"><span lang=\"EN-US\">SQD-6: Administrator Updates Status, Pin, and Expiry</span><span lang=\"TH\" style=\"font-family: &quot;Angsana New&quot;, serif;\"></span></h2>"
+        }
+      ]
+    }
+  ]
+}
