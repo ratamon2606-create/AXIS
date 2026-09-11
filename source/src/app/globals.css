@@ -3,5 +3,6 @@
 @tailwind utilities;
 
 :root { color-scheme: light; }
-body { font-family: Sarabun, system-ui, sans-serif; }
-h1,h2,h3,h4 { font-family: Mitr, Sarabun, sans-serif; font-weight: 500; }
+/* ฟอนต์อ่านจาก src/lib/fonts.ts ผ่านตัวแปรที่ layout ประกาศไว้ */
+body { font-family: var(--font-body); }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; }

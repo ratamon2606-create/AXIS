@@ -3,6 +3,7 @@ import Link from "next/link";
 import "./globals.css";
 import { auth, signIn, signOut } from "@/lib/auth";
 import Menu from "@/components/Menu";
+import { GOOGLE_FONTS_URL, DISPLAY_FONT, BODY_FONT } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "ศูนย์ข่าวสารภาควิชา CPE / SKE",
@@ -26,10 +27,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Mitr:wght@400;500;600&family=Sarabun:wght@400;500;600&display=swap"
-          rel="stylesheet"
-        />
+        <link href={GOOGLE_FONTS_URL} rel="stylesheet" />
+        <style>{`
+          :root {
+            --font-display: "${DISPLAY_FONT}", system-ui, sans-serif;
+            --font-body: "${BODY_FONT}", system-ui, sans-serif;
+          }
+        `}</style>
       </head>
       <body className="bg-wash font-sans text-ink antialiased">
         <div className="mx-auto min-h-screen w-full max-w-md bg-wash sm:max-w-2xl lg:max-w-5xl">
