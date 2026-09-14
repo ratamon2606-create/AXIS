@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { db } from "@/lib/db";
-import { authConfig } from "@/lib/auth.config";
+import type { Role, Department } from "@prisma/client";
 
 /** โดเมนที่อนุญาต อ่านจาก env เพื่อให้เพิ่มโดเมนของบุคลากรได้โดยไม่ต้องแก้โค้ด */
 function allowedDomains(): string[] {
@@ -21,12 +21,11 @@ export function isAllowedEmail(email?: string | null): boolean {
   return !!domain && allowedDomains().includes(domain);
 }
 
-export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
-  ...authConfig,
+export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [Google],
+  session: { strategy: "jwt" },
+  pages: { error: "/denied" },
   callbacks: {
-    ...authConfig.callbacks,
-
     async signIn({ profile }) {
       if (!isAllowedEmail(profile?.email)) return "/denied?reason=domain";
 
@@ -48,7 +47,7 @@ export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
       return true;
     },
 
-    async jwt({ token, trigger, session }) {
+    async jwt({ token }) {
       if (!token.email) return token;
       const user = await db.user.findUnique({
         where: { email: token.email.toLowerCase() },
@@ -58,19 +57,16 @@ export const { handlers, auth, signIn, signOut, unstable_update } = NextAuth({
         token.role = user.role;
         token.department = user.department;
         token.year = user.year;
-        token.twoFactorEnabled = user.twoFactorEnabled;
       }
-
-      // ล็อกอินใหม่ทุกครั้งต้องยืนยัน 2FA ใหม่เสมอ ไม่จำเครื่องไว้
-      if (trigger === "signIn") {
-        token.twoFactorVerified = false;
-      }
-      // ตั้งค่า/ยืนยันรหัส 6 หลักสำเร็จ -> ฝั่ง server action เรียก unstable_update มาปลดล็อกตรงนี้
-      if (trigger === "update" && session?.twoFactorVerified) {
-        token.twoFactorVerified = true;
-      }
-
       return token;
+    },
+
+    async session({ session, token }) {
+      session.user.id = token.uid as string;
+      session.user.role = token.role as Role;
+      session.user.department = (token.department as Department) ?? null;
+      session.user.year = (token.year as number) ?? null;
+      return session;
     },
   },
 });
