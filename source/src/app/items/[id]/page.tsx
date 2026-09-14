@@ -18,7 +18,6 @@ export default async function ItemPage({ params }: { params: Promise<{ id: strin
   });
 
   if (!item || item.status !== "PUBLISHED") notFound();
-  // SRS-8 เปิดที่อยู่ตรงโดยไม่มี session ต้องไม่เห็นรายการที่จำกัดไว้
   if (item.visibility === "KU_ONLY" && !signedIn) notFound();
 
   const details = (item.details ?? {}) as Record<string, string>;
