@@ -23,7 +23,7 @@ async function main() {
     data: [
       { email: "jehan.t@ku.th", role: "ADMIN", note: "สมาชิกทีม" },
       { email: "thanakorn.i@ku.th", role: "EDITOR", note: "สมาชิกทีม" },
-      { email: "piyatida.m@ku.th", role: "EDITOR", note: "สมาชิกทีม" },
+      { email: "piyatida.mua@ku.th", role: "EDITOR", note: "สมาชิกทีม" },
       { email: "ratamon.c@ku.th", role: "EDITOR", note: "สมาชิกทีม" },
     ],
   });
