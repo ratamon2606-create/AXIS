@@ -1,24 +1,13 @@
 import type { Prisma } from "@prisma/client";
 
-/**
- * กฎการมองเห็น รวมไว้ที่เดียว ทุกหน้าต้องเรียกผ่านฟังก์ชันนี้
- * หน้าที่เขียนทีหลังจะได้ข้ามกฎไม่ได้โดยบังเอิญ
- *
- * เจ้าของไฟล์นี้คือ C หลังจาก iteration 1 วันแรก
- * D เขียนตัวตั้งต้นไว้ให้ทุกคนเริ่มงานได้พร้อมกัน
- *
- * SRS-1  เห็นเฉพาะที่เผยแพร่แล้ว
- * SRS-8  ผู้ที่ไม่มี session ไม่เห็นรายการที่ตั้งเป็น KU_ONLY
- */
 export function visibleWhere(signedIn: boolean): Prisma.ContentItemWhereInput {
   return {
     status: "PUBLISHED",
-    parentId: null, // โพสต์ต่อในเธรดไม่ขึ้นในฟีด ขึ้นเฉพาะในหน้าเธรดของโพสต์แม่
+    parentId: null,
     ...(signedIn ? {} : { visibility: "PUBLIC" }),
   };
 }
 
-/** ป้ายชื่อประเภทและช่องรายละเอียดของแต่ละประเภท ใช้ร่วมกันทั้งฟอร์มและหน้าแสดงผล */
 export const TYPE_LABEL: Record<string, string> = {
   NEWS: "ข่าวสาร",
   OPPORTUNITY: "โอกาส",

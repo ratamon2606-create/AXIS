@@ -11,5 +11,37 @@ services:
       test: ["CMD-SHELL", "pg_isready -U hub"]
       interval: 5s
       retries: 10
+
+  # ดึงจาก quay.io ซึ่งเป็นที่เผยแพร่อย่างเป็นทางการของ MinIO อีกแห่ง
+  # Docker Hub จำกัดจำนวนการดึงของผู้ใช้ที่ไม่ได้ล็อกอิน
+  # และปักเวอร์ชันไว้แทน latest เพื่อให้ทุกเครื่องได้ตัวเดียวกัน
+  minio:
+    image: quay.io/minio/minio:RELEASE.2024-10-13T13-34-11Z
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: hubminio
+      MINIO_ROOT_PASSWORD: hubminio123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes: ["miniodata:/data"]
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      retries: 10
+
+  createbucket:
+    image: quay.io/minio/mc:RELEASE.2024-10-08T09-37-26Z
+    depends_on:
+      minio:
+        condition: service_healthy
+    entrypoint: >
+      /bin/sh -c "
+      mc alias set local http://minio:9000 hubminio hubminio123;
+      mc mb --ignore-existing local/hub-files;
+      exit 0;
+      "
+
 volumes:
   dbdata:
+  miniodata:
