@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ContentItem } from "@prisma/client";
-import { TYPE_LABEL, TYPE_FIELDS } from "@/lib/items";
+import { TYPE_LABEL, TYPE_FIELDS, daysLeft } from "@/lib/items";
 
 const TONE: Record<string, string> = {
   NEWS: "bg-[#E4F0F8] text-[#2C7BB6]",
@@ -16,26 +16,32 @@ export function Card({ item }: { item: ContentItem }) {
     .map((f) => details[f.key])
     .filter(Boolean)
     .slice(0, 2);
+  const remainingDays = daysLeft(item.expiresAt);
 
   return (
     <Link
       href={`/items/${item.id}`}
-      className="block rounded-2xl bg-paper p-3 shadow-sm ring-1 ring-line/60"
+      className="block rounded-2xl bg-paper p-3 shadow-sm ring-1 ring-line/60 transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
     >
       <div className="flex flex-wrap gap-1.5">
-        <span className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${TONE[item.type]}`}>
+        <span className={`rounded px-1.5 py-0.5 text-[11px] font-medium ${TONE[item.type]}`}>
           {TYPE_LABEL[item.type]}
         </span>
-        <span className="rounded bg-brandsoft px-1.5 py-0.5 text-[10px] font-medium text-branddeep">
+        <span className="rounded bg-brandsoft px-1.5 py-0.5 text-[11px] font-medium text-branddeep">
           {item.department}
         </span>
         {item.visibility === "KU_ONLY" && (
-          <span className="rounded bg-wash px-1.5 py-0.5 text-[10px] text-muted">🔒 เฉพาะ KU</span>
+          <span className="rounded bg-wash px-1.5 py-0.5 text-[11px] text-muted">🔒 เฉพาะ KU</span>
+        )}
+        {remainingDays !== null && (
+          <span className="rounded bg-wash px-1.5 py-0.5 text-[11px] font-medium text-muted">
+            {remainingDays <= 0 ? "หมดเขตวันนี้" : `เหลือ ${remainingDays} วัน`}
+          </span>
         )}
       </div>
       <h3 className="mt-1.5 text-sm font-medium leading-snug">{item.title}</h3>
       {facts.length > 0 && (
-        <p className="mt-1.5 text-xs text-muted">{facts.join(" · ")}</p>
+        <p className="mt-1.5 text-xs leading-5 text-muted">{facts.join(" · ")}</p>
       )}
     </Link>
   );
