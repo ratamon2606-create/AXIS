@@ -83,3 +83,9 @@ export async function requireEditor() {
   if (user.role !== "EDITOR" && user.role !== "ADMIN") throw new Error("FORBIDDEN");
   return user;
 }
+
+export async function requireAdmin() {
+  const user = await requireUser();
+  if (user.role !== "ADMIN") throw new Error("FORBIDDEN");
+  return user;
+}
