@@ -53,7 +53,8 @@ The current search:
 
 - searches both `title` and `body`,
 - uses case-insensitive matching,
-- applies the same visibility rule as the feed,
+- searches both current and past announcements,
+- applies the same shared visibility policy as the feed/archive,
 - performs filtering through the database query rather than loading all records into the application first.
 
 ### Content Types
@@ -100,7 +101,7 @@ A follow-up has:
 parentId = <parent ContentItem id>
 ```
 
-This keeps later corrections or updates attached to their original context instead of appearing as unrelated posts in the feed.
+This keeps later corrections or updates attached to their original context instead of appearing as unrelated posts in the feed. Editors can add follow-up posts directly from the thread page. Follow-ups inherit the parent type, department, and visibility, while read access is still checked server-side.
 
 Deleting a parent can cascade to its follow-ups so orphan records are not left behind.
 
@@ -174,15 +175,19 @@ It contains common fields shared by all content types and can relate back to ano
 
 ## Search Example
 
-The search combines the shared visibility rule with keyword matching:
+The search combines the shared visibility rule with keyword matching and includes both current and past announcements:
 
 ```ts
 const results = await db.contentItem.findMany({
   where: {
-    ...visibleWhere(signedIn),
-    OR: [
-      { title: { contains: q, mode: "insensitive" } },
-      { body: { contains: q, mode: "insensitive" } },
+    AND: [
+      visibleWhere(signedIn, "all"),
+      {
+        OR: [
+          { title: { contains: q, mode: "insensitive" } },
+          { body: { contains: q, mode: "insensitive" } },
+        ],
+      },
     ],
   },
 });
@@ -200,21 +205,9 @@ AND
 
 The project centralizes the main read policy in `src/lib/items.ts`.
 
-Conceptually:
+Conceptually, the function builds a Prisma `where` condition from three concerns: thread level, account visibility, and lifecycle scope (`current`, `past`, or `all`). Current items must be published and not expired; past items are explicitly marked `PAST` or have passed `expiresAt`; `HIDDEN` items are excluded from reader scopes.
 
-```ts
-export function visibleWhere(signedIn: boolean) {
-  return {
-    status: "PUBLISHED",
-    parentId: null,
-    ...(signedIn ? {} : { visibility: "PUBLIC" }),
-  };
-}
-```
-
-The function builds a Prisma `where` condition. It does not retrieve content by itself.
-
-This rule can then be reused by Feed, Search, and other read paths.
+The function does not retrieve content by itself. Feed, Search, Past, and other read paths reuse the same policy rather than maintaining separate copies.
 
 ## Seed Data
 
@@ -235,16 +228,23 @@ This helps with:
 
 Docker Compose is used to keep the development environment consistent across team members.
 
-The PostgreSQL service uses a health check so other operations can wait until the database is actually ready to accept connections.
+The current Compose stack contains:
 
-A local port mapping may use:
+- `db` — PostgreSQL 16 for application data,
+- `minio` — S3-compatible object storage for attachments,
+- `createbucket` — a short-lived helper that creates the `hub-files` bucket.
 
-```yaml
-ports:
-  - "5433:5432"
+PostgreSQL and MinIO both use health checks so dependent work starts only after the service is actually ready.
+
+Current local ports are:
+
+```text
+PostgreSQL  localhost:5432
+MinIO API   localhost:9000
+MinIO UI    localhost:9001
 ```
 
-This avoids conflicts when another PostgreSQL instance is already using port `5432`.
+The Next.js application itself currently runs on the local Node.js runtime (`npm run dev`) rather than in its own container.
 
 ## Getting Started
 
@@ -282,7 +282,7 @@ Fill in the required values in `.env`, including the database connection and Goo
 
 The project also supports configuring allowed email domains through environment configuration.
 
-### 4. Start the database
+### 4. Start PostgreSQL and MinIO
 
 ```bash
 docker compose up -d
@@ -361,15 +361,16 @@ src/
 - keyword search
 - sign out and restricted-content checks
 
-### Iteration 2 — Work in Progress
+### Iteration 2 — Completed
 
-Planned/in-progress work includes:
-
-- authenticated attachments and links,
+- authenticated attachments stored in MinIO,
+- permission-checked five-minute download links,
 - expiry and completed-item lifecycle,
-- role management,
-- audit logging,
-- automated unit tests.
+- past-items archive and search,
+- role management and allowlist administration,
+- audit logging for writes,
+- follow-up posting from the thread page,
+- automated unit tests and GitHub Actions CI.
 
 ## Testing
 
@@ -380,7 +381,7 @@ The current project has manual behavior-based checks covering important flows su
 - restricted information is hidden from visitors,
 - Feed, Search, and direct-address access are treated as separate entry points.
 
-Automated tests are planned, beginning with shared rules such as visibility.
+Automated unit tests cover shared visibility/thread rules and expiry behavior. GitHub Actions runs dependency installation, Prisma generation, TypeScript checking, unit tests, and a production build on pushes and pull requests.
 
 ## Design Principles
 
@@ -407,8 +408,8 @@ The project uses a modular monolith rather than microservices because independen
 ## Known Limitations
 
 - Search currently uses simple substring matching rather than advanced relevance ranking.
-- Automated test coverage is still being added.
-- Some Iteration 2 functionality is still work in progress.
+- Automated test coverage is still focused on shared business rules rather than full end-to-end browser tests.
+- The current UI is functional and will receive a larger UX/design pass in the next iteration.
 - The current architecture is optimized for the web application; additional clients such as a native mobile application may require a more explicit reusable API design.
 
 ## Team

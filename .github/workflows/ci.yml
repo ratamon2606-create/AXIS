@@ -32,3 +32,7 @@ jobs:
       - name: Unit tests
         working-directory: source
         run: npx vitest run
+
+      - name: Build
+        working-directory: source
+        run: npm run build

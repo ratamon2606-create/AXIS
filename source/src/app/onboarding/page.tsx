@@ -25,7 +25,7 @@ export default async function OnboardingPage({
         <h1 className="text-lg">ตั้งค่าครั้งแรก</h1>
         <p className="mt-1 text-sm leading-6 text-muted">
           บอกเราหน่อยว่าคุณอยู่ภาควิชาไหน ชั้นปีอะไร
-          ข้อมูลนี้ใช้จัดลำดับประกาศให้ตรงกับคุณเท่านั้น และแก้ไขภายหลังได้
+          ข้อมูลนี้ใช้จัดลำดับประกาศให้ตรงกับคุณเท่านั้น และไม่ได้ใช้ตัดสินสิทธิ์
         </p>
       </div>
 
@@ -33,7 +33,7 @@ export default async function OnboardingPage({
 
       <fieldset>
         <legend className="mb-2 text-sm font-medium">ภาควิชา</legend>
-        {DEPTS.map((d, i) => (
+        {DEPTS.map((d) => (
           <label
             key={d.value}
             className="mb-2 flex cursor-pointer gap-3 rounded-xl bg-paper p-3 text-sm ring-1 ring-line/60 has-[:checked]:ring-2 has-[:checked]:ring-brand"
@@ -43,7 +43,6 @@ export default async function OnboardingPage({
               name="department"
               value={d.value}
               required
-              defaultChecked={i === 0}
               className="mt-0.5 accent-brand"
             />
             <span>
@@ -59,9 +58,12 @@ export default async function OnboardingPage({
         <select
           name="year"
           required
-          defaultValue="1"
+          defaultValue=""
           className="w-full rounded-xl border border-line bg-paper px-3 py-2.5 text-sm"
         >
+          <option value="" disabled>
+            เลือกชั้นปี
+          </option>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((y) => (
             <option key={y} value={y}>
               ปี {y}
