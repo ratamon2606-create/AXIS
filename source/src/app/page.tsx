@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { auth, signIn } from "@/lib/auth";
-import { visibleWhere, TYPE_LABEL } from "@/lib/items";
+import { visibleWhere, TYPE_LABEL, feedOrder } from "@/lib/items";
 import { Card } from "@/components/Card";
 import type { ItemType } from "@prisma/client";
 
@@ -25,14 +25,14 @@ export default async function FeedPage({
   const where = visibleWhere(signedIn);
   const items = await db.contentItem.findMany({
     where: tag && tag !== "ALL" ? { ...where, type: tag as ItemType } : where,
-    orderBy: { createdAt: "desc" },
+    orderBy: feedOrder,
     take: 50,
   });
 
   const hiddenCount = signedIn
     ? 0
     : await db.contentItem.count({
-        where: { status: "PUBLISHED", parentId: null, visibility: "KU_ONLY" },
+        where: { ...visibleWhere(true), visibility: "KU_ONLY" },
       });
 
   return (
