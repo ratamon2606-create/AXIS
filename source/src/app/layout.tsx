@@ -16,10 +16,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const canWrite = session?.user?.role === "EDITOR" || session?.user?.role === "ADMIN";
 
   const items = [
-    { href: "/", label: "ประกาศ" },
-    { href: "/search", label: "ค้นหา" },
-    ...(signedIn ? [{ href: "/me", label: "โปรไฟล์" }] : []),
-    ...(canWrite ? [{ href: "/admin", label: "แผงผู้ดูแล" }] : []),
+  { href: "/", label: "ประกาศ" },
+  { href: "/search", label: "ค้นหา" },
+  { href: "/past", label: "ผ่านไปแล้ว" },
+  ...(signedIn ? [{ href: "/me", label: "โปรไฟล์" }] : []),
+  ...(canWrite ? [{ href: "/admin", label: "แผงผู้ดูแล" }] : []),
+  ...(session?.user?.role === "ADMIN"
+    ? [
+        { href: "/admin/users", label: "ผู้ใช้และสิทธิ์" },
+        { href: "/admin/audit", label: "บันทึกการใช้งาน" },
+      ]
+    : []),
   ];
 
   return (
