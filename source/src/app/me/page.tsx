@@ -27,8 +27,8 @@ export default async function MePage() {
         ))}
       </dl>
       <p className="rounded-xl bg-paper px-3 py-2.5 text-xs leading-6 text-muted ring-1 ring-line/60">
-        สิทธิ์ถูกกำหนดจากรายชื่อที่ผู้ดูแลใส่ไว้ล่วงหน้าตอนล็อกอินครั้งแรก
-        การเปลี่ยนสิทธิ์ผ่านหน้าเว็บเลื่อนไป iteration 2
+        บัญชีใหม่จะได้สิทธิ์ผู้อ่านเป็นค่าเริ่มต้น เว้นแต่มีอีเมลอยู่ใน allowlist
+        ผู้ดูแลสามารถเปลี่ยนสิทธิ์ผ่านหน้าเว็บได้ และสิทธิ์ใหม่มีผลกับ request ถัดไป
       </p>
       <form
         action={async () => {

@@ -1,7 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { TYPE_LABEL, TYPE_FIELDS } from "@/lib/items";
+import {
+  TYPE_LABEL,
+  TYPE_FIELDS,
+} from "@/lib/items";
 
 type Values = {
   id?: string;
@@ -10,11 +13,18 @@ type Values = {
   type?: string;
   department?: string;
   visibility?: string;
-  imageUrl?: string;
+  expiresAt?: string;
+  status?: string;
   details?: Record<string, string>;
 };
 
-const TYPES = ["NEWS", "OPPORTUNITY", "ACTIVITY", "ALERT", "DOCUMENT"];
+const TYPES = [
+  "NEWS",
+  "OPPORTUNITY",
+  "ACTIVITY",
+  "ALERT",
+  "DOCUMENT",
+];
 
 export default function ItemForm({
   action,
@@ -25,49 +35,119 @@ export default function ItemForm({
   values?: Values;
   mode: "create" | "edit";
 }) {
-  const [type, setType] = useState(values.type ?? "ACTIVITY");
-  const [visibility, setVisibility] = useState(values.visibility ?? "KU_ONLY");
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [type, setType] = useState(
+    values.type ?? "ACTIVITY"
+  );
 
-  const field = "w-full rounded-xl border bg-paper px-3 py-2.5 text-sm outline-none";
-  const ok = "border-line focus:border-brand";
-  const bad = "border-danger bg-dangersoft/40";
+  const [visibility, setVisibility] =
+    useState(
+      values.visibility ?? "KU_ONLY"
+    );
 
-  /** ตรวจฝั่งหน้าเว็บเพื่อบอกผู้ใช้ทันที ส่วน server action ตรวจซ้ำอีกชั้นเสมอ */
-  function check(e: React.FormEvent<HTMLFormElement>) {
-    const fd = new FormData(e.currentTarget);
-    const next: Record<string, string> = {};
-    if (!String(fd.get("title") ?? "").trim()) next.title = "ต้องมีหัวข้อก่อนบันทึก";
-    if (!String(fd.get("body") ?? "").trim()) next.body = "ต้องมีเนื้อหาก่อนบันทึก";
-    const d = String(fd.get("department") ?? "");
-    if (d !== "CPE" && d !== "SKE") next.department = "ต้องเลือกภาควิชาก่อนบันทึก";
+  const [errors, setErrors] =
+    useState<Record<string, string>>({});
 
-    if (Object.keys(next).length) {
+  const field =
+    "w-full rounded-xl border bg-paper px-3 py-2.5 text-sm outline-none focus-visible:ring-2 focus-visible:ring-brand/30";
+
+  const ok =
+    "border-line focus:border-brand";
+
+  const bad =
+    "border-danger bg-dangersoft/40";
+
+  const isDraftEdit = mode === "edit" && values.status === "DRAFT";
+
+  function check(
+    e: React.FormEvent<HTMLFormElement>
+  ) {
+    const fd = new FormData(
+      e.currentTarget
+    );
+
+    const next: Record<
+      string,
+      string
+    > = {};
+
+    if (
+      !String(
+        fd.get("title") ?? ""
+      ).trim()
+    ) {
+      next.title =
+        "ต้องมีหัวข้อก่อนบันทึก";
+    }
+
+    if (
+      !String(
+        fd.get("body") ?? ""
+      ).trim()
+    ) {
+      next.body =
+        "ต้องมีเนื้อหาก่อนบันทึก";
+    }
+
+    const d = String(
+      fd.get("department") ?? ""
+    );
+
+    if (
+      d !== "CPE" &&
+      d !== "SKE"
+    ) {
+      next.department =
+        "ต้องเลือกภาควิชาก่อนบันทึก";
+    }
+
+    if (
+      Object.keys(next).length
+    ) {
       e.preventDefault();
       setErrors(next);
       return;
     }
+
     setErrors({});
   }
 
   return (
-    <form action={action} onSubmit={check} className="space-y-4">
-      {values.id && <input type="hidden" name="id" value={values.id} />}
+    <form
+      action={action}
+      onSubmit={check}
+      className="space-y-4"
+    >
+      {values.id && (
+        <input
+          type="hidden"
+          name="id"
+          value={values.id}
+        />
+      )}
 
-      {Object.keys(errors).length > 0 && (
+      {Object.keys(errors).length >
+        0 && (
         <p className="rounded-xl bg-dangersoft px-3 py-2.5 text-sm text-danger">
-          บันทึกไม่สำเร็จ · ยังไม่ได้กรอก {Object.keys(errors).length} ช่อง
+          บันทึกไม่สำเร็จ ·
+          ยังไม่ได้กรอก{" "}
+          {Object.keys(errors).length}{" "}
+          ช่อง
         </p>
       )}
 
       <div>
-        <span className="mb-1.5 block text-sm font-medium">ประเภท</span>
+        <span className="mb-1.5 block text-sm font-medium">
+          ประเภท
+        </span>
+
         <div className="flex flex-wrap gap-1.5">
           {TYPES.map((t) => (
             <button
               key={t}
               type="button"
-              onClick={() => setType(t)}
+              onClick={() =>
+                setType(t)
+              }
               className={`rounded-full border px-3 py-1 text-xs ${
                 type === t
                   ? "border-brand bg-brandsoft font-medium text-branddeep"
@@ -78,77 +158,159 @@ export default function ItemForm({
             </button>
           ))}
         </div>
-        <input type="hidden" name="type" value={type} />
+
+        <input
+          type="hidden"
+          name="type"
+          value={type}
+        />
       </div>
 
       <label className="block">
-        <span className="mb-1.5 block text-sm font-medium">หัวข้อ</span>
+        <span className="mb-1.5 block text-sm font-medium">
+          หัวข้อ
+        </span>
+
         <input
           name="title"
-          defaultValue={values.title}
-          className={`${field} ${errors.title ? bad : ok}`}
+          defaultValue={
+            values.title
+          }
+          className={`${field} ${
+            errors.title
+              ? bad
+              : ok
+          }`}
         />
-        {errors.title && <span className="mt-1 block text-xs text-danger">{errors.title}</span>}
+
+        {errors.title && (
+          <span className="mt-1 block text-xs text-danger">
+            {errors.title}
+          </span>
+        )}
       </label>
 
       <label className="block">
-        <span className="mb-1.5 block text-sm font-medium">เนื้อหา</span>
+        <span className="mb-1.5 block text-sm font-medium">
+          เนื้อหา
+        </span>
+
         <textarea
           name="body"
           rows={4}
-          defaultValue={values.body}
-          className={`${field} ${errors.body ? bad : ok}`}
+          defaultValue={
+            values.body
+          }
+          className={`${field} ${
+            errors.body
+              ? bad
+              : ok
+          }`}
         />
-        {errors.body && <span className="mt-1 block text-xs text-danger">{errors.body}</span>}
+
+        {errors.body && (
+          <span className="mt-1 block text-xs text-danger">
+            {errors.body}
+          </span>
+        )}
       </label>
 
       <label className="block">
-        <span className="mb-1.5 block text-sm font-medium">ภาควิชา</span>
+        <span className="mb-1.5 block text-sm font-medium">
+          ภาควิชา
+        </span>
+
         <select
           name="department"
-          defaultValue={values.department ?? ""}
-          className={`${field} ${errors.department ? bad : ok}`}
+          defaultValue={
+            values.department ?? ""
+          }
+          className={`${field} ${
+            errors.department
+              ? bad
+              : ok
+          }`}
         >
-          <option value="">เลือกภาควิชา</option>
-          <option value="CPE">CPE</option>
-          <option value="SKE">SKE</option>
+          <option value="">
+            เลือกภาควิชา
+          </option>
+
+          <option value="CPE">
+            CPE
+          </option>
+
+          <option value="SKE">
+            SKE
+          </option>
         </select>
+
         {errors.department && (
-          <span className="mt-1 block text-xs text-danger">{errors.department}</span>
+          <span className="mt-1 block text-xs text-danger">
+            {errors.department}
+          </span>
         )}
       </label>
 
       <div className="rounded-xl bg-brandsoft px-3 py-2.5 text-xs leading-6 text-branddeep">
-        ช่องข้างล่างเปลี่ยนตามประเภทที่เลือก · ตอนนี้คือ {TYPE_LABEL[type]}
+        ช่องข้างล่างเปลี่ยนตามประเภทที่เลือก
+        · ตอนนี้คือ{" "}
+        {TYPE_LABEL[type]}
       </div>
 
-      {(TYPE_FIELDS[type] ?? []).map((f) => (
-        <label key={f.key} className="block">
-          <span className="mb-1.5 block text-sm font-medium">{f.label}</span>
-          <input
-            name={`d_${f.key}`}
-            defaultValue={values.details?.[f.key] ?? ""}
-            className={`${field} ${ok}`}
-          />
-        </label>
-      ))}
+      {(TYPE_FIELDS[type] ?? []).map(
+        (f) => (
+          <label
+            key={f.key}
+            className="block"
+          >
+            <span className="mb-1.5 block text-sm font-medium">
+              {f.label}
+            </span>
+
+            <input
+              name={`d_${f.key}`}
+              defaultValue={
+                values.details?.[
+                  f.key
+                ] ?? ""
+              }
+              className={`${field} ${ok}`}
+            />
+          </label>
+        )
+      )}
 
       <label className="block">
-        <span className="mb-1.5 block text-sm font-medium">ลิงก์รูปโปสเตอร์</span>
+        <span className="mb-1.5 block text-sm font-medium">
+          วันหมดเขต
+        </span>
+
         <input
-          name="imageUrl"
-          placeholder="https://"
-          defaultValue={values.imageUrl ?? ""}
+          type="date"
+          name="expiresAt"
+          defaultValue={
+            values.expiresAt ?? ""
+          }
           className={`${field} ${ok}`}
         />
-        <span className="mt-1 block text-xs text-muted">
-          การอัปโหลดไฟล์จริงเลื่อนไป iteration 2
+
+        <span className="mt-1 block text-xs text-amber">
+          วันที่ที่เลือกจะหมดเขตตอนสิ้นวันตามเวลาไทย · ถ้าไม่ใส่
+          ประกาศนี้จะไม่หายจากฟีดเองและต้องมากดให้จบภายหลัง
         </span>
       </label>
 
       <div>
-        <span className="mb-1.5 block text-sm font-medium">ใครเห็นประกาศนี้ได้</span>
-        <input type="hidden" name="visibility" value={visibility} />
+        <span className="mb-1.5 block text-sm font-medium">
+          ใครเห็นประกาศนี้ได้
+        </span>
+
+        <input
+          type="hidden"
+          name="visibility"
+          value={visibility}
+        />
+
         {[
           {
             v: "KU_ONLY",
@@ -164,40 +326,53 @@ export default function ItemForm({
           <button
             key={o.v}
             type="button"
-            onClick={() => setVisibility(o.v)}
+            onClick={() =>
+              setVisibility(o.v)
+            }
             className={`mb-2 flex w-full gap-3 rounded-xl bg-paper p-3 text-left text-sm ring-1 ${
-              visibility === o.v ? "ring-2 ring-brand" : "ring-line/60"
+              visibility === o.v
+                ? "ring-2 ring-brand"
+                : "ring-line/60"
             }`}
           >
             <span
               className={`mt-0.5 h-4 w-4 shrink-0 rounded-full border-2 ${
-                visibility === o.v ? "border-[5px] border-brand" : "border-line"
+                visibility === o.v
+                  ? "border-[5px] border-brand"
+                  : "border-line"
               }`}
             />
+
             <span>
               {o.t}
-              <span className="mt-0.5 block text-xs text-muted">{o.d}</span>
+
+              <span className="mt-0.5 block text-xs text-muted">
+                {o.d}
+              </span>
             </span>
           </button>
         ))}
       </div>
 
       <div className="flex gap-2 pt-2">
-        {mode === "create" && (
+        {(mode === "create" || isDraftEdit) && (
           <button
             name="publish"
             value="0"
-            className="flex-1 rounded-xl border border-line py-2.5 text-sm"
+            className="flex-1 rounded-xl border border-line py-2.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
           >
-            บันทึกร่าง
+            {mode === "create" ? "บันทึกร่าง" : "บันทึกร่างต่อ"}
           </button>
         )}
+
         <button
           name="publish"
-          value="1"
-          className="flex-1 rounded-xl bg-brand py-2.5 text-sm text-white"
+          value={mode === "create" || isDraftEdit ? "1" : "0"}
+          className="flex-1 rounded-xl bg-brand py-2.5 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/30"
         >
-          {mode === "create" ? "เผยแพร่" : "บันทึกการแก้ไข"}
+          {mode === "create" || isDraftEdit
+            ? "เผยแพร่"
+            : "บันทึกการแก้ไข"}
         </button>
       </div>
     </form>
