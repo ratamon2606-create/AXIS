@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
-import { visibleWhere, TYPE_LABEL } from "@/lib/items";
+import { AUDIENCE_LABEL, visibleWhere, TYPE_LABEL } from "@/lib/items";
 
 export const dynamic = "force-dynamic";
 
@@ -96,7 +96,7 @@ export default async function PastPage({
                 </p>
                 <div className="p-3">
                   <span className="rounded bg-wash px-1.5 py-0.5 text-[10px] text-muted">
-                    {TYPE_LABEL[item.type]} · {item.department}
+                    {TYPE_LABEL[item.type]} · {AUDIENCE_LABEL[item.audience]}
                   </span>
                   <h3 className="mt-1.5 text-sm font-medium leading-snug">{item.title}</h3>
                 </div>

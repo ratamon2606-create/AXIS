@@ -4,42 +4,91 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireEditor } from "@/lib/auth";
-import { TYPE_FIELDS, parseBangkokEndOfDay } from "@/lib/items";
+import { canEditItem, TYPE_FIELDS } from "@/lib/items";
 import { writeAudit } from "@/lib/audit";
-import type {
-  Department,
-  ItemType,
-  Visibility,
-} from "@prisma/client";
+import { checkFile, makeStorageKey, putObject, deleteObject } from "@/lib/s3";
+import type { Audience, ItemStatus, ItemType, Visibility } from "@prisma/client";
 
-/** เจ้าของไฟล์นี้คือ B (US-5) */
 function readDetails(type: ItemType, formData: FormData) {
   const out: Record<string, string> = {};
-
-  for (const f of TYPE_FIELDS[type] ?? []) {
-    const v = String(formData.get(`d_${f.key}`) ?? "").trim();
-    if (v) out[f.key] = v;
+  for (const field of TYPE_FIELDS[type] ?? []) {
+    const value = String(formData.get(`d_${field.key}`) ?? "").trim();
+    if (value) out[field.key] = value;
   }
-
   return out;
 }
 
-/**
- * SRS-14 ต้องกรอกข้อมูลที่จำเป็นครบก่อนบันทึก
- * SRS-15 ถ้าไม่ครบต้องไม่บันทึกและบอกว่าขาดช่องไหน
- * ตรวจซ้ำที่ฝั่ง server แม้ฟอร์มจะตรวจให้แล้ว
- */
+function parseBangkokDate(value: FormDataEntryValue | null): Date | null {
+  const text = String(value ?? "").trim();
+  if (!text) return null;
+  const date = new Date(`${text}T23:59:59+07:00`);
+  if (Number.isNaN(date.getTime())) throw new Error("วันที่ไม่ถูกต้อง");
+  return date;
+}
+
+function parseBangkokDateTime(value: FormDataEntryValue | null): Date | null {
+  const text = String(value ?? "").trim();
+  if (!text) return null;
+  const date = new Date(`${text}:00+07:00`);
+  if (Number.isNaN(date.getTime())) throw new Error("วันเวลาไม่ถูกต้อง");
+  return date;
+}
+
+function parseYear(value: FormDataEntryValue | null): number | null {
+  const text = String(value ?? "").trim();
+  if (!text) return null;
+  const year = Number(text);
+  if (!Number.isInteger(year) || year < 1 || year > 8) throw new Error("ชั้นปีไม่ถูกต้อง");
+  return year;
+}
+
 function validate(formData: FormData) {
   const missing: string[] = [];
-
   if (!String(formData.get("title") ?? "").trim()) missing.push("หัวข้อ");
   if (!String(formData.get("body") ?? "").trim()) missing.push("เนื้อหา");
 
-  const dept = String(formData.get("department") ?? "");
-  if (dept !== "CPE" && dept !== "SKE") missing.push("ภาควิชา");
 
-  if (missing.length) {
-    throw new Error(`ยังไม่ได้กรอก: ${missing.join(", ")}`);
+  const audience = String(formData.get("audience") ?? "");
+  if (!["ALL", "CPE", "SKE", "CPE_SKE"].includes(audience)) missing.push("กลุ่มเป้าหมาย");
+
+  if (missing.length) throw new Error(`ยังไม่ได้กรอก: ${missing.join(", ")}`);
+}
+
+async function uploadFiles(itemId: string, actorId: string, formData: FormData) {
+  const files = formData
+    .getAll("attachments")
+    .filter((value): value is File => value instanceof File && value.size > 0);
+
+  for (const file of files) {
+    const problem = checkFile({ size: file.size, type: file.type });
+    if (problem) throw new Error(`${file.name}: ${problem}`);
+
+    const key = makeStorageKey(itemId, file.name);
+    const buffer = Buffer.from(await file.arrayBuffer());
+    await putObject(key, buffer, file.type);
+
+    try {
+      await db.$transaction(async (tx) => {
+        await tx.attachment.create({
+          data: {
+            itemId,
+            fileName: file.name,
+            mimeType: file.type,
+            size: file.size,
+            storageKey: key,
+          },
+        });
+        await writeAudit(tx, {
+          actorId,
+          itemId,
+          action: "ATTACH",
+          detail: `แนบไฟล์ ${file.name}`,
+        });
+      });
+    } catch (error) {
+      await deleteObject(key).catch(() => {});
+      throw error;
+    }
   }
 }
 
@@ -48,20 +97,25 @@ export async function createItem(formData: FormData) {
   validate(formData);
 
   const type = String(formData.get("type") ?? "NEWS") as ItemType;
-  const publish = formData.get("publish") === "1";
-  const expiresAt = parseBangkokEndOfDay(String(formData.get("expiresAt") ?? ""));
+  const status = String(formData.get("status") ?? "DRAFT") as ItemStatus;
+  if (status !== "DRAFT" && status !== "PUBLISHED") throw new Error("สถานะไม่ถูกต้อง");
 
   const item = await db.$transaction(async (tx) => {
     const created = await tx.contentItem.create({
       data: {
-        title: String(formData.get("title")).trim(),
-        body: String(formData.get("body")).trim(),
+        title: String(formData.get("title") ?? "").trim(),
+        body: String(formData.get("body") ?? "").trim(),
         type,
-        department: String(formData.get("department")) as Department,
+        audience: String(formData.get("audience")) as Audience,
+        targetYear: parseYear(formData.get("targetYear")),
         visibility: String(formData.get("visibility") ?? "KU_ONLY") as Visibility,
-        status: publish ? "PUBLISHED" : "DRAFT",
+        status,
+        publishedAt: status === "PUBLISHED" ? new Date() : null,
+        eventStart: parseBangkokDateTime(formData.get("eventStart")),
+        eventEnd: parseBangkokDateTime(formData.get("eventEnd")),
+        expiresAt: parseBangkokDate(formData.get("expiresAt")),
+        location: String(formData.get("location") ?? "").trim() || null,
         details: readDetails(type, formData),
-        expiresAt,
         authorId: user.id,
       },
     });
@@ -69,113 +123,81 @@ export async function createItem(formData: FormData) {
     await writeAudit(tx, {
       actorId: user.id,
       itemId: created.id,
-      action: publish ? "PUBLISH" : "CREATE",
-      detail: publish ? "สร้างและเผยแพร่ประกาศ" : "สร้างร่างประกาศ",
+      action: status === "PUBLISHED" ? "PUBLISH" : "CREATE",
     });
 
     return created;
   });
 
-  revalidatePath("/");
-  revalidatePath("/search");
-  revalidatePath("/past");
-  revalidatePath("/admin");
+  try {
+    await uploadFiles(item.id, user.id, formData);
+  } catch (error) {
+    await db.contentItem.delete({ where: { id: item.id } }).catch(() => {});
+    throw error;
+  }
 
-  // ร่างยังเปิดผ่านหน้ารายละเอียดสาธารณะไม่ได้ จึงพากลับมาหน้าแก้ไขแทน
-  redirect(publish ? `/items/${item.id}` : `/admin/${item.id}/edit`);
+  revalidatePath("/");
+  revalidatePath("/announcements");
+  revalidatePath("/search");
+  revalidatePath("/calendar");
+  redirect(`/items/${item.id}`);
 }
 
 export async function updateItem(formData: FormData) {
   const user = await requireEditor();
   validate(formData);
 
-  const id = String(formData.get("id"));
+  const id = String(formData.get("id") ?? "");
+  const existing = await db.contentItem.findUnique({ where: { id } });
+  if (!existing) throw new Error("ไม่พบประกาศนี้");
+  if (!canEditItem(user, existing)) throw new Error("แก้ไขได้เฉพาะประกาศของตัวเอง");
+  if (existing.status === "HIDDEN") throw new Error("ประกาศที่ซ่อนถาวรแก้ไขไม่ได้");
+
   const type = String(formData.get("type") ?? "NEWS") as ItemType;
-  const publishRequested = formData.get("publish") === "1";
-  const expiresAt = parseBangkokEndOfDay(String(formData.get("expiresAt") ?? ""));
+  const requestedStatus = String(formData.get("status") ?? existing.status);
+  let nextStatus = existing.status;
 
-  const result = await db.$transaction(async (tx) => {
-    const existing = await tx.contentItem.findUnique({ where: { id } });
-    if (!existing) throw new Error("ไม่พบประกาศนี้");
+  if (existing.status === "DRAFT") {
+    if (requestedStatus !== "DRAFT" && requestedStatus !== "PUBLISHED") {
+      throw new Error("สถานะไม่ถูกต้อง");
+    }
+    nextStatus = requestedStatus as "DRAFT" | "PUBLISHED";
+  }
 
-    // ปุ่มเผยแพร่มีผลเฉพาะร่าง เพื่อไม่ให้การแก้ PAST/HIDDEN เปลี่ยนสถานะโดยไม่ตั้งใจ
-    const publishingDraft = existing.status === "DRAFT" && publishRequested;
-    const nextStatus = publishingDraft ? "PUBLISHED" : existing.status;
-
+  await db.$transaction(async (tx) => {
     await tx.contentItem.update({
       where: { id },
       data: {
-        title: String(formData.get("title")).trim(),
-        body: String(formData.get("body")).trim(),
+        title: String(formData.get("title") ?? "").trim(),
+        body: String(formData.get("body") ?? "").trim(),
         type,
-        department: String(formData.get("department")) as Department,
+        audience: String(formData.get("audience")) as Audience,
+        targetYear: parseYear(formData.get("targetYear")),
         visibility: String(formData.get("visibility") ?? "KU_ONLY") as Visibility,
         status: nextStatus,
+        publishedAt:
+          existing.publishedAt ?? (nextStatus === "PUBLISHED" ? new Date() : null),
+        eventStart: parseBangkokDateTime(formData.get("eventStart")),
+        eventEnd: parseBangkokDateTime(formData.get("eventEnd")),
+        expiresAt: parseBangkokDate(formData.get("expiresAt")),
+        location: String(formData.get("location") ?? "").trim() || null,
         details: readDetails(type, formData),
-        expiresAt,
       },
     });
 
     await writeAudit(tx, {
       actorId: user.id,
       itemId: id,
-      action: publishingDraft ? "PUBLISH" : "UPDATE",
-      detail: publishingDraft ? "เผยแพร่ร่างประกาศ" : undefined,
+      action: existing.status === "DRAFT" && nextStatus === "PUBLISHED" ? "PUBLISH" : "UPDATE",
     });
-
-    return { status: nextStatus };
   });
+
+  await uploadFiles(id, user.id, formData);
 
   revalidatePath("/");
+  revalidatePath("/announcements");
   revalidatePath("/search");
-  revalidatePath("/past");
-  revalidatePath("/admin");
+  revalidatePath("/calendar");
   revalidatePath(`/items/${id}`);
-
-  redirect(result.status === "DRAFT" ? `/admin/${id}/edit` : `/items/${id}`);
-}
-
-/**
- * เพิ่มโพสต์ต่อในเธรดผ่านหน้าเว็บ
- * follow-up สืบทอด type/department/visibility จาก parent เพื่อไม่ให้กฎของเธรดแตกต่างกันเอง
- */
-export async function createFollowUp(formData: FormData) {
-  const user = await requireEditor();
-  const parentId = String(formData.get("parentId") ?? "");
-  const title = String(formData.get("title") ?? "").trim();
-  const body = String(formData.get("body") ?? "").trim();
-
-  if (!parentId) throw new Error("ไม่พบประกาศต้นเรื่อง");
-  if (!title || !body) throw new Error("โพสต์ต่อจำเป็นต้องมีหัวข้อและเนื้อหา");
-
-  await db.$transaction(async (tx) => {
-    const parent = await tx.contentItem.findUnique({ where: { id: parentId } });
-    if (!parent || parent.parentId) throw new Error("ไม่พบประกาศต้นเรื่อง");
-    if (parent.status !== "PUBLISHED" && parent.status !== "PAST") {
-      throw new Error("เพิ่มโพสต์ต่อได้เฉพาะประกาศที่เผยแพร่แล้วหรือจบแล้ว");
-    }
-
-    const child = await tx.contentItem.create({
-      data: {
-        title,
-        body,
-        type: parent.type,
-        department: parent.department,
-        visibility: parent.visibility,
-        status: "PUBLISHED",
-        parentId: parent.id,
-        authorId: user.id,
-      },
-    });
-
-    await writeAudit(tx, {
-      actorId: user.id,
-      itemId: parent.id,
-      action: "UPDATE",
-      detail: `เพิ่มโพสต์ต่อ ${child.id}: ${title}`,
-    });
-  });
-
-  revalidatePath(`/items/${parentId}`);
-  redirect(`/items/${parentId}`);
+  redirect(`/items/${id}`);
 }

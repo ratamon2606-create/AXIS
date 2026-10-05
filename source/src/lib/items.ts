@@ -1,18 +1,10 @@
-import type { Prisma, ItemStatus } from "@prisma/client";
-
-/**
- * กฎการมองเห็น รวมไว้ที่เดียว ทุกหน้าต้องเรียกผ่านฟังก์ชันนี้
- *
- * iteration 2 เพิ่มพารามิเตอร์ scope เพื่อรองรับวงจรหมดเขต
- * โดยที่กฎเดิมยังอยู่ครบและเรียกแบบเดิมได้ หน้าที่เขียนไว้แล้วจึงไม่ต้องแก้
- *
- * SRS-1   ฟีดแสดงเฉพาะที่เผยแพร่แล้ว ยังไม่หมดเขต และไม่ถูกซ่อน
- * SRS-5   ของที่จบแล้วยังค้นหาเจอเมื่อผู้ใช้ขอ
- * SRS-8   ผู้ที่ไม่มี session ไม่เห็นรายการที่จำกัด
- * SRS-18  พ้นวันหมดเขตแล้วออกจากฟีดปัจจุบัน
- * SRS-20  ของที่ซ่อนถาวรไม่ปรากฏต่อผู้อ่านในทุก scope
- * SRS-26  รายการที่ไม่มีวันหมดเขตไม่จบเองโดยเวลา
- */
+import type {
+  Audience,
+  ItemStatus,
+  ItemType,
+  Prisma,
+  Role,
+} from "@prisma/client";
 
 export type Scope = "current" | "past" | "all";
 
@@ -43,42 +35,23 @@ export function visibleWhere(
   return { ...base, OR: [current, past] };
 }
 
-/**
- * กฎของโพสต์ต่อในเธรด
- * โพสต์ต่อเป็น ContentItem จริง จึงต้องกรอง draft/hidden และ visibility เช่นเดียวกับ parent
- * relation ของ Prisma จำกัด parent ให้อยู่แล้ว จึงไม่ต้องใส่ parentId ในเงื่อนไขนี้
- */
-export function threadChildWhere(
+export function canReadItem(
+  item: { status: ItemStatus | string; visibility: string },
   signedIn: boolean
-): Prisma.ContentItemWhereInput {
-  return {
-    status: { in: ["PUBLISHED", "PAST"] },
-    ...(signedIn ? {} : { visibility: "PUBLIC" }),
-  };
+): boolean {
+  if (item.status === "DRAFT" || item.status === "HIDDEN") return false;
+  if (item.visibility === "KU_ONLY" && !signedIn) return false;
+  return item.status === "PUBLISHED" || item.status === "PAST";
 }
 
-/**
- * แปลงค่าจาก <input type="date"> ให้หมดเขตตอนสิ้นวันตามเวลาไทย
- * เช่น 2026-09-20 หมายถึงยังใช้งานได้ตลอดวันที่ 20 กันยายน
- */
-export function parseBangkokEndOfDay(value: string): Date | null {
-  const trimmed = value.trim();
-  if (!trimmed) return null;
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
-    throw new Error("รูปแบบวันหมดเขตไม่ถูกต้อง");
-  }
-
-  const parsed = new Date(`${trimmed}T23:59:59.999+07:00`);
-  if (Number.isNaN(parsed.getTime())) {
-    throw new Error("วันหมดเขตไม่ถูกต้อง");
-  }
-  return parsed;
+export function canEditItem(
+  user: { id: string; role: Role | string },
+  item: { authorId: string }
+): boolean {
+  if (user.role === "ADMIN") return true;
+  return user.role === "EDITOR" && user.id === item.authorId;
 }
 
-/**
- * ใช้ตัดสินรายการเดี่ยว เช่นในหน้ารายละเอียด ที่ query ไม่ได้ช่วยตัดสินให้
- * แยกออกมาเป็นฟังก์ชันล้วนเพื่อให้เขียน unit test ได้โดยไม่ต้องต่อฐานข้อมูล
- */
 export function isPast(
   item: { status: ItemStatus | string; expiresAt: Date | null },
   now: Date = new Date()
@@ -88,13 +61,33 @@ export function isPast(
   return !!item.expiresAt && item.expiresAt < now;
 }
 
-/** จำนวนวันที่เหลือ คืน null เมื่อไม่มีวันหมดเขต ใช้แสดงป้ายบนการ์ด */
 export function daysLeft(expiresAt: Date | null, now: Date = new Date()): number | null {
   if (!expiresAt) return null;
   return Math.ceil((expiresAt.getTime() - now.getTime()) / 86_400_000);
 }
 
-/** ลำดับการแสดงผล ปักหมุดขึ้นก่อนเสมอ แล้วจึงเรียงตามวันที่ (SRS-2) */
+export function audienceMatches(
+  audience: Audience | string,
+  program?: "CPE" | "SKE" | null
+): boolean {
+  if (audience === "ALL") return true;
+  if (!program) return false;
+  if (audience === "CPE_SKE") return program === "CPE" || program === "SKE";
+  return audience === program;
+}
+
+export function relevantDate(item: {
+  type: ItemType | string;
+  eventStart: Date | null;
+  expiresAt: Date | null;
+  publishedAt: Date | null;
+  createdAt: Date;
+}): Date {
+  if (item.type === "ACTIVITY" && item.eventStart) return item.eventStart;
+  if (item.type === "OPPORTUNITY" && item.expiresAt) return item.expiresAt;
+  return item.publishedAt ?? item.createdAt;
+}
+
 export const feedOrder: Prisma.ContentItemOrderByWithRelationInput[] = [
   { pinned: "desc" },
   { createdAt: "desc" },
@@ -108,25 +101,22 @@ export const TYPE_LABEL: Record<string, string> = {
   DOCUMENT: "เอกสาร",
 };
 
+export const AUDIENCE_LABEL: Record<string, string> = {
+  ALL: "ทุกคน",
+  CPE: "CPE",
+  SKE: "SKE",
+  CPE_SKE: "CPE & SKE",
+};
+
 export const TYPE_FIELDS: Record<string, { key: string; label: string }[]> = {
   ACTIVITY: [
-    { key: "when", label: "วันเวลา" },
-    { key: "where", label: "สถานที่" },
-    { key: "who", label: "กลุ่มเป้าหมาย" },
+    { key: "note", label: "รายละเอียดเพิ่มเติม" },
   ],
   OPPORTUNITY: [
-    { key: "deadline", label: "วันปิดรับ" },
     { key: "qualification", label: "คุณสมบัติ" },
-    { key: "reward", label: "รางวัล" },
+    { key: "reward", label: "สิทธิประโยชน์ / รางวัล" },
   ],
-  ALERT: [
-    { key: "when", label: "ช่วงเวลา" },
-    { key: "where", label: "พื้นที่" },
-    { key: "note", label: "สิ่งที่ต้องทำ" },
-  ],
-  NEWS: [
-    { key: "effective", label: "วันที่มีผล" },
-    { key: "detail", label: "รายละเอียด" },
-  ],
-  DOCUMENT: [{ key: "kind", label: "ประเภท" }],
+  ALERT: [{ key: "note", label: "สิ่งที่ต้องทำ" }],
+  NEWS: [{ key: "detail", label: "รายละเอียดเพิ่มเติม" }],
+  DOCUMENT: [{ key: "kind", label: "ประเภทเอกสาร" }],
 };
