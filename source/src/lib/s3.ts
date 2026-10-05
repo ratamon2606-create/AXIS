@@ -81,19 +81,31 @@ export async function putObject(key: string, body: Buffer, contentType: string):
  * ออกลิงก์ที่หมดอายุใน 5 นาที
  * ต้องเรียกหลังตรวจสิทธิ์แล้วเท่านั้น ฟังก์ชันนี้ไม่ได้ตรวจอะไรเอง
  */
-export async function signedDownloadUrl(key: string, fileName: string): Promise<string> {
+async function signedObjectUrl(
+  key: string,
+  fileName: string,
+  disposition: "attachment" | "inline"
+): Promise<string> {
   const url = await getSignedUrl(
     s3,
     new GetObjectCommand({
       Bucket: BUCKET,
       Key: key,
-      // บังคับให้เบราว์เซอร์ดาวน์โหลดด้วยชื่อจริง แทนที่จะเปิดไฟล์ UUID
-      ResponseContentDisposition: `attachment; filename*=UTF-8''${encodeURIComponent(fileName)}`,
+      ResponseContentDisposition: `${disposition}; filename*=UTF-8''${encodeURIComponent(fileName)}`,
     }),
     { expiresIn: 300 }
   );
 
   return PUBLIC_ENDPOINT === ENDPOINT ? url : url.replace(ENDPOINT, PUBLIC_ENDPOINT);
+}
+
+export async function signedDownloadUrl(key: string, fileName: string): Promise<string> {
+  return signedObjectUrl(key, fileName, "attachment");
+}
+
+/** ใช้สำหรับรูป preview ในหน้า thread หลังจาก route ตรวจสิทธิ์แล้ว */
+export async function signedInlineUrl(key: string, fileName: string): Promise<string> {
+  return signedObjectUrl(key, fileName, "inline");
 }
 
 export async function deleteObject(key: string): Promise<void> {
