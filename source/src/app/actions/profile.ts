@@ -3,10 +3,10 @@
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/auth";
-import type { Department } from "@prisma/client";
+import type { Program } from "@prisma/client";
 
 /**
- * ตั้งค่าครั้งแรก ผู้ใช้เลือกภาควิชาและชั้นปีเอง
+ * ตั้งค่าครั้งแรก ผู้ใช้เลือกหลักสูตรและชั้นปีเอง
  *
  * เคยลองแยกสองค่านี้จากรหัสนิสิตอัตโนมัติ แต่เลิกใช้เพราะรหัสภาคในเลขประจำตัว
  * ไม่ได้แยก CPE กับ SKE ออกจากกันอย่างที่เข้าใจไว้ตอนแรก
@@ -19,11 +19,11 @@ import type { Department } from "@prisma/client";
 export async function saveProfile(formData: FormData) {
   const user = await requireUser();
 
-  const department = String(formData.get("department") ?? "") as Department;
+  const program = String(formData.get("program") ?? "") as Program;
   const year = Number(formData.get("year") ?? 0);
 
-  if (department !== "CPE" && department !== "SKE") {
-    redirect("/onboarding?err=" + encodeURIComponent("เลือกภาควิชาก่อน"));
+  if (program !== "CPE" && program !== "SKE") {
+    redirect("/onboarding?err=" + encodeURIComponent("เลือกหลักสูตรก่อน"));
   }
   if (!Number.isInteger(year) || year < 1 || year > 8) {
     redirect("/onboarding?err=" + encodeURIComponent("เลือกชั้นปีก่อน"));
@@ -31,7 +31,7 @@ export async function saveProfile(formData: FormData) {
 
   await db.user.update({
     where: { id: user.id },
-    data: { department, year },
+    data: { program, year },
   });
   redirect("/");
 }
