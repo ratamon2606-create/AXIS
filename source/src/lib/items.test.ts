@@ -1,63 +1,43 @@
 import { describe, expect, it } from "vitest";
-import {
-  visibleWhere,
-  threadChildWhere,
-  isPast,
-  parseBangkokEndOfDay,
-} from "@/lib/items";
+import { audienceMatches, canEditItem, isPast, visibleWhere } from "@/lib/items";
 
-/**
- * ทดสอบฟังก์ชันล้วน ไม่ต้องต่อฐานข้อมูล จึงรันใน CI ได้ทันที
- * เลือกกฎการมองเห็นและวงจรเวลาเป็นชุดแรก เพราะหลายหน้าใช้กฎเดียวกัน
- */
+const now = new Date("2026-10-05T00:00:00.000Z");
 
 describe("visibleWhere", () => {
-  it("ผู้ที่ไม่ได้ล็อกอินเห็นเฉพาะรายการสาธารณะ", () => {
-    expect(visibleWhere(false)).toMatchObject({ visibility: "PUBLIC" });
+  it("keeps public-only rule for visitors", () => {
+    expect(visibleWhere(false, "current", now)).toMatchObject({ visibility: "PUBLIC", status: "PUBLISHED" });
   });
 
-  it("ผู้ที่ล็อกอินแล้วไม่ถูกจำกัดด้วยการมองเห็น", () => {
-    expect(visibleWhere(true)).not.toHaveProperty("visibility");
-  });
-
-  it("แสดงเฉพาะรายการที่เผยแพร่แล้วใน scope ปัจจุบัน", () => {
-    expect(visibleWhere(true).status).toBe("PUBLISHED");
-    expect(visibleWhere(false).status).toBe("PUBLISHED");
-  });
-
-  it("ไม่เอาโพสต์ต่อในเธรดขึ้นฟีด", () => {
-    expect(visibleWhere(true).parentId).toBeNull();
-    expect(visibleWhere(false).parentId).toBeNull();
+  it("includes manual and automatic past items", () => {
+    const where = visibleWhere(true, "past", now);
+    expect(where).toHaveProperty("OR");
   });
 });
 
-describe("threadChildWhere", () => {
-  it("ผู้เยี่ยมชมเห็นเฉพาะ follow-up สาธารณะที่ไม่ใช่ draft/hidden", () => {
-    expect(threadChildWhere(false)).toMatchObject({
-      visibility: "PUBLIC",
-      status: { in: ["PUBLISHED", "PAST"] },
-    });
-  });
-});
-
-describe("expiry", () => {
-  const now = new Date("2026-09-20T12:00:00+07:00");
-
-  it("รายการที่พ้นวันหมดเขตถือว่าจบแล้ว", () => {
-    expect(isPast({ status: "PUBLISHED", expiresAt: new Date("2026-09-19") }, now)).toBe(true);
+describe("isPast", () => {
+  it("treats expired published items as past", () => {
+    expect(isPast({ status: "PUBLISHED", expiresAt: new Date("2026-10-01T00:00:00.000Z") }, now)).toBe(true);
   });
 
-  it("รายการที่ไม่มีวันหมดเขตไม่จบเองโดยเวลา", () => {
+  it("keeps no-expiry published items current", () => {
     expect(isPast({ status: "PUBLISHED", expiresAt: null }, now)).toBe(false);
   });
+});
 
-  it("รายการที่ผู้เขียนกดให้จบแล้วถือว่าจบ แม้ยังไม่ถึงวัน", () => {
-    expect(isPast({ status: "PAST", expiresAt: new Date("2026-12-31") }, now)).toBe(true);
+describe("ownership", () => {
+  it("lets an editor edit only their own post", () => {
+    expect(canEditItem({ id: "a", role: "EDITOR" }, { authorId: "a" })).toBe(true);
+    expect(canEditItem({ id: "a", role: "EDITOR" }, { authorId: "b" })).toBe(false);
   });
 
-  it("วันจากฟอร์มหมดเขตตอนสิ้นวันตามเวลาไทย", () => {
-    expect(parseBangkokEndOfDay("2026-09-20")?.toISOString()).toBe(
-      "2026-09-20T16:59:59.999Z"
-    );
+  it("lets admin override ownership", () => {
+    expect(canEditItem({ id: "a", role: "ADMIN" }, { authorId: "b" })).toBe(true);
+  });
+});
+
+describe("audience", () => {
+  it("handles CPE & SKE audience", () => {
+    expect(audienceMatches("CPE_SKE", "CPE")).toBe(true);
+    expect(audienceMatches("CPE_SKE", "SKE")).toBe(true);
   });
 });

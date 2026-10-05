@@ -13,9 +13,16 @@ enum Role {
   ADMIN
 }
 
-enum Department {
+enum Program {
   CPE
   SKE
+}
+
+enum Audience {
+  ALL
+  CPE
+  SKE
+  CPE_SKE
 }
 
 enum ItemType {
@@ -31,9 +38,6 @@ enum Visibility {
   KU_ONLY
 }
 
-/// เพิ่ม PAST และ HIDDEN ใน iteration 2
-/// PAST   จบแล้ว ออกจากฟีดปัจจุบัน แต่ยังค้นหาเจอ  (SRS-18, SRS-24)
-/// HIDDEN ซ่อนถาวร ใช้เมื่อโพสต์ผิด หายจากทุกที่ แต่ยังอยู่ในมุมมองผู้ดูแล  (SRS-20)
 enum ItemStatus {
   DRAFT
   PUBLISHED
@@ -41,7 +45,6 @@ enum ItemStatus {
   HIDDEN
 }
 
-/// ใช้ enum เพื่อไม่ให้มีค่าที่สะกดผิดเข้ามาในบันทึก
 enum AuditAction {
   CREATE
   UPDATE
@@ -51,6 +54,9 @@ enum AuditAction {
   HIDE
   ROLE_CHANGE
   ATTACH
+  DETACH
+  PIN
+  UNPIN
 }
 
 model User {
@@ -59,12 +65,14 @@ model User {
   name       String?
   image      String?
   role       Role        @default(READER)
-  department Department?
+  program    Program?
   year       Int?
   createdAt  DateTime    @default(now())
 
-  items ContentItem[]
-  audit AuditLog[]
+  items      ContentItem[]
+  savedItems SavedItem[]
+  audit      AuditLog[]
+
 }
 
 model Allowlist {
@@ -78,23 +86,26 @@ model ContentItem {
   title      String
   body       String
   type       ItemType   @default(NEWS)
-  department Department
+  audience   Audience   @default(ALL)
+  targetYear Int?
   visibility Visibility @default(KU_ONLY)
   status     ItemStatus @default(DRAFT)
 
   details Json?
 
-  eventStart DateTime?
-  expiresAt  DateTime?
-  pinned     Boolean   @default(false)
-
-  imageUrl String?
+  publishedAt DateTime?
+  eventStart  DateTime?
+  eventEnd    DateTime?
+  expiresAt   DateTime?
+  location    String?
+  pinned      Boolean   @default(false)
 
   parentId String?
   parent   ContentItem?  @relation("Thread", fields: [parentId], references: [id], onDelete: Cascade)
   children ContentItem[] @relation("Thread")
 
   attachments Attachment[]
+  savedBy     SavedItem[]
   audit       AuditLog[]
 
   authorId  String
@@ -104,11 +115,12 @@ model ContentItem {
 
   @@index([status, visibility])
   @@index([parentId])
+  @@index([audience])
+  @@index([targetYear])
+  @@index([eventStart])
   @@index([expiresAt])
 }
 
-/// เก็บเฉพาะข้อมูลอ้างอิง ตัวไฟล์อยู่ใน object store
-/// ถ้าเก็บไฟล์ในฐานข้อมูล ฐานข้อมูลจะโตเกินจำเป็นและทุกการดาวน์โหลดต้องผ่านแอป
 model Attachment {
   id         String      @id @default(cuid())
   itemId     String
@@ -122,8 +134,19 @@ model Attachment {
   @@index([itemId])
 }
 
-/// SRS-21 บันทึกทุกการเขียน ลบจากหน้าเว็บไม่ได้
-/// itemId เป็น optional เพราะการเปลี่ยนสิทธิ์ไม่ได้ผูกกับประกาศใด
+model SavedItem {
+  userId String
+  itemId String
+
+  user User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  item ContentItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@id([userId, itemId])
+  @@index([itemId])
+}
+
 model AuditLog {
   id        String       @id @default(cuid())
   actorId   String
