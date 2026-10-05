@@ -3,35 +3,25 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { requireEditor } from "@/lib/auth";
+import { requireAdmin, requireEditor } from "@/lib/auth";
+import { canEditItem } from "@/lib/items";
 import { writeAudit } from "@/lib/audit";
 
-/**
- * วงจรหมดเขต · เจ้าของไฟล์คือ Jehan (US-7)
- *
- * SRS-24 ผู้เขียนกดให้จบก่อนถึงวันได้
- * SRS-19 ต่ออายุแล้วกลับมาอยู่ในฟีด
- * SRS-21 ทุกการเขียนต้องบันทึก และบันทึกต้องเกิดใน transaction เดียวกับการเปลี่ยนแปลง
- *
- * ทั้งสองฟังก์ชันไม่ลบข้อมูล เปลี่ยนเฉพาะสถานะและวันหมดเขต
- * ประวัติในเธรดจึงไม่ขาด ต่างจากการลบแล้วสร้างใหม่
- */
-
-/** กดให้ประกาศจบเลย เช่นกิจกรรมที่เต็มก่อนกำหนด */
-export async function markPast(formData: FormData) {
+async function editableItem(id: string) {
   const user = await requireEditor();
+  const item = await db.contentItem.findUnique({ where: { id } });
+  if (!item) throw new Error("ไม่พบประกาศนี้");
+  if (!canEditItem(user, item)) throw new Error("แก้ไขได้เฉพาะประกาศของตัวเอง");
+  return { user, item };
+}
+
+export async function markPast(formData: FormData) {
   const id = String(formData.get("id"));
+  const { user, item } = await editableItem(id);
+  if (item.status !== "PUBLISHED") throw new Error("ประกาศนี้ไม่ได้อยู่ในสถานะเผยแพร่");
 
   await db.$transaction(async (tx) => {
-    const item = await tx.contentItem.findUnique({ where: { id } });
-    if (!item) throw new Error("ไม่พบประกาศนี้");
-    if (item.status !== "PUBLISHED") throw new Error("ประกาศนี้ไม่ได้อยู่ในสถานะเผยแพร่");
-
-    await tx.contentItem.update({
-      where: { id },
-      data: { status: "PAST" },
-    });
-
+    await tx.contentItem.update({ where: { id }, data: { status: "PAST" } });
     await writeAudit(tx, {
       actorId: user.id,
       itemId: id,
@@ -42,47 +32,76 @@ export async function markPast(formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/past");
+  revalidatePath("/announcements");
   redirect(`/items/${id}`);
 }
 
-/**
- * ต่ออายุประกาศที่จบแล้ว
- *
- * ต้องคืนสถานะเป็น PUBLISHED ด้วย ไม่ใช่แค่เลื่อนวัน
- * เพราะรายการที่ผู้เขียนกดให้จบเองมีสถานะ PAST ซึ่งการเลื่อนวันอย่างเดียวจะไม่พากลับมา
- */
 export async function extendItem(formData: FormData) {
-  const user = await requireEditor();
   const id = String(formData.get("id"));
   const days = Number(formData.get("days") ?? 30);
+  const { user, item } = await editableItem(id);
 
   if (!Number.isInteger(days) || days < 1 || days > 365) {
     throw new Error("จำนวนวันที่ต่ออายุต้องอยู่ระหว่าง 1 ถึง 365");
   }
+  if (item.status === "HIDDEN") throw new Error("ประกาศที่ซ่อนถาวรแล้วต่ออายุไม่ได้");
 
+  const next = new Date(Date.now() + days * 86_400_000);
   await db.$transaction(async (tx) => {
-    const item = await tx.contentItem.findUnique({ where: { id } });
-    if (!item) throw new Error("ไม่พบประกาศนี้");
-    if (item.status === "HIDDEN") throw new Error("ประกาศที่ซ่อนถาวรแล้วต่ออายุไม่ได้");
-
-    // นับจากวันนี้เสมอ ไม่ใช่นับต่อจากวันหมดเขตเดิม
-    // เพราะถ้าเดิมหมดไปแล้วสามเดือน การนับต่อจะได้วันที่ยังผ่านมาแล้วอยู่ดี
-    const next = new Date(Date.now() + days * 86_400_000);
-
-    await tx.contentItem.update({
-      where: { id },
-      data: { status: "PUBLISHED", expiresAt: next },
-    });
-
+    await tx.contentItem.update({ where: { id }, data: { status: "PUBLISHED", expiresAt: next } });
     await writeAudit(tx, {
       actorId: user.id,
       itemId: id,
       action: "EXTEND",
-      detail: `ต่ออายุ ${days} วัน ถึง ${next.toISOString()}`,
+      detail: `ต่ออายุ ${days} วัน`,
     });
   });
 
   revalidatePath("/");
   revalidatePath("/past");
+  revalidatePath("/announcements");
   redirect(`/items/${id}`);
+}
+
+export async function setPinned(formData: FormData) {
+  const id = String(formData.get("id"));
+  const { user, item } = await editableItem(id);
+  const pinned = formData.get("pinned") === "1";
+
+  await db.$transaction(async (tx) => {
+    await tx.contentItem.update({ where: { id }, data: { pinned } });
+    await writeAudit(tx, {
+      actorId: user.id,
+      itemId: id,
+      action: pinned ? "PIN" : "UNPIN",
+    });
+  });
+
+  revalidatePath("/");
+  revalidatePath("/announcements");
+  revalidatePath(`/items/${id}`);
+}
+
+export async function hideItem(formData: FormData) {
+  const admin = await requireAdmin();
+  const id = String(formData.get("id"));
+  const item = await db.contentItem.findUnique({ where: { id } });
+  if (!item) throw new Error("ไม่พบประกาศนี้");
+
+  await db.$transaction(async (tx) => {
+    await tx.contentItem.update({ where: { id }, data: { status: "HIDDEN" } });
+    await writeAudit(tx, {
+      actorId: admin.id,
+      itemId: id,
+      action: "HIDE",
+      detail: `ซ่อนถาวร ${item.title}`,
+    });
+  });
+
+  revalidatePath("/");
+  revalidatePath("/past");
+  revalidatePath("/search");
+  revalidatePath("/announcements");
+  revalidatePath("/admin");
+  redirect("/admin");
 }

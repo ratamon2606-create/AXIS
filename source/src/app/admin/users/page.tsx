@@ -52,7 +52,7 @@ export default async function UsersPage() {
               </div>
 
               <span className="text-xs text-faint">
-                {u.department ?? "-"} {u.year ? `ปี ${u.year}` : ""}
+                {u.program ?? "-"} {u.year ? `ปี ${u.year}` : ""}
               </span>
 
               <form action={changeRole} className="flex items-center gap-2">

@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { db } from "@/lib/db";
-import type { Role, Department } from "@prisma/client";
+import type { Role, Program } from "@prisma/client";
 
 /** โดเมนที่อนุญาต อ่านจาก env เพื่อให้เพิ่มโดเมนของบุคลากรได้โดยไม่ต้องแก้โค้ด */
 function allowedDomains(): string[] {
@@ -55,7 +55,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         token.uid = user.id;
         token.role = user.role;
-        token.department = user.department;
+        token.program = user.program;
         token.year = user.year;
       }
       return token;
@@ -64,7 +64,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async session({ session, token }) {
       session.user.id = token.uid as string;
       session.user.role = token.role as Role;
-      session.user.department = (token.department as Department) ?? null;
+      session.user.program = (token.program as Program) ?? null;
       session.user.year = (token.year as number) ?? null;
       return session;
     },

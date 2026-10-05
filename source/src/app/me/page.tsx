@@ -11,7 +11,7 @@ export default async function MePage() {
 
   const rows = [
     ["บัญชี", session.user.email],
-    ["ภาควิชาและชั้นปี", `${session.user.department ?? "-"} ปี ${session.user.year ?? "-"}`],
+    ["หลักสูตรและชั้นปี", `${session.user.program ?? "-"} ปี ${session.user.year ?? "-"}`],
     ["สิทธิ์", ROLE[session.user.role] ?? session.user.role],
   ];
 
@@ -27,8 +27,8 @@ export default async function MePage() {
         ))}
       </dl>
       <p className="rounded-xl bg-paper px-3 py-2.5 text-xs leading-6 text-muted ring-1 ring-line/60">
-        บัญชีใหม่จะได้สิทธิ์ผู้อ่านเป็นค่าเริ่มต้น เว้นแต่มีอีเมลอยู่ใน allowlist
-        ผู้ดูแลสามารถเปลี่ยนสิทธิ์ผ่านหน้าเว็บได้ และสิทธิ์ใหม่มีผลกับ request ถัดไป
+        สิทธิ์ถูกกำหนดจากรายชื่อที่ผู้ดูแลใส่ไว้ล่วงหน้าตอนล็อกอินครั้งแรก
+        การเปลี่ยนสิทธิ์ผ่านหน้าเว็บเลื่อนไป iteration 2
       </p>
       <form
         action={async () => {
