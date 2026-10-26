@@ -34,8 +34,8 @@ export default async function EditItemPage({ params }: { params: Promise<{ id: s
   if (!item || !canEditItem(session.user, item)) notFound();
 
   return (
-    <div className="mx-auto max-w-2xl space-y-4">
-      <h1 className="text-lg">แก้ไขประกาศ</h1>
+    <div className="mx-auto max-w-5xl space-y-5">
+      <div><p className="text-xs font-medium uppercase tracking-[0.18em] text-brand">ผู้เขียน</p><h1 className="mt-1 text-2xl sm:text-3xl">แก้ไขประกาศ</h1></div>
       <p className="rounded-xl bg-paper px-3 py-2.5 text-xs text-muted ring-1 ring-line/60">กำลังแก้ไข · {item.title}</p>
       <ItemForm
         action={updateItem}
