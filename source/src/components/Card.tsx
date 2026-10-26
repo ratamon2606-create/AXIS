@@ -12,14 +12,16 @@ const TONE: Record<string, string> = {
 
 export function Card({ item }: { item: ContentItem }) {
   return (
-    <Link href={`/items/${item.id}`} className="block rounded-2xl bg-paper p-3 shadow-sm ring-1 ring-line/60">
+    <Link href={`/items/${item.id}`} className="axis-card-interactive flex h-full min-w-0 flex-col rounded-2xl border border-line/80 bg-paper p-4 shadow-sm">
       <div className="flex flex-wrap gap-1.5">
-        <span className={`rounded px-1.5 py-0.5 text-[10px] font-medium ${TONE[item.type]}`}>{TYPE_LABEL[item.type]}</span>
-        <span className="rounded bg-wash px-1.5 py-0.5 text-[10px] text-muted">{AUDIENCE_LABEL[item.audience]}</span>
-        {item.visibility === "KU_ONLY" && <span className="rounded bg-wash px-1.5 py-0.5 text-[10px] text-muted">🔒 KU</span>}
+        <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-medium ${TONE[item.type]}`}>{TYPE_LABEL[item.type]}</span>
+        <span className="rounded-md bg-wash px-1.5 py-0.5 text-[10px] text-muted">{AUDIENCE_LABEL[item.audience]}</span>
+        {item.targetYear && <span className="rounded-md bg-wash px-1.5 py-0.5 text-[10px] text-muted">ปี {item.targetYear}</span>}
+        {item.visibility === "KU_ONLY" && <span className="rounded-md bg-wash px-1.5 py-0.5 text-[10px] text-muted">🔒 KU</span>}
       </div>
-      <h3 className="mt-1.5 text-sm font-medium leading-snug">{item.title}</h3>
-      <p className="mt-1.5 line-clamp-2 text-xs leading-5 text-muted">{item.body}</p>
+      <h3 className="mt-2 text-sm font-medium leading-snug sm:text-[15px]">{item.title}</h3>
+      <p className="mt-2 line-clamp-3 flex-1 text-xs leading-5 text-muted">{item.body}</p>
+      <span className="mt-3 text-xs font-medium text-branddeep">เปิดรายละเอียด →</span>
     </Link>
   );
 }
