@@ -2,10 +2,7 @@ import { uploadAttachment } from "@/app/actions/attachments";
 import { MAX_FILE_BYTES } from "@/lib/s3";
 
 /**
- * ช่องอัปโหลดไฟล์แนบ · เจ้าของไฟล์คือ Thanakorn (US-6)
- *
- * แนบหลังจากสร้างประกาศแล้ว ไม่ได้แนบพร้อมตอนสร้าง
- * เพราะไฟล์ต้องรู้ว่าจะผูกกับประกาศไหน และประกาศต้องมี id ก่อน
+ * Component สำหรับอัปโหลดไฟล์แนบเพิ่มเติม (ใช้งานหลังจากสร้างประกาศเสร็จแล้ว เพื่อให้มี itemId สำหรับผูกข้อมูล)
  */
 export function AttachmentUpload({ itemId }: { itemId: string }) {
   return (
@@ -22,7 +19,7 @@ export function AttachmentUpload({ itemId }: { itemId: string }) {
       <div className="mt-2 flex items-center gap-3">
         <button className="rounded-xl bg-brand px-4 py-2 text-sm text-white">อัปโหลด</button>
         <span className="text-xs text-muted">
-          ไม่เกิน {MAX_FILE_BYTES / 1024 / 1024} MB · PDF รูปภาพ และเอกสาร Office
+          ไม่เกิน {MAX_FILE_BYTES / 1024 / 1024} MB · PDF รูปภาพ และเอกสารสำนักงาน
         </span>
       </div>
     </form>
