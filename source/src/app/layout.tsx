@@ -1,78 +1,258 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
+
 import { auth, signIn, signOut } from "@/lib/auth";
-import { DesktopSidebar, MobileMenu } from "@/components/Menu";
-import { GOOGLE_FONTS_URL, DISPLAY_FONT, BODY_FONT } from "@/lib/fonts";
+import {
+  DesktopSidebar,
+  MobileMenu,
+  type MenuItem,
+} from "@/components/Menu";
+import {
+  GOOGLE_FONTS_URL,
+  DISPLAY_FONT,
+  BODY_FONT,
+} from "@/lib/fonts";
 
 export const metadata: Metadata = {
-  title: "AXIS · Department Information Hub",
-  description: "ประกาศ เอกสาร และกิจกรรมของ CPE และ SKE รวมไว้ที่เดียว",
+  title: "AXIS · Department Information and Communication Hub",
+  description:
+    "ประกาศ เอกสาร และกิจกรรมของ CPE และ SKE รวมไว้ที่เดียว",
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const session = await auth().catch(() => null);
-  const signedIn = !!session?.user;
-  const canWrite = session?.user?.role === "EDITOR" || session?.user?.role === "ADMIN";
 
-  const items = [
-    { href: "/", label: "หน้าแรก" },
-    { href: "/announcements", label: "ข่าวสาร" },
-    { href: "/search", label: "ค้นหา" },
-    { href: "/calendar", label: "ปฏิทิน" },
-    ...(signedIn ? [{ href: "/saved", label: "บันทึกไว้" }, { href: "/me", label: "โปรไฟล์" }] : []),
-    ...(canWrite ? [{ href: "/admin", label: "แผงผู้เขียน" }] : []),
+  const signedIn = !!session?.user;
+
+  const canWrite =
+    session?.user?.role === "EDITOR" ||
+    session?.user?.role === "ADMIN";
+
+  const items: MenuItem[] = [
+    {
+      href: "/",
+      label: "หน้าแรก",
+      icon: "⌂",
+    },
+    {
+      href: "/announcements",
+      label: "ข่าวสาร",
+      icon: "▤",
+    },
+    {
+      href: "/search",
+      label: "ค้นหา",
+      icon: "⌕",
+    },
+    {
+      href: "/calendar",
+      label: "ปฏิทิน",
+      icon: "□",
+    },
+
+    ...(signedIn
+      ? [
+          {
+            href: "/saved",
+            label: "บันทึกไว้",
+            icon: "★",
+          },
+          {
+            href: "/me",
+            label: "โปรไฟล์",
+            icon: "○",
+          },
+        ]
+      : []),
+
+    ...(canWrite
+      ? [
+          {
+            href: "/admin",
+            label: "แผงผู้เขียน",
+            icon: "✎",
+          },
+        ]
+      : []),
+
     ...(session?.user?.role === "ADMIN"
       ? [
-          { href: "/admin/users", label: "ผู้ใช้และสิทธิ์" },
-          { href: "/admin/audit", label: "บันทึกการใช้งาน" },
+          {
+            href: "/admin/users",
+            label: "ผู้ใช้และสิทธิ์",
+            icon: "♙",
+          },
+          {
+            href: "/admin/audit",
+            label: "บันทึกการใช้งาน",
+            icon: "≡",
+          },
         ]
       : []),
   ];
 
+  const bottom = items.filter((item) =>
+    [
+      "/",
+      "/announcements",
+      "/search",
+      "/calendar",
+      "/saved",
+    ].includes(item.href),
+  );
+
   return (
-    <html lang="th">
+    <html lang="th" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link href={GOOGLE_FONTS_URL} rel="stylesheet" />
-        <style>{`:root { --font-display: "${DISPLAY_FONT}", system-ui, sans-serif; --font-body: "${BODY_FONT}", system-ui, sans-serif; }`}</style>
+        <link
+          rel="preconnect"
+          href="https://fonts.googleapis.com"
+        />
+
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin=""
+        />
+
+        <link
+          href={GOOGLE_FONTS_URL}
+          rel="stylesheet"
+        />
+
+        <style>
+          {`:root {
+            --font-display: "${DISPLAY_FONT}", system-ui, sans-serif;
+            --font-body: "${BODY_FONT}", system-ui, sans-serif;
+          }`}
+        </style>
       </head>
+
       <body className="bg-wash font-sans text-ink antialiased">
-        <div className="mx-auto min-h-screen w-full max-w-6xl bg-wash">
-          <header className="sticky top-0 z-30 flex h-[57px] items-center gap-3 border-b border-line bg-paper/95 px-4 backdrop-blur sm:px-6">
-            <MobileMenu items={items} />
-            <Link href="/" className="font-display text-base">AXIS</Link>
-            <div className="ml-auto flex items-center gap-2">
-              <Link href="/search" className="grid h-8 w-8 place-items-center rounded-xl bg-wash text-sm" aria-label="ค้นหา">🔍</Link>
-              {signedIn ? (
-                <form action={async () => { "use server"; await signOut({ redirectTo: "/" }); }}>
-                  <button className="rounded-xl border border-line px-3 py-1.5 text-xs">ออกจากระบบ</button>
-                </form>
-              ) : (
-                <form action={async () => { "use server"; await signIn("google", { redirectTo: "/" }); }}>
-                  <button className="rounded-xl bg-brand px-3 py-1.5 text-xs text-white">เข้าสู่ระบบ</button>
-                </form>
-              )}
+        <div className="axis-app-shell">
+          {/* ===================================================
+              GLOBAL HEADER
+              =================================================== */}
+
+          <header className="axis-app-header">
+            <div className="axis-header-inner">
+              <MobileMenu items={items} />
+
+              <Link
+                href="/"
+                className="axis-brand"
+              >
+                <span className="axis-brand-name">
+                  AXIS
+                </span>
+
+                <span className="axis-brand-subtitle">
+                  Department Information and Communication Hub
+                </span>
+              </Link>
+
+              <div className="axis-header-actions">
+                <Link
+                  href="/search"
+                  className="axis-header-icon-button"
+                  aria-label="ค้นหา"
+                >
+                  ⌕
+                </Link>
+
+                {signedIn ? (
+                  <form
+                    action={async () => {
+                      "use server";
+
+                      await signOut({
+                        redirectTo: "/",
+                      });
+                    }}
+                  >
+                    <button className="axis-header-auth-button">
+                      ออกจากระบบ
+                    </button>
+                  </form>
+                ) : (
+                  <form
+                    action={async () => {
+                      "use server";
+
+                      await signIn(
+                        "google",
+                        {
+                          redirectTo: "/",
+                        },
+                      );
+                    }}
+                  >
+                    <button className="axis-header-auth-button axis-header-auth-button-primary">
+                      เข้าสู่ระบบ
+                    </button>
+                  </form>
+                )}
+              </div>
             </div>
           </header>
 
-          <div className="flex min-h-[calc(100vh-57px)]">
+          {/* ===================================================
+              APP FRAME
+              =================================================== */}
+
+          <div className="axis-app-frame">
             <DesktopSidebar items={items} />
-            <div className="min-w-0 flex-1">
-              <main className="px-4 py-5 pb-24 sm:px-6 sm:py-7 sm:pb-7">{children}</main>
-              <footer className="px-4 pb-20 pt-8 text-center text-xs text-faint sm:pb-10">
-                AXIS · Department Information Hub
+
+            <div className="axis-app-content">
+              <main className="axis-app-main axis-page-shell">
+                <div className="axis-route-content">
+                  {children}
+                </div>
+              </main>
+
+              <footer className="axis-app-footer axis-page-shell">
+                AXIS · Department Information and Information Hub
               </footer>
             </div>
           </div>
 
-          <nav className="fixed inset-x-0 bottom-0 z-20 mx-auto flex max-w-md justify-around border-t border-line bg-paper/95 px-2 py-2 text-[11px] backdrop-blur sm:hidden">
-            <Link href="/">Home</Link>
-            <Link href="/announcements">News</Link>
-            <Link href="/search">Search</Link>
-            <Link href="/calendar">Calendar</Link>
-            {signedIn && <Link href="/saved">Saved</Link>}
+          {/* ===================================================
+              MOBILE BOTTOM NAVIGATION
+              =================================================== */}
+
+          <nav
+            className="axis-mobile-bottom-nav axis-mobile-safe-bottom"
+            style={{
+              gridTemplateColumns: `repeat(${Math.max(
+                bottom.length,
+                1,
+              )}, minmax(0, 1fr))`,
+            }}
+            aria-label="เมนูลัด"
+          >
+            {bottom.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="axis-mobile-bottom-link"
+              >
+                <span
+                  className="axis-mobile-bottom-icon"
+                  aria-hidden="true"
+                >
+                  {item.icon}
+                </span>
+
+                <span className="axis-mobile-bottom-label">
+                  {item.label}
+                </span>
+              </Link>
+            ))}
           </nav>
         </div>
       </body>

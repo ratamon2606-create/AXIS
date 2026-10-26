@@ -1,0 +1,66 @@
+name: Iteration 4 CI
+
+on:
+  push:
+    branches:
+      - main
+      - "iter4/**"
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: iter4-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Typecheck, test and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    defaults:
+      run:
+        working-directory: source
+
+    env:
+      DATABASE_URL: postgresql://hub:hub@127.0.0.1:5432/hub?schema=public
+      AUTH_SECRET: ci-only-secret-not-used-in-production
+      AUTH_GOOGLE_ID: ci-placeholder
+      AUTH_GOOGLE_SECRET: ci-placeholder
+      AUTH_TRUST_HOST: "true"
+      ALLOWED_EMAIL_DOMAINS: ku.th
+      S3_ENDPOINT: http://127.0.0.1:9000
+      S3_PUBLIC_ENDPOINT: http://127.0.0.1:9000
+      S3_REGION: us-east-1
+      S3_BUCKET: hub-files
+      S3_ACCESS_KEY: hubminio
+      S3_SECRET_KEY: hubminio123
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: source/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: TypeScript check
+        run: npm run typecheck
+
+      - name: Vitest regression suite
+        run: npm test
+
+      - name: Clean production build
+        run: |
+          rm -rf .next
+          npm run build
