@@ -19,6 +19,12 @@ import type { Role } from "@prisma/client";
 
 const ROLES: Role[] = ["READER", "EDITOR", "ADMIN"];
 
+const ROLE_LABEL: Record<Role, string> = {
+  READER: "ผู้อ่าน",
+  EDITOR: "ผู้เขียน",
+  ADMIN: "ผู้ดูแลระบบ",
+};
+
 export async function changeRole(formData: FormData) {
   const admin = await requireAdmin();
   const userId = String(formData.get("userId"));
@@ -42,7 +48,7 @@ export async function changeRole(formData: FormData) {
     await writeAudit(tx, {
       actorId: admin.id,
       action: "ROLE_CHANGE",
-      detail: `${target.email} เปลี่ยนจาก ${target.role} เป็น ${role}`,
+      detail: `${target.email} เปลี่ยนจาก ${ROLE_LABEL[target.role]} เป็น ${ROLE_LABEL[role]}`,
     });
   });
 
@@ -79,7 +85,7 @@ export async function addToAllowlist(formData: FormData) {
     await writeAudit(tx, {
       actorId: admin.id,
       action: "ROLE_CHANGE",
-      detail: `เพิ่ม ${email} ในรายชื่อล่วงหน้าด้วยสิทธิ์ ${role}`,
+      detail: `เพิ่ม ${email} ในรายชื่อล่วงหน้าด้วยสิทธิ์ ${ROLE_LABEL[role]}`,
     });
   });
 

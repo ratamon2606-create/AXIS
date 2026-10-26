@@ -32,7 +32,7 @@ export default async function UsersPage() {
   );
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="mx-auto max-w-5xl space-y-6">
       <h1 className="text-lg">ผู้ใช้และสิทธิ์</h1>
 
       <section className="space-y-2">
