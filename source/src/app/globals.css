@@ -2,68 +2,2866 @@
 @tailwind components;
 @tailwind utilities;
 
-:root { color-scheme: light; }
-body { font-family: var(--font-body); }
-h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; }
+/* ============================================================
+   AXIS GLOBAL RESPONSIVE SYSTEM
 
-.axis-book-stage {
+   Width-responsive + height-responsive.
+
+   Every route inherits the same density system through the
+   root layout, so laptop-height windows compact automatically.
+   ============================================================ */
+
+
+/* ============================================================
+   ITEM FORM — SECTION TITLES INSIDE THE PANEL
+   ============================================================ */
+
+/*
+ * ทุก section ใช้หัวข้อเป็น div ปกติอยู่ภายใน fieldset
+ * ไม่ใช้ <legend> จึงไม่มีอาการหัวข้อไปนั่งทับเส้นกรอบ
+ */
+.axis-form-section {
   position: relative;
-  height: 360px;
-  overflow: hidden;
-  perspective: 1100px;
+
+  min-width: 0;
+
+  margin: 0;
+
+  padding:
+    clamp(
+      1rem,
+      1.5vw,
+      1.3rem
+    ) !important;
 }
 
-.axis-book {
-  --offset: 0;
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  width: 190px;
-  height: 285px;
-  padding: 22px 16px;
-  overflow: hidden;
-  border: 1px solid rgba(27, 43, 34, 0.12);
-  border-radius: 8px 14px 14px 6px;
-  box-shadow: 0 18px 38px rgba(27, 43, 34, 0.16);
-  transform-origin: center bottom;
-  transform: translateX(calc(-50% + var(--offset) * 175px)) rotateY(calc(var(--offset) * -7deg)) scale(calc(1 - max(var(--offset), calc(var(--offset) * -1)) * 0.1));
-  transition: transform 220ms ease, height 220ms ease, width 220ms ease;
+
+/* หัวข้อ 1. / 2. / 3. / 4. อยู่ด้านในกรอบ */
+
+.axis-form-section-title {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.45rem;
+
+  margin:
+    0
+    0
+    clamp(
+      0.9rem,
+      1.4dvh,
+      1.1rem
+    );
+
+  padding:
+    0
+    0
+    clamp(
+      0.65rem,
+      1dvh,
+      0.8rem
+    );
+
+  border-bottom:
+    1px solid
+    rgba(
+      225,
+      231,
+      224,
+      0.9
+    );
+
+  color:
+    #25362b;
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(
+      1rem,
+      1.1vw,
+      1.12rem
+    );
+
+  font-weight: 650;
+
+  line-height: 1.25;
 }
 
-.axis-book-selected {
-  z-index: 5;
-  width: 224px;
-  height: 330px;
-  transform: translateX(-50%) rotateY(0deg) scale(1);
+
+/* เลข 1. 2. 3. 4. */
+
+.axis-form-section-number {
+  flex: none;
+
+  color:
+    #23834d;
+
+  font-weight: 800;
 }
 
-.axis-book-news { background: #dce9f3; }
-.axis-book-opportunity { background: #e8ddf6; }
-.axis-book-activity { background: #dcebdc; }
-.axis-book-alert { background: #f6ded9; }
-.axis-book-document { background: #dff0ed; }
 
-.axis-book-ribbon {
-  position: absolute;
+/* เว้นเนื้อหาข้างใน section ให้สม่ำเสมอ */
+
+.axis-form-section
+> .space-y-4
+> :not([hidden])
+~ :not([hidden]),
+.axis-form-section
+> .space-y-5
+> :not([hidden])
+~ :not([hidden]) {
+  margin-top:
+    clamp(
+      0.75rem,
+      1.3dvh,
+      1rem
+    );
+}
+
+
+/* Label */
+
+.axis-form-section label {
+  font-size:
+    clamp(
+      0.86rem,
+      0.95vw,
+      0.96rem
+    );
+
+  line-height: 1.4;
+}
+
+
+/* Input / textarea / select */
+
+.axis-form-section input,
+.axis-form-section textarea,
+.axis-form-section select {
+  font-size:
+    clamp(
+      0.86rem,
+      0.95vw,
+      0.96rem
+    );
+}
+
+
+/* ============================================================
+   SIDEBAR — MAKE "เมนู" BIGGER
+   ============================================================ */
+
+.axis-sidebar-title {
+  margin:
+    0
+    0
+    0.75rem !important;
+
+  padding-inline:
+    0.65rem;
+
+  color:
+    #75827a !important;
+
+  font-size:
+    1rem !important;
+
+  font-weight:
+    700 !important;
+
+  line-height:
+    1.2;
+
+  letter-spacing:
+    0.02em;
+}
+
+
+/* เมนูแต่ละรายการให้อ่านง่ายขึ้นเล็กน้อย */
+
+@media (min-width: 1280px) {
+  .axis-menu-link {
+    font-size:
+      clamp(
+        0.82rem,
+        0.92vw,
+        0.94rem
+      );
+  }
+
+  .axis-menu-icon {
+    font-size:
+      clamp(
+        0.95rem,
+        1.05vw,
+        1.08rem
+      );
+  }
+}
+
+
+/* ============================================================
+   SHORT LAPTOP SCREEN
+   ============================================================ */
+
+@media (
+  max-height: 900px
+)
+and (
+  min-width: 768px
+) {
+  .axis-form-section {
+    padding:
+      0.85rem
+      0.95rem !important;
+  }
+
+  .axis-form-section-title {
+    margin-bottom:
+      0.7rem;
+
+    padding-bottom:
+      0.55rem;
+
+    font-size:
+      0.98rem;
+  }
+}
+
+
+@media (
+  max-height: 780px
+)
+and (
+  min-width: 768px
+) {
+  .axis-form-section {
+    padding:
+      0.7rem
+      0.8rem !important;
+  }
+
+  .axis-form-section-title {
+    margin-bottom:
+      0.55rem;
+
+    padding-bottom:
+      0.45rem;
+
+    font-size:
+      0.92rem;
+  }
+}
+
+:root {
+  color-scheme: light;
+
+  --axis-page-max: 1440px;
+
+  --axis-header-h:
+    clamp(
+      3.55rem,
+      6.6dvh,
+      4.1rem
+    );
+
+  --axis-page-x:
+    clamp(
+      0.9rem,
+      2.3vw,
+      2.4rem
+    );
+
+  --axis-page-y:
+    clamp(
+      0.85rem,
+      2.1dvh,
+      1.75rem
+    );
+
+  --axis-section-gap:
+    clamp(
+      0.7rem,
+      1.5dvh,
+      1.25rem
+    );
+
+  --axis-panel-pad:
+    clamp(
+      0.8rem,
+      1.25vw,
+      1.2rem
+    );
+
+  --axis-sidebar-compact:
+    5rem;
+
+  --axis-sidebar-expanded:
+    15rem;
+
+  --axis-mobile-nav-h:
+    4.25rem;
+
+  --axis-control-h:
+    2.65rem;
+
+  --axis-radius:
+    clamp(
+      0.9rem,
+      1.5vw,
+      1.25rem
+    );
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+
+  /*
+   * Increase UI text across the whole application.
+   * Most Tailwind typography uses rem, so this scales consistently.
+   */
+  font-size: clamp(16.5px, 0.18vw + 15.8px, 17.5px);
+
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100dvh;
+
+  margin: 0;
+
+  overflow-x: hidden;
+
+  font-family:
+    var(--font-body);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family:
+    var(--font-display);
+
+  font-weight: 500;
+}
+
+button,
+a,
+input,
+textarea,
+select,
+summary {
+  -webkit-tap-highlight-color:
+    transparent;
+}
+
+button,
+input,
+select {
+  min-height:
+    min(
+      var(--axis-control-h),
+      100%
+    );
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+table {
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline:
+    3px solid
+    rgba(
+      27,
+      122,
+      71,
+      0.28
+    );
+
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   APP SHELL
+   ============================================================ */
+
+.axis-app-shell {
+  min-height: 100dvh;
+  width: 100%;
+
+  background:
+    var(--color-wash, #f4f7f3);
+}
+
+.axis-app-header {
+  position: sticky;
+
   top: 0;
-  right: 18px;
-  width: 28px;
-  padding: 10px 0 18px;
-  background: #e8b34c;
-  text-align: center;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 76%, 0 100%);
+
+  z-index: 40;
+
+  height:
+    var(--axis-header-h);
+
+  border-bottom:
+    1px solid
+    rgba(
+      225,
+      231,
+      224,
+      0.95
+    );
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.94
+    );
+
+  backdrop-filter:
+    blur(12px);
 }
 
-.axis-shelf {
-  height: 18px;
-  margin-top: -1px;
-  border-radius: 4px 4px 14px 14px;
-  background: linear-gradient(90deg, #8e6039, #c68c51, #9b6840);
-  box-shadow: 0 10px 20px rgba(70, 42, 22, 0.18);
+.axis-header-inner {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  gap:
+    clamp(
+      0.45rem,
+      1vw,
+      0.85rem
+    );
+
+  padding-inline:
+    var(--axis-page-x);
 }
+
+.axis-brand {
+  min-width: 0;
+
+  display: flex;
+
+  align-items: baseline;
+
+  gap: 0.5rem;
+
+  color: inherit;
+
+  text-decoration: none;
+}
+
+.axis-brand-name {
+  flex: none;
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(
+      1rem,
+      1.35vw,
+      1.15rem
+    );
+}
+
+.axis-brand-subtitle {
+  min-width: 0;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+
+  color:
+    #7a857e;
+
+  font-size:
+    clamp(
+      0.63rem,
+      0.8vw,
+      0.75rem
+    );
+}
+
+.axis-header-actions {
+  margin-left: auto;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.45rem;
+}
+
+.axis-header-icon-button {
+  width:
+    var(--axis-control-h);
+
+  height:
+    var(--axis-control-h);
+
+  min-height: 0;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 0.85rem;
+
+  background:
+    #f1f5f1;
+
+  color: inherit;
+
+  text-decoration: none;
+}
+
+.axis-header-auth-button {
+  min-height:
+    var(--axis-control-h);
+
+  padding-inline:
+    clamp(
+      0.7rem,
+      1.1vw,
+      1rem
+    );
+
+  border:
+    1px solid
+    #e1e7e0;
+
+  border-radius: 0.85rem;
+
+  background: #fff;
+
+  font-size:
+    clamp(
+      0.66rem,
+      0.78vw,
+      0.76rem
+    );
+
+  cursor: pointer;
+}
+
+.axis-header-auth-button-primary {
+  border-color:
+    #23834d;
+
+  background:
+    #23834d;
+
+  color: #fff;
+}
+
+.axis-app-frame {
+  min-height:
+    calc(
+      100dvh -
+      var(--axis-header-h)
+    );
+
+  display: flex;
+}
+
+.axis-app-content {
+  min-width: 0;
+
+  flex: 1;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+.axis-page-shell {
+  width:
+    min(
+      100%,
+      var(--axis-page-max)
+    );
+
+  margin-inline: auto;
+
+  padding-inline:
+    var(--axis-page-x);
+}
+
+.axis-app-main {
+  width: 100%;
+
+  flex: 1;
+
+  padding-top:
+    var(--axis-page-y);
+
+  padding-bottom:
+    var(--axis-page-y);
+}
+
+.axis-route-content {
+  min-width: 0;
+
+  width: 100%;
+}
+
+.axis-app-footer {
+  padding-top:
+    clamp(
+      0.7rem,
+      1.5dvh,
+      1.4rem
+    );
+
+  padding-bottom:
+    clamp(
+      0.8rem,
+      1.7dvh,
+      1.6rem
+    );
+
+  text-align: center;
+
+  color: #a2aaa4;
+
+  font-size: 0.68rem;
+}
+
+/* ============================================================
+   ROUTE-WIDE VERTICAL DENSITY
+
+   Existing pages use Tailwind space-y-* classes.
+   These overrides make those gaps react to viewport height
+   without editing every page separately.
+   ============================================================ */
+
+.axis-route-content .space-y-3 > :not([hidden]) ~ :not([hidden]),
+.axis-route-content .space-y-4 > :not([hidden]) ~ :not([hidden]),
+.axis-route-content .space-y-5 > :not([hidden]) ~ :not([hidden]),
+.axis-route-content .space-y-6 > :not([hidden]) ~ :not([hidden]),
+.axis-route-content .space-y-8 > :not([hidden]) ~ :not([hidden]) {
+  margin-top:
+    var(--axis-section-gap) !important;
+}
+
+.axis-route-content h1 {
+  font-size:
+    clamp(
+      1.45rem,
+      2.5vw,
+      2.15rem
+    );
+
+  line-height: 1.06;
+}
+
+.axis-route-content h2 {
+  line-height: 1.12;
+}
+
+.axis-route-content .axis-panel {
+  border-radius:
+    var(--axis-radius);
+}
+
+.axis-auto-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(
+        min(
+          100%,
+          16.5rem
+        ),
+        1fr
+      )
+    );
+
+  gap:
+    var(--axis-section-gap);
+}
+
+.axis-auto-grid-wide {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(
+        min(
+          100%,
+          20rem
+        ),
+        1fr
+      )
+    );
+
+  gap:
+    var(--axis-section-gap);
+}
+
+.axis-panel {
+  border:
+    1px solid
+    rgba(
+      225,
+      231,
+      224,
+      0.9
+    );
+
+  border-radius:
+    var(--axis-radius);
+
+  background: #fff;
+}
+
+.axis-card-interactive {
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    border-color 160ms ease;
+}
+
+@media (hover: hover) {
+  .axis-card-interactive:hover {
+    transform:
+      translateY(-2px);
+
+    box-shadow:
+      0 12px 28px
+      rgba(
+        27,
+        43,
+        34,
+        0.08
+      );
+  }
+}
+
+/* ============================================================
+   DESKTOP SIDEBAR
+   ============================================================ */
+
+.axis-desktop-sidebar {
+  display: none;
+
+  flex: none;
+
+  border-right:
+    1px solid
+    #e1e7e0;
+
+  background: #fff;
+}
+
+.axis-sidebar-inner {
+  position: sticky;
+
+  top:
+    var(--axis-header-h);
+
+  max-height:
+    calc(
+      100dvh -
+      var(--axis-header-h)
+    );
+
+  overflow-y: auto;
+
+  padding:
+    clamp(
+      0.55rem,
+      1dvh,
+      0.9rem
+    );
+}
+
+.axis-sidebar-title {
+  display: none;
+
+  margin:
+    0
+    0
+    0.65rem;
+
+  padding-inline:
+    0.65rem;
+
+  color: #89958d;
+
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  letter-spacing: 0.02em;
+}
+
+.axis-sidebar-expanded {
+  display: none;
+}
+
+.axis-menu-list {
+  margin: 0;
+  padding: 0;
+
+  display: grid;
+
+  gap:
+    clamp(
+      0.2rem,
+      0.6dvh,
+      0.4rem
+    );
+
+  list-style: none;
+}
+
+.axis-menu-link {
+  min-height:
+    var(--axis-control-h);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.7rem;
+
+  padding-inline:
+    0.7rem;
+
+  border-radius:
+    0.85rem;
+
+  color:
+    #26372b;
+
+  text-decoration: none;
+
+  font-size:
+    clamp(
+      0.72rem,
+      0.9vw,
+      0.86rem
+    );
+
+  transition:
+    background 140ms ease,
+    color 140ms ease;
+}
+
+.axis-menu-link:hover {
+  background:
+    #f3f6f3;
+}
+
+.axis-menu-link.is-active {
+  background:
+    #e2f0e6;
+
+  color:
+    #1c653d;
+
+  font-weight: 600;
+}
+
+.axis-menu-link-compact {
+  justify-content: center;
+
+  padding-inline: 0.35rem;
+}
+
+.axis-menu-icon {
+  flex: none;
+
+  font-size:
+    clamp(
+      0.9rem,
+      1.1vw,
+      1rem
+    );
+
+  line-height: 1;
+}
+
+.axis-menu-text {
+  min-width: 0;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+}
+
+/* ============================================================
+   MOBILE DRAWER
+   ============================================================ */
+
+.axis-mobile-menu-trigger {
+  width:
+    var(--axis-control-h);
+
+  height:
+    var(--axis-control-h);
+
+  min-height: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 3px;
+
+  border:
+    1px solid
+    #e1e7e0;
+
+  border-radius: 0.85rem;
+
+  background: #fff;
+}
+
+.axis-mobile-menu-trigger i {
+  display: block;
+
+  width: 1rem;
+
+  height: 1.5px;
+
+  background:
+    #24342a;
+}
+
+.axis-mobile-drawer-backdrop {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 70;
+
+  background:
+    rgba(
+      27,
+      43,
+      34,
+      0.42
+    );
+
+  backdrop-filter:
+    blur(1px);
+}
+
+.axis-mobile-drawer {
+  width:
+    min(
+      88vw,
+      20rem
+    );
+
+  height: 100dvh;
+
+  overflow-y: auto;
+
+  padding:
+    clamp(
+      0.85rem,
+      2.5vw,
+      1.1rem
+    );
+
+  background: #fff;
+
+  box-shadow:
+    20px 0 50px
+    rgba(
+      20,
+      35,
+      25,
+      0.18
+    );
+}
+
+.axis-mobile-drawer-head {
+  margin-bottom:
+    var(--axis-section-gap);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.75rem;
+}
+
+.axis-mobile-drawer-brand {
+  margin: 0;
+
+  font-family:
+    var(--font-display);
+
+  font-size: 1rem;
+}
+
+.axis-mobile-drawer-subtitle {
+  margin: 0;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+
+  color: #7d8981;
+
+  font-size: 0.66rem;
+}
+
+.axis-mobile-drawer-close {
+  width:
+    var(--axis-control-h);
+
+  height:
+    var(--axis-control-h);
+
+  min-height: 0;
+
+  margin-left: auto;
+
+  display: grid;
+
+  place-items: center;
+
+  border: 0;
+
+  border-radius: 0.85rem;
+
+  background:
+    #f2f5f2;
+
+  cursor: pointer;
+}
+
+/* ============================================================
+   MOBILE BOTTOM NAV
+   ============================================================ */
+
+.axis-mobile-bottom-nav {
+  position: fixed;
+
+  inset-inline: 0;
+
+  bottom: 0;
+
+  z-index: 50;
+
+  display: grid;
+
+  min-height:
+    var(--axis-mobile-nav-h);
+
+  padding:
+    0.3rem
+    0.25rem
+    calc(
+      0.3rem +
+      env(
+        safe-area-inset-bottom
+      )
+    );
+
+  border-top:
+    1px solid
+    #e1e7e0;
+
+  background:
+    rgba(
+      255,
+      255,
+      255,
+      0.96
+    );
+
+  backdrop-filter:
+    blur(12px);
+}
+
+.axis-mobile-bottom-link {
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 0.1rem;
+
+  padding-inline: 0.2rem;
+
+  border-radius: 0.7rem;
+
+  color: #728078;
+
+  text-decoration: none;
+}
+
+.axis-mobile-bottom-icon {
+  font-size: 0.95rem;
+
+  line-height: 1;
+}
+
+.axis-mobile-bottom-label {
+  max-width: 100%;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+
+  font-size:
+    clamp(
+      0.54rem,
+      2vw,
+      0.63rem
+    );
+}
+
+.axis-mobile-safe-bottom {
+  padding-bottom:
+    calc(
+      0.3rem +
+      env(
+        safe-area-inset-bottom
+      )
+    );
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS — WIDTH
+   ============================================================ */
+
+@media (min-width: 768px) {
+  .axis-desktop-sidebar {
+    display: block;
+
+    width:
+      var(--axis-sidebar-compact);
+  }
+
+  .axis-app-main {
+    padding-bottom:
+      var(--axis-page-y);
+  }
+
+  .axis-mobile-bottom-nav {
+    display: none;
+  }
+}
+
+@media (min-width: 1280px) {
+  .axis-desktop-sidebar {
+    width:
+      var(--axis-sidebar-expanded);
+  }
+
+  .axis-sidebar-title {
+    display: block;
+  }
+
+  .axis-sidebar-compact {
+    display: none;
+  }
+
+  .axis-sidebar-expanded {
+    display: block;
+  }
+}
+
+@media (max-width: 767px) {
+  .axis-app-main {
+    padding-bottom:
+      calc(
+        var(--axis-mobile-nav-h) +
+        var(--axis-page-y)
+      );
+  }
+
+  .axis-app-footer {
+    padding-bottom:
+      calc(
+        var(--axis-mobile-nav-h) +
+        0.75rem
+      );
+  }
+
+  .axis-brand-subtitle {
+    display: none;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINTS — HEIGHT
+
+   The whole site becomes denser when the browser window is
+   short, instead of requiring each page to be manually edited.
+   ============================================================ */
+
+@media (max-height: 900px) and (min-width: 768px) {
+  :root {
+    --axis-header-h: 3.55rem;
+
+    --axis-page-y: 0.75rem;
+
+    --axis-section-gap: 0.62rem;
+
+    --axis-panel-pad: 0.7rem;
+
+    --axis-control-h: 2.35rem;
+  }
+
+  .axis-route-content h1 {
+    font-size:
+      clamp(
+        1.35rem,
+        2vw,
+        1.8rem
+      );
+  }
+
+  .axis-app-footer {
+    padding-top: 0.55rem;
+    padding-bottom: 0.65rem;
+  }
+
+  .axis-route-content .py-6,
+  .axis-route-content .py-7,
+  .axis-route-content .py-8 {
+    padding-top: 0.7rem !important;
+    padding-bottom: 0.7rem !important;
+  }
+
+  .axis-route-content .p-6,
+  .axis-route-content .p-5 {
+    padding: 0.85rem !important;
+  }
+
+  .axis-route-content .gap-6,
+  .axis-route-content .gap-5 {
+    gap:
+      var(--axis-section-gap) !important;
+  }
+}
+
+@media (max-height: 780px) and (min-width: 768px) {
+  :root {
+    --axis-header-h: 3.25rem;
+
+    --axis-page-y: 0.5rem;
+
+    --axis-section-gap: 0.42rem;
+
+    --axis-control-h: 2.1rem;
+  }
+
+  .axis-app-footer {
+    display: none;
+  }
+
+  .axis-sidebar-inner {
+    padding: 0.45rem;
+  }
+
+  .axis-menu-list {
+    gap: 0.15rem;
+  }
+
+  .axis-route-content h1 {
+    font-size:
+      clamp(
+        1.2rem,
+        1.8vw,
+        1.6rem
+      );
+  }
+
+  .axis-route-content p {
+    line-height: 1.45;
+  }
+
+  .axis-route-content .p-6,
+  .axis-route-content .p-5,
+  .axis-route-content .p-4 {
+    padding: 0.65rem !important;
+  }
+
+  .axis-route-content .mt-6,
+  .axis-route-content .mt-5,
+  .axis-route-content .mt-4 {
+    margin-top:
+      var(--axis-section-gap) !important;
+  }
+}
+
+@media (max-height: 680px) and (min-width: 768px) {
+  :root {
+    --axis-header-h: 3rem;
+
+    --axis-page-y: 0.35rem;
+
+    --axis-section-gap: 0.3rem;
+
+    --axis-control-h: 1.95rem;
+  }
+
+  .axis-brand-subtitle {
+    display: none;
+  }
+
+  .axis-route-content h1 {
+    font-size: 1.25rem;
+  }
+
+  .axis-route-content .text-sm {
+    font-size: 0.86rem !important;
+  }
+
+  .axis-route-content .text-xs {
+    font-size: 0.74rem !important;
+  }
+}
+
+/* ============================================================
+   SCROLL SAFETY
+
+   Long data pages remain scrollable and tables remain usable.
+   ============================================================ */
+
+.axis-route-content {
+  overflow-wrap: anywhere;
+}
+
+.axis-route-content table {
+  width: 100%;
+}
+
+.axis-route-content .overflow-x-auto {
+  scrollbar-width: thin;
+}
+
+.axis-route-content pre,
+.axis-route-content code {
+  max-width: 100%;
+}
+
+
+
+/* ============================================================
+   EXACT REFERENCE ISOMETRIC SYSTEM
+
+   Measured from the uploaded reference:
+   +30°  broad/front horizontal axis
+   -30°  depth / row axis
+    90°  all vertical edges
+
+   Nothing in the book geometry uses any other angle.
+   ============================================================ */
+
+.axis-bookshelf-scene {
+  position: relative;
+
+  width: 100%;
+  height: clamp(20rem, 42dvh, 32rem);
+
+  overflow: hidden;
+
+  border-radius: clamp(1.25rem, 2vw, 2rem);
+
+  background:
+    radial-gradient(
+      ellipse at 50% 70%,
+      rgba(184, 213, 192, 0.22),
+      transparent 48%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(250, 253, 250, 0.98),
+      rgba(235, 243, 236, 0.93)
+    );
+
+  isolation: isolate;
+}
+
+.axis-bookshelf-scene::after {
+  content: "";
+
+  position: absolute;
+  z-index: 0;
+
+  left: 7%;
+  right: 7%;
+  bottom: 5%;
+
+  height: 15%;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(32, 52, 38, 0.12),
+      transparent 72%
+    );
+
+  filter: blur(13px);
+
+  pointer-events: none;
+}
+
+/* ============================================================
+   ROW POSITION
+   ============================================================ */
+
+.axis-book-position {
+  --book-x: var(--book-x-desktop);
+  --book-y: var(--book-y-desktop);
+  --book-scale: 1;
+
+  position: absolute;
+
+  left: 50%;
+  top: 47%;
+
+  width: 190px;
+  height: 270px;
+
+  padding: 0;
+  border: 0;
+
+  background: transparent;
+
+  overflow: visible;
+
+  cursor: pointer;
+
+  transform:
+    translate(-50%, -50%)
+    translate(var(--book-x), var(--book-y))
+    scale(var(--book-scale));
+
+  transition:
+    transform 520ms cubic-bezier(.2,.8,.2,1),
+    filter 220ms ease;
+}
+
+.axis-book-position.is-active {
+  width: 235px;
+  height: 330px;
+}
+
+.axis-book-position:focus-visible {
+  outline: 3px solid rgba(33, 112, 72, 0.45);
+  outline-offset: 8px;
+  border-radius: 0.9rem;
+}
+
+@media (hover: hover) {
+  .axis-book-position:not(.is-active):hover {
+    filter: brightness(1.04);
+  }
+}
+
+/* ============================================================
+   ACTIVE / CURRENT POSTER
+
+   The current announcement is intentionally flat 2D.
+
+   - With image: show the full uploaded poster, never crop it.
+   - Without image: show a flat rectangular category/title cover
+     like the old front cover, but without any isometric skew.
+   ============================================================ */
+
+.axis-active-poster {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 72%;
+  height: 86%;
+
+  transform:
+    translate(-50%, -50%);
+
+  display: block;
+
+  overflow: hidden;
+
+  border:
+    1px solid
+    rgba(
+      28,
+      44,
+      33,
+      0.18
+    );
+
+  border-radius:
+    clamp(
+      0.35rem,
+      0.7vw,
+      0.65rem
+    );
+
+  background: #fff;
+
+  box-shadow:
+    0 24px 38px
+    rgba(
+      25,
+      41,
+      30,
+      0.20
+    );
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+@media (hover: hover) {
+  .axis-book-position.is-active:hover
+  .axis-active-poster {
+    transform:
+      translate(-50%, -50%)
+      scale(1.015);
+
+    box-shadow:
+      0 28px 45px
+      rgba(
+        25,
+        41,
+        30,
+        0.23
+      );
+  }
+}
+
+.axis-active-poster-image {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: contain;
+  object-position: center;
+
+  background: #fff;
+
+  user-select: none;
+}
+
+/*
+ * Flat fallback cover for announcements without an image.
+ * Category at the top, title at the bottom.
+ * No skew. No 3D faces.
+ */
+.axis-active-poster-fallback {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  padding:
+    clamp(
+      0.95rem,
+      1.55vw,
+      1.35rem
+    );
+
+  text-align: left;
+
+  color: #24352a;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(
+        255,
+        255,
+        255,
+        0.64
+      ),
+      transparent 43%
+    ),
+    #ddeade;
+
+  box-shadow:
+    inset -7px 0 12px
+    rgba(
+      0,
+      0,
+      0,
+      0.045
+    );
+}
+
+.axis-active-poster-fallback small {
+  font-size:
+    clamp(
+      0.6rem,
+      0.78vw,
+      0.72rem
+    );
+
+  font-weight: 800;
+
+  letter-spacing: 0.15em;
+
+  text-transform: uppercase;
+
+  color: #69796d;
+}
+
+.axis-active-poster-fallback strong {
+  margin-top: auto;
+
+  font-size:
+    clamp(
+      1rem,
+      1.75vw,
+      1.5rem
+    );
+
+  line-height: 1.15;
+
+  overflow-wrap: anywhere;
+
+  color: #24352a;
+}
+
+.axis-active-poster-open {
+  margin-top: 0.55rem;
+
+  font-size:
+    clamp(
+      0.62rem,
+      0.75vw,
+      0.72rem
+    );
+
+  color: #879289;
+}
+
+.axis-book-position.is-active:focus-visible {
+  outline: none;
+}
+
+.axis-book-position.is-active:focus-visible
+.axis-active-poster {
+  outline:
+    3px solid
+    rgba(
+      33,
+      112,
+      72,
+      0.48
+    );
+
+  outline-offset: 5px;
+}
+
+/* ============================================================
+   BOOK DIMENSIONS
+
+   Geometry uses exact isometric vectors.
+
+   Front face vector:
+     +30°
+
+   Depth vector:
+     -30°
+
+   Vertical:
+     90°
+   ============================================================ */
+
+.axis-iso-book {
+  /*
+   * Inactive book dimensions.
+   *
+   * front rise = front width * tan(30°)
+   * depth rise = depth x * tan(30°)
+   */
+  --front-w: 92px;
+  --front-h: 150px;
+  --front-rise: 53px;
+
+  --depth-x: 34px;
+  --depth-rise: 20px;
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width:
+    calc(
+      var(--front-w) +
+      var(--depth-x)
+    );
+
+  height:
+    calc(
+      var(--depth-rise) +
+      var(--front-rise) +
+      var(--front-h)
+    );
+
+  transform:
+    translate(-50%, -50%);
+
+  overflow: visible;
+
+  filter:
+    drop-shadow(
+      0 18px 17px
+      rgba(25, 41, 30, 0.18)
+    );
+}
+
+.axis-iso-book.is-active {
+  --front-w: 128px;
+  --front-h: 196px;
+  --front-rise: 74px;
+
+  --depth-x: 46px;
+  --depth-rise: 27px;
+
+  filter:
+    drop-shadow(
+      0 27px 23px
+      rgba(25, 41, 30, 0.25)
+    );
+}
+
+/* ============================================================
+   FRONT FACE
+
+   Rectangle skewed at EXACT +30°.
+
+   CSS skewY keeps BOTH vertical edges vertical.
+   ============================================================ */
+
+.axis-iso-book-front {
+  position: absolute;
+
+  left: 0;
+  top: var(--depth-rise);
+
+  z-index: 3;
+
+  width: var(--front-w);
+  height: var(--front-h);
+
+  display: block;
+
+  overflow: hidden;
+
+  transform-origin: top left;
+
+  transform:
+    skewY(30deg);
+
+  background: #e7efe8;
+
+  border:
+    1px solid
+    rgba(28, 44, 33, 0.24);
+
+  box-shadow:
+    inset -6px 0 11px
+    rgba(0,0,0,.055);
+}
+
+.axis-iso-book-cover {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+
+  user-select: none;
+}
+
+.axis-iso-book-fallback {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 0.65rem;
+
+  padding: 0.9rem;
+
+  text-align: left;
+
+  color: #24352a;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.63),
+      transparent 43%
+    ),
+    #ddeade;
+}
+
+.axis-iso-book-fallback small {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  opacity: 0.55;
+}
+
+.axis-iso-book-fallback strong {
+  margin-top: auto;
+
+  font-size: 0.95rem;
+  line-height: 1.18;
+
+  overflow-wrap: anywhere;
+}
+
+.axis-iso-book-fallback span {
+  font-size: 0.6rem;
+  opacity: 0.5;
+}
+
+/* ============================================================
+   SIDE / SPINE
+
+   Rectangle skewed at EXACT -30°.
+
+   Again, vertical edges remain vertical.
+   ============================================================ */
+
+.axis-iso-book-side {
+  position: absolute;
+
+  left: var(--front-w);
+
+  top:
+    calc(
+      var(--depth-rise) +
+      var(--front-rise)
+    );
+
+  z-index: 2;
+
+  width: var(--depth-x);
+  height: var(--front-h);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  transform-origin: top left;
+
+  transform:
+    skewY(-30deg);
+
+  background: #aac3af;
+
+  border:
+    1px solid
+    rgba(28, 44, 33, 0.22);
+
+  border-left: 0;
+
+  box-shadow:
+    inset 6px 0 10px
+    rgba(0,0,0,.08);
+}
+
+.axis-iso-book-side > span {
+  position: absolute;
+
+  /*
+   * กันข้อความชนขอบบน/ล่างของสัน
+   */
+  top: 12%;
+  bottom: 12%;
+
+  left: 50%;
+
+  /*
+   * ความกว้างต้องไม่เกินหน้าสัน
+   */
+  width: 72%;
+
+  transform:
+    translateX(-50%);
+
+  /*
+   * เขียนลงตามแนวสันหนังสือ
+   */
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+
+  /*
+   * สำคัญ:
+   * ไม่ให้ข้อความแตกไปหลาย column
+   */
+  white-space: nowrap;
+
+  /*
+   * ถ้ายาวเกินกรอบ ให้ซ่อนและขึ้น ...
+   */
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /*
+   * จำกัดพื้นที่ตามความสูงของสันจริง
+   */
+  max-height: 76%;
+  height: 76%;
+
+  display: block;
+
+  font-size:
+    clamp(
+      0.52rem,
+      0.68vw,
+      0.66rem
+    );
+
+  font-weight: 700;
+
+  line-height: 1;
+
+  color: #243529;
+
+  text-align: start;
+}
+
+/* ============================================================
+   TOP FACE
+
+   Exact polygon from the two measured isometric axes:
+
+   A  = (0, depthRise)
+   B  = (frontW, depthRise + frontRise)
+   B' = (frontW + depthX, frontRise)
+   A' = (depthX, 0)
+
+              A' ---------- B'
+               \            \
+                \            \
+                 A ---------- B
+
+   Edges:
+   A -> B   = +30°
+   A'-> B'  = +30°
+   A -> A'  = -30°
+   B -> B'  = -30°
+   ============================================================ */
+
+.axis-iso-book-top {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  z-index: 1;
+
+  width:
+    calc(
+      var(--front-w) +
+      var(--depth-x)
+    );
+
+  height:
+    calc(
+      var(--depth-rise) +
+      var(--front-rise)
+    );
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  clip-path:
+    polygon(
+      0 var(--depth-rise),
+
+      var(--front-w)
+      calc(
+        var(--depth-rise) +
+        var(--front-rise)
+      ),
+
+      calc(
+        var(--front-w) +
+        var(--depth-x)
+      )
+      var(--front-rise),
+
+      var(--depth-x) 0
+    );
+
+  background: #d8e5da;
+
+  border-top:
+    1px solid
+    rgba(28, 44, 33, 0.18);
+
+  box-shadow:
+    inset 0 -6px 10px
+    rgba(0,0,0,.06);
+}
+
+.axis-iso-book-top > span {
+  /*
+   * Follow the exact long axis of the top face.
+   * The reference uses the same +30° isometric axis.
+   */
+  font-size:
+  clamp(
+    0.48rem,
+    0.62vw,
+    0.6rem
+  );
+  font-weight: 800;
+
+  color: #273a2c;
+
+  white-space: nowrap;
+
+  transform:
+    rotate(30deg);
+
+  transform-origin: center;
+}
+
+/* ============================================================
+   TYPE COLORS
+   ============================================================ */
+
+.axis-iso-book--news .axis-iso-book-top,
+.axis-iso-book--news .axis-iso-book-side {
+  background: #bdd4e0;
+}
+
+.axis-iso-book--opportunity .axis-iso-book-top,
+.axis-iso-book--opportunity .axis-iso-book-side {
+  background: #d9c5eb;
+}
+
+.axis-iso-book--activity .axis-iso-book-top,
+.axis-iso-book--activity .axis-iso-book-side {
+  background: #edb8ad;
+}
+
+.axis-iso-book--alert .axis-iso-book-top,
+.axis-iso-book--alert .axis-iso-book-side {
+  background: #e9c1b7;
+}
+
+.axis-iso-book--document .axis-iso-book-top,
+.axis-iso-book--document .axis-iso-book-side {
+  background: #bad8d2;
+}
+
+/* ============================================================
+   DETAILS
+   ============================================================ */
+
+.axis-bookshelf-fit > :not([hidden]) ~ :not([hidden]) {
+  margin-top: clamp(0.45rem, 1dvh, 0.8rem) !important;
+}
+
+.axis-selected-card {
+  width: min(100%, 68rem);
+
+  margin-inline: auto;
+
+  padding:
+    clamp(
+      0.75rem,
+      1.2vw,
+      1rem
+    );
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.35fr)
+    minmax(18rem, 0.9fr);
+
+  grid-template-areas:
+    "head meta"
+    "body meta"
+    "open meta";
+
+  column-gap: 1rem;
+  row-gap: 0.4rem;
+
+  border:
+    1px solid
+    rgba(225, 231, 224, 0.9);
+
+  border-radius: 1.25rem;
+
+  background: #fff;
+
+  box-shadow:
+    0 10px 28px
+    rgba(27, 43, 34, 0.055);
+}
+
+.axis-selected-head {
+  grid-area: head;
+  min-width: 0;
+}
+
+.axis-selected-head h2 {
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
+  line-height: 1.15;
+}
+
+.axis-selected-body {
+  grid-area: body;
+
+  margin-top: 0 !important;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+
+  overflow: hidden;
+
+  line-height: 1.45 !important;
+}
+
+.axis-selected-meta {
+  grid-area: meta;
+
+  margin-top: 0 !important;
+
+  align-self: stretch;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr)) !important;
+
+  gap: 0.4rem !important;
+}
+
+.axis-selected-meta > div {
+  padding: 0.55rem 0.65rem !important;
+}
+
+.axis-selected-meta p {
+  line-height: 1.25;
+}
+
+.axis-selected-open {
+  grid-area: open;
+
+  width: fit-content;
+
+  margin-top: 0 !important;
+
+  align-self: end;
+}
+
+/* ============================================================
+   DOTS + NAV
+   ============================================================ */
+
+.axis-shelf-position {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 0.3rem;
+
+  color: #657269;
+
+  font-size: 0.72rem;
+}
+
+.axis-shelf-dots {
+  display: flex;
+  flex-wrap: wrap;
+
+  justify-content: center;
+
+  gap: 0.45rem;
+}
+
+.axis-shelf-dots button {
+  width: 0.55rem;
+  height: 0.55rem;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: #cbd3cc;
+
+  cursor: pointer;
+}
+
+.axis-shelf-dots button.is-active {
+  width: 1.6rem;
+  background: #2d3c31;
+}
+
+.axis-shelf-navigation {
+  width: min(100%, 40rem);
+
+  margin-inline: auto;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 0.8rem;
+}
+
+.axis-shelf-navigation button {
+  min-height: 2.45rem;
+
+  border:
+    1px solid
+    rgba(125, 141, 128, 0.25);
+
+  border-radius: 999px;
+
+  background: #fff;
+
+  color: #28362c;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.axis-shelf-navigation button:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   LIST
+   ============================================================ */
+
+.axis-list-cover {
+  position: relative;
+
+  width: clamp(5rem, 16vw, 7rem);
+  min-height: 100%;
+
+  flex: none;
+
+  overflow: hidden;
+
+  display: grid;
+  place-items: center;
+
+  background: #edf4ee;
+
+  color:
+    rgba(
+      27,
+      43,
+      34,
+      0.3
+    );
+
+  font-size: 0.7rem;
+  font-weight: 700;
+
+  letter-spacing: 0.1em;
+}
+
+.axis-list-cover img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+/* ============================================================
+   OTHER EXISTING AXIS UTILITIES
+   ============================================================ */
+
+.axis-filter-scroll {
+  scrollbar-width: none;
+}
+
+.axis-filter-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================================
+   COMPACT CALENDAR
+
+   Smaller footprint, but larger readable text.
+   ============================================================ */
+
+.axis-calendar-page {
+  width: min(100%, 68rem);
+  margin-inline: auto;
+}
+
+.axis-calendar-monthbar {
+  width: min(100%, 62rem);
+  margin-inline: auto;
+}
+
+.axis-calendar-desktop {
+  width: min(100%, 62rem);
+  margin-inline: auto;
+}
+
+.axis-calendar-cell {
+  min-height: clamp(4.7rem, 6.8vw, 6.6rem);
+}
+
+.axis-calendar-cell a {
+  font-size: 0.72rem;
+}
+
+@media (min-width: 1280px) {
+  .axis-calendar-cell {
+    min-height: 5.6rem;
+  }
+}
+
+.axis-mobile-safe-bottom {
+  padding-bottom:
+    calc(
+      0.5rem +
+      env(safe-area-inset-bottom)
+    );
+}
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .axis-bookshelf-scene {
+    height: clamp(19rem, 40dvh, 28rem);
+  }
+
+  .axis-book-position {
+    --book-x: var(--book-x-tablet);
+    --book-y: var(--book-y-tablet);
+
+    width: 165px;
+    height: 235px;
+  }
+
+  .axis-book-position.is-active {
+    width: 205px;
+    height: 290px;
+  }
+
+  .axis-iso-book {
+    --front-w: 80px;
+    --front-h: 132px;
+    --front-rise: 46px;
+
+    --depth-x: 30px;
+    --depth-rise: 17px;
+  }
+
+  .axis-iso-book.is-active {
+    --front-w: 110px;
+    --front-h: 170px;
+    --front-rise: 64px;
+
+    --depth-x: 40px;
+    --depth-rise: 23px;
+  }
+}
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
 
 @media (max-width: 640px) {
-  .axis-book-stage { height: 300px; }
-  .axis-book { width: 145px; height: 230px; transform: translateX(calc(-50% + var(--offset) * 115px)) scale(calc(1 - max(var(--offset), calc(var(--offset) * -1)) * 0.13)); }
-  .axis-book-selected { width: 178px; height: 270px; transform: translateX(-50%) scale(1); }
+  .axis-bookshelf-scene {
+    height: clamp(18rem, 38dvh, 24rem);
+  }
+
+  .axis-book-position {
+    --book-x: var(--book-x-mobile);
+    --book-y: var(--book-y-mobile);
+
+    width: 135px;
+    height: 195px;
+  }
+
+  .axis-book-position.is-active {
+    width: 170px;
+    height: 245px;
+  }
+
+  .axis-iso-book {
+    --front-w: 65px;
+    --front-h: 108px;
+    --front-rise: 38px;
+
+    --depth-x: 24px;
+    --depth-rise: 14px;
+  }
+
+  .axis-iso-book.is-active {
+    --front-w: 90px;
+    --front-h: 142px;
+    --front-rise: 52px;
+
+    --depth-x: 32px;
+    --depth-rise: 18px;
+  }
+
+  .axis-iso-book-top > span,
+  .axis-iso-book-side > span {
+    font-size: 0.53rem;
+  }
+}
+
+
+/* ============================================================
+   VIEWPORT-HEIGHT RESPONSIVENESS
+
+   This is what keeps the selected details visible without
+   scrolling down on normal laptop screens.
+
+   The isometric angles stay EXACTLY the same.
+   Only scene/book size and vertical spacing change.
+   ============================================================ */
+
+@media (max-height: 900px) and (min-width: 641px) {
+  .axis-bookshelf-scene {
+    height: clamp(19rem, 39dvh, 23.5rem);
+  }
+
+  .axis-book-position {
+    width: 160px;
+    height: 225px;
+  }
+
+  .axis-book-position.is-active {
+    width: 198px;
+    height: 276px;
+  }
+
+  .axis-iso-book {
+    --front-w: 76px;
+    --front-h: 124px;
+    --front-rise: 44px;
+
+    --depth-x: 28px;
+    --depth-rise: 16px;
+  }
+
+  .axis-iso-book.is-active {
+    --front-w: 104px;
+    --front-h: 160px;
+    --front-rise: 60px;
+
+    --depth-x: 38px;
+    --depth-rise: 22px;
+  }
+
+  .axis-selected-card {
+    padding: 0.7rem 0.85rem;
+  }
+
+  .axis-selected-head h2 {
+    margin-top: 0.15rem !important;
+  }
+
+  .axis-selected-body {
+    font-size: 0.78rem !important;
+  }
+
+  .axis-selected-meta > div {
+    padding: 0.45rem 0.55rem !important;
+  }
+
+  .axis-shelf-navigation button {
+    min-height: 2.25rem;
+  }
+}
+
+@media (max-height: 780px) and (min-width: 641px) {
+  .axis-bookshelf-fit > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.35rem !important;
+  }
+
+  .axis-bookshelf-scene {
+    height: clamp(17rem, 36dvh, 20rem);
+  }
+
+  .axis-book-position {
+    width: 142px;
+    height: 200px;
+  }
+
+  .axis-book-position.is-active {
+    width: 178px;
+    height: 246px;
+  }
+
+  .axis-iso-book {
+    --front-w: 68px;
+    --front-h: 111px;
+    --front-rise: 39px;
+
+    --depth-x: 25px;
+    --depth-rise: 14px;
+  }
+
+  .axis-iso-book.is-active {
+    --front-w: 93px;
+    --front-h: 144px;
+    --front-rise: 54px;
+
+    --depth-x: 34px;
+    --depth-rise: 20px;
+  }
+
+  .axis-selected-card {
+    grid-template-columns:
+      minmax(0, 1.25fr)
+      minmax(16rem, 0.9fr);
+
+    padding: 0.6rem 0.75rem;
+
+    column-gap: 0.75rem;
+  }
+
+  .axis-selected-body {
+    -webkit-line-clamp: 1;
+  }
+
+  .axis-selected-meta {
+    gap: 0.3rem !important;
+  }
+
+  .axis-selected-meta > div {
+    padding: 0.4rem 0.5rem !important;
+  }
+
+  .axis-shelf-position {
+    gap: 0.2rem;
+  }
+
+  .axis-shelf-navigation {
+    gap: 0.5rem;
+  }
+
+  .axis-shelf-navigation button {
+    min-height: 2.1rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .axis-selected-card {
+    display: block;
+  }
+
+  .axis-selected-body {
+    margin-top: 0.5rem !important;
+    -webkit-line-clamp: 2;
+  }
+
+  .axis-selected-meta {
+    margin-top: 0.65rem !important;
+  }
+
+  .axis-selected-open {
+    margin-top: 0.65rem !important;
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   EDITOR / CREATE ANNOUNCEMENT FORM
+
+   Section titles are shown INSIDE each panel instead of sitting
+   on the fieldset border.
+
+   Keep the real <legend> as sr-only for accessibility.
+   ============================================================ */
+
+.axis-form-section {
+  position: relative;
+
+  min-width: 0;
+
+  margin: 0;
+
+  /*
+   * fieldset normally reserves special space for <legend>.
+   * Because our visible title is now a normal element inside,
+   * reset the browser's default fieldset behavior.
+   */
+  padding-top:
+    clamp(
+      1rem,
+      1.5vw,
+      1.3rem
+    ) !important;
+}
+
+
+/* ------------------------------------------------------------
+   Visible title inside each form panel
+   ------------------------------------------------------------ */
+
+.axis-form-section-title {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.4rem;
+
+  margin:
+    0
+    0
+    clamp(
+      0.9rem,
+      1.5dvh,
+      1.2rem
+    );
+
+  padding-bottom:
+    clamp(
+      0.6rem,
+      1dvh,
+      0.8rem
+    );
+
+  border-bottom:
+    1px solid
+    rgba(
+      225,
+      231,
+      224,
+      0.88
+    );
+
+  color:
+    #25362b;
+
+  font-family:
+    var(--font-display);
+
+  font-size:
+    clamp(
+      0.95rem,
+      1.15vw,
+      1.08rem
+    );
+
+  font-weight: 600;
+
+  line-height: 1.25;
+}
+
+
+/* Number: 1. / 2. / 3. / 4. */
+
+.axis-form-section-number {
+  flex: none;
+
+  color:
+    #23834d;
+
+  font-weight: 700;
+}
+
+
+/* ------------------------------------------------------------
+   Better spacing inside form sections
+   ------------------------------------------------------------ */
+
+.axis-form-section > .space-y-4 > :not([hidden]) ~ :not([hidden]),
+.axis-form-section > .space-y-5 > :not([hidden]) ~ :not([hidden]) {
+  margin-top:
+    clamp(
+      0.75rem,
+      1.35dvh,
+      1rem
+    );
+}
+
+
+/* Labels */
+
+.axis-form-section label {
+  font-size:
+    clamp(
+      0.84rem,
+      0.95vw,
+      0.95rem
+    );
+
+  line-height: 1.35;
+}
+
+
+/* Inputs */
+
+.axis-form-section input,
+.axis-form-section textarea,
+.axis-form-section select {
+  font-size:
+    clamp(
+      0.85rem,
+      0.95vw,
+      0.95rem
+    );
+}
+
+
+/* ------------------------------------------------------------
+   Laptop / short-height window
+   Keep form compact without moving title onto border.
+   ------------------------------------------------------------ */
+
+@media (max-height: 900px) and (min-width: 768px) {
+  .axis-form-section {
+    padding-top:
+      0.85rem !important;
+  }
+
+  .axis-form-section-title {
+    margin-bottom:
+      0.7rem;
+
+    padding-bottom:
+      0.55rem;
+
+    font-size:
+      0.96rem;
+  }
+}
+
+
+@media (max-height: 780px) and (min-width: 768px) {
+  .axis-form-section {
+    padding-top:
+      0.7rem !important;
+  }
+
+  .axis-form-section-title {
+    margin-bottom:
+      0.55rem;
+
+    padding-bottom:
+      0.45rem;
+
+    font-size:
+      0.9rem;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   Mobile
+   ------------------------------------------------------------ */
+
+@media (max-width: 640px) {
+  .axis-form-section {
+    padding:
+      0.9rem !important;
+  }
+
+  .axis-form-section-title {
+    margin-bottom:
+      0.75rem;
+
+    padding-bottom:
+      0.55rem;
+
+    font-size:
+      0.92rem;
+  }
 }

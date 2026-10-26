@@ -1,28 +1,83 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { usePathname } from "next/navigation";
+import {
+  useState,
+} from "react";
+import {
+  usePathname,
+} from "next/navigation";
 
-type Item = { href: string; label: string };
+export type MenuItem = {
+  href: string;
+  label: string;
+  icon?: string;
+};
 
-function MenuLinks({ items, onSelect }: { items: Item[]; onSelect?: () => void }) {
+function MenuLinks({
+  items,
+  onSelect,
+  compact = false,
+}: {
+  items: MenuItem[];
+  onSelect?: () => void;
+  compact?: boolean;
+}) {
   const path = usePathname();
 
   return (
-    <ul className="space-y-1">
+    <ul className="axis-menu-list">
       {items.map((item) => {
-        const active = item.href === "/" ? path === "/" : path === item.href || path.startsWith(`${item.href}/`);
+        const active =
+          item.href === "/"
+            ? path === "/"
+            : path === item.href ||
+              path.startsWith(
+                `${item.href}/`,
+              );
+
         return (
           <li key={item.href}>
             <Link
               href={item.href}
               onClick={onSelect}
-              className={`block rounded-xl px-3 py-2.5 text-sm transition ${
-                active ? "bg-brandsoft font-medium text-branddeep" : "text-ink hover:bg-wash"
-              }`}
+              title={
+                compact
+                  ? item.label
+                  : undefined
+              }
+              className={[
+                "axis-menu-link",
+
+                compact
+                  ? "axis-menu-link-compact"
+                  : "",
+
+                active
+                  ? "is-active"
+                  : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
             >
-              {item.label}
+              <span
+                aria-hidden="true"
+                className="axis-menu-icon"
+              >
+                {item.icon ?? "•"}
+              </span>
+
+              {!compact && (
+                <span className="axis-menu-text">
+                  {item.label}
+                </span>
+              )}
+
+              {compact && (
+                <span className="sr-only">
+                  {item.label}
+                </span>
+              )}
             </Link>
           </li>
         );
@@ -31,38 +86,75 @@ function MenuLinks({ items, onSelect }: { items: Item[]; onSelect?: () => void }
   );
 }
 
-export function MobileMenu({ items }: { items: Item[] }) {
-  const [open, setOpen] = useState(false);
+export function MobileMenu({
+  items,
+}: {
+  items: MenuItem[];
+}) {
+  const [
+    open,
+    setOpen,
+  ] = useState(false);
 
   return (
-    <div className="sm:hidden">
+    <div className="axis-mobile-menu md:hidden">
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={() =>
+          setOpen(true)
+        }
         aria-label="เปิดเมนู"
         aria-expanded={open}
-        className="flex h-8 w-8 flex-col items-center justify-center gap-[3px] rounded-full border-[1.5px] border-ink"
+        className="axis-mobile-menu-trigger"
       >
-        <i className="block h-[1.5px] w-3.5 bg-ink" />
-        <i className="block h-[1.5px] w-3.5 bg-ink" />
-        <i className="block h-[1.5px] w-3.5 bg-ink" />
+        <i />
+        <i />
+        <i />
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-50 bg-ink/40" onClick={() => setOpen(false)}>
-          <nav className="h-full w-72 bg-paper p-4 shadow-xl" onClick={(event) => event.stopPropagation()}>
-            <div className="mb-4 flex items-center">
-              <span className="font-display text-lg">เมนู</span>
+        <div
+          className="axis-mobile-drawer-backdrop"
+          onClick={() =>
+            setOpen(false)
+          }
+        >
+          <nav
+            className="axis-mobile-drawer"
+            onClick={(event) =>
+              event.stopPropagation()
+            }
+            aria-label="เมนูหลัก"
+          >
+            <div className="axis-mobile-drawer-head">
+              <div className="min-w-0">
+                <p className="axis-mobile-drawer-brand">
+                  AXIS
+                </p>
+
+                <p className="axis-mobile-drawer-subtitle">
+                  Department Information and Communication Hub
+                </p>
+              </div>
+
               <button
                 type="button"
-                onClick={() => setOpen(false)}
-                className="ml-auto grid h-8 w-8 place-items-center rounded-xl bg-wash"
+                onClick={() =>
+                  setOpen(false)
+                }
+                className="axis-mobile-drawer-close"
                 aria-label="ปิดเมนู"
               >
                 ✕
               </button>
             </div>
-            <MenuLinks items={items} onSelect={() => setOpen(false)} />
+
+            <MenuLinks
+              items={items}
+              onSelect={() =>
+                setOpen(false)
+              }
+            />
           </nav>
         </div>
       )}
@@ -70,12 +162,30 @@ export function MobileMenu({ items }: { items: Item[] }) {
   );
 }
 
-export function DesktopSidebar({ items }: { items: Item[] }) {
+export function DesktopSidebar({
+  items,
+}: {
+  items: MenuItem[];
+}) {
   return (
-    <aside className="hidden w-56 shrink-0 border-r border-line bg-paper sm:block">
-      <div className="sticky top-[57px] p-4">
-        <p className="mb-3 px-3 text-xs font-medium text-faint">เมนู</p>
-        <MenuLinks items={items} />
+    <aside className="axis-desktop-sidebar">
+      <div className="axis-sidebar-inner">
+        <p className="axis-sidebar-title">
+          เมนู
+        </p>
+
+        <div className="axis-sidebar-compact">
+          <MenuLinks
+            items={items}
+            compact
+          />
+        </div>
+
+        <div className="axis-sidebar-expanded">
+          <MenuLinks
+            items={items}
+          />
+        </div>
       </div>
     </aside>
   );

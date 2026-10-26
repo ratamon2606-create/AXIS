@@ -15,24 +15,24 @@ export default async function SavedPage() {
     include: { item: true },
     orderBy: { createdAt: "desc" },
   });
-
   const rowsVisible = rows.filter(({ item }) => canReadItem(item, true));
 
   return (
-    <div className="space-y-4">
-      <div>
-        <p className="text-xs font-medium uppercase tracking-[0.18em] text-brand">Personal</p>
-        <h1 className="mt-1 text-xl">บันทึกไว้</h1>
+    <div className="space-y-5">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
+        <div><p className="text-xs font-medium uppercase tracking-[0.18em] text-brand">ส่วนตัว</p><h1 className="mt-1 text-2xl sm:text-3xl">บันทึกไว้</h1><p className="mt-1 text-sm text-muted">รายการส่วนตัวของคุณ</p></div>
+        <span className="sm:ml-auto rounded-full bg-paper px-3 py-1.5 text-xs text-muted ring-1 ring-line/60">{rowsVisible.length} รายการ</span>
       </div>
       {rowsVisible.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-line p-8 text-center text-sm text-muted">ยังไม่มีประกาศที่บันทึกไว้</p>
+        <div className="rounded-2xl border border-dashed border-line bg-paper/50 p-8 text-center"><p className="text-sm text-muted">ยังไม่มีประกาศที่บันทึกไว้</p><Link href="/announcements" className="mt-3 inline-flex min-h-11 items-center rounded-xl bg-brand px-4 text-sm text-white">ไปดูข่าวสาร</Link></div>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="axis-auto-grid-wide">
           {rowsVisible.map(({ item }) => (
-            <Link key={item.id} href={`/items/${item.id}`} className="rounded-2xl bg-paper p-4 ring-1 ring-line/60">
-              <span className="text-[11px] text-muted">{TYPE_LABEL[item.type]} · {AUDIENCE_LABEL[item.audience]}</span>
-              <h2 className="mt-1 text-sm font-medium">{item.title}</h2>
-              <p className="mt-2 line-clamp-2 text-xs leading-5 text-muted">{item.body}</p>
+            <Link key={item.id} href={`/items/${item.id}`} className="axis-card-interactive flex h-full flex-col rounded-2xl border border-line bg-paper p-4">
+              <div className="flex flex-wrap gap-1 text-[11px] text-muted"><span>{TYPE_LABEL[item.type]}</span><span>·</span><span>{AUDIENCE_LABEL[item.audience]}</span>{item.targetYear && <><span>·</span><span>ปี {item.targetYear}</span></>}</div>
+              <h2 className="mt-1.5 text-sm font-medium sm:text-base">{item.title}</h2>
+              <p className="mt-2 line-clamp-3 flex-1 text-xs leading-5 text-muted">{item.body}</p>
+              <span className="mt-4 text-xs font-medium text-branddeep">เปิดประกาศ →</span>
             </Link>
           ))}
         </div>
