@@ -81,7 +81,7 @@ export default async function PastPage({
           ยังไม่มีประกาศที่จบแล้วในช่วงนี้
         </p>
       ) : (
-        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="axis-auto-grid-wide">
           {items.map((item) => (
             <li key={item.id}>
               <Link
