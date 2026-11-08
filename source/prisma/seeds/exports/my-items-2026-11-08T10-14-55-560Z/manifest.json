@@ -1,0 +1,297 @@
+{
+  "version": 1,
+  "exportedAt": "2026-11-08T10:14:55.650Z",
+  "author": {
+    "email": "ratamon.c@ku.th",
+    "name": "Ratamon CHAROENRATANAKUN"
+  },
+  "description": "Only ContentItems authored by this account, including authored follow-ups.",
+  "items": [
+    {
+      "id": "cmvp8brio00024rqbx2014ody",
+      "title": "A100 will NOT BE AVAILABLE",
+      "body": "ปิดบำรุงรักษาระบบ Nontri AI",
+      "type": "ALERT",
+      "audience": "CPE_SKE",
+      "targetYear": null,
+      "visibility": "KU_ONLY",
+      "status": "PUBLISHED",
+      "details": {},
+      "publishedAt": "2026-10-26T12:25:02.735Z",
+      "eventStart": "2026-10-27T02:00:00.000Z",
+      "eventEnd": "2026-10-29T13:00:00.000Z",
+      "expiresAt": "2026-10-30T16:59:59.000Z",
+      "location": null,
+      "pinned": false,
+      "parentId": null,
+      "createdAt": "2026-10-26T12:25:02.736Z",
+      "updatedAt": "2026-11-08T09:57:13.112Z",
+      "attachments": [
+        {
+          "id": "cmvp8brk100074rqbow5riils",
+          "itemId": "cmvp8brio00024rqbx2014ody",
+          "fileName": "image.png",
+          "mimeType": "image/png",
+          "size": 2170746,
+          "storageKey": "items/cmvp8brio00024rqbx2014ody/39704343-9441-495d-83a6-152874082436.png",
+          "createdAt": "2026-10-26T12:25:02.786Z",
+          "localFile": "files/cmvp8brk100074rqbow5riils",
+          "sha256": "1e87cfde2f23e14ea89650991d4d76858feddb7214a992be622122506e4f3b53"
+        }
+      ]
+    },
+    {
+      "id": "4b48c0a9-a8e9-48d8-a398-9336858545f9",
+      "title": "TRAFFIC NOTICE",
+      "body": "Due to KUS Rally event, please note that the lane in front of Kasetsart University Laboratory School will be CLOSED from 2026-11-06 21:00 to 2026-11-07 10:00 (tonight 9 PM to tomorrow 10 AM).",
+      "type": "ALERT",
+      "audience": "ALL",
+      "targetYear": null,
+      "visibility": "KU_ONLY",
+      "status": "PUBLISHED",
+      "details": {},
+      "publishedAt": "2026-11-08T09:29:18.704Z",
+      "eventStart": "2026-11-06T14:00:00.000Z",
+      "eventEnd": "2026-11-07T03:00:00.000Z",
+      "expiresAt": "2026-11-07T16:59:59.000Z",
+      "location": null,
+      "pinned": false,
+      "parentId": null,
+      "createdAt": "2026-11-08T09:29:18.706Z",
+      "updatedAt": "2026-11-08T09:29:18.706Z",
+      "attachments": [
+        {
+          "id": "cmw7mrucy00016byhtoen06p4",
+          "itemId": "4b48c0a9-a8e9-48d8-a398-9336858545f9",
+          "fileName": "FB_IMG_1793959211671.jpg",
+          "mimeType": "image/jpeg",
+          "size": 75779,
+          "storageKey": "items/4b48c0a9-a8e9-48d8-a398-9336858545f9/9c3670ed-ccbf-4b7c-8cd5-a08021862015.jpg",
+          "createdAt": "2026-11-08T09:29:18.706Z",
+          "localFile": "files/cmw7mrucy00016byhtoen06p4",
+          "sha256": "355ccf29226919867a86fe9479bbd52737d58304225e43cd93cbe9c91c9cd696"
+        }
+      ]
+    },
+    {
+      "id": "0b5c93df-4cb6-4003-91a5-6b91ba92653e",
+      "title": "เปิดรับสมัครวงดนตรีร่วมเป็นส่วนหนึ่งของค่าย Let Me Try Camp #6 (LMT6)!",
+      "body": "ขอเชิญชวนทุกคนที่มีใจรักในเสียงดนตรี มาร่วมแสดงความสามารถและสร้างสีสันภายในค่ายไปด้วยกัน ไม่ว่าจะเป็นวงแนวไหน ก็สามารถมาร่วมสนุกและแบ่งปันเสียงเพลงให้กับทุกคนได้ 🎸\r\n📅 เปิดรับสมัครตั้งแต่วันนี้ – 30 พฤศจิกายน 2569\r\n📲 สมัครได้ง่าย ๆ เพียงสแกน QR Code ในโปสเตอร์ หรือผ่านลิ้งค์  :  https://forms.gle/FA6DYxQXjSrDAK5J6\r\nมาร่วมสร้างความทรงจำและเติมเต็มบรรยากาศดี ๆ ผ่านเสียงดนตรีไปด้วยกัน!",
+      "type": "OPPORTUNITY",
+      "audience": "CPE_SKE",
+      "targetYear": null,
+      "visibility": "KU_ONLY",
+      "status": "PUBLISHED",
+      "details": {},
+      "publishedAt": "2026-11-08T09:38:48.902Z",
+      "eventStart": "2026-11-01T11:08:00.000Z",
+      "eventEnd": "2026-11-30T16:59:00.000Z",
+      "expiresAt": "2026-12-01T16:59:59.000Z",
+      "location": "https://forms.gle/FA6DYxQXjSrDAK5J6",
+      "pinned": false,
+      "parentId": null,
+      "createdAt": "2026-11-08T09:38:48.905Z",
+      "updatedAt": "2026-11-08T09:38:48.905Z",
+      "attachments": [
+        {
+          "id": "cmw7n42bt00076byh1kum9cwc",
+          "itemId": "0b5c93df-4cb6-4003-91a5-6b91ba92653e",
+          "fileName": "Screenshot_20261101_180128_Instagram.jpg",
+          "mimeType": "image/jpeg",
+          "size": 79087,
+          "storageKey": "items/0b5c93df-4cb6-4003-91a5-6b91ba92653e/a82ecd07-4064-4d57-9f40-df683a735c01.jpg",
+          "createdAt": "2026-11-08T09:38:48.905Z",
+          "localFile": "files/cmw7n42bt00076byh1kum9cwc",
+          "sha256": "353f68eaf45ab4b0724df096a236d3130819eca8ee47f5468f7c037d0cbb87ce"
+        }
+      ]
+    },
+    {
+      "id": "11276575-16b3-47ce-8e37-01fa01951208",
+      "title": "Let Me Try #6 (LMT6)",
+      "body": "😈 ก๊อก ก๊อก! เหล่าวายร้ายส่งคำเชิญมาแล้ว\r\nขาดอีกแค่น้องๆ… ก็พร้อมเปิดค่าย LMT6! 💜\r\n\r\nถึงเวลารวมแก๊งวายร้าย มาวางแผนครองโลกด้วยกัน! 🌏\r\nอยากเชิญชวนน้องๆ ลองมาเรียนรู้สิ่งใหม่ ทำความรู้จักเพื่อนๆ ร่วมแผนการครองโลก และสร้างความทรงจำไปด้วยกันในค่าย 3 วัน 2 คืน 🔮✨\r\n\r\n📅 เปิดรับสมัคร: วันนี้ – 31 ตุลาคม 2026\r\n🏰 วันจัดค่าย: 18 – 20 ธันวาคม 2026\r\n🌙 ค่ายพักค้างคืน 3 วัน 2 คืน\r\n💸 ค่าเข้าร่วมค่าย: 600 บาท\r\n\r\nติดตามหรือสอบถามรายละเอียดเพิ่มเติมได้ที่\r\n👉 Facebook: Let Me Try Camp / Instagram: lmt_camp\r\n\r\nเตรียมตัวให้พร้อมแล้วมาครองโลกไปด้วยกัน! 😈💜",
+      "type": "ACTIVITY",
+      "audience": "ALL",
+      "targetYear": null,
+      "visibility": "PUBLIC",
+      "status": "PUBLISHED",
+      "details": {},
+      "publishedAt": "2026-11-08T09:52:11.772Z",
+      "eventStart": "2026-09-30T17:00:00.000Z",
+      "eventEnd": "2026-10-31T16:59:00.000Z",
+      "expiresAt": "2026-12-08T09:52:15.008Z",
+      "location": null,
+      "pinned": false,
+      "parentId": null,
+      "createdAt": "2026-11-08T09:52:11.775Z",
+      "updatedAt": "2026-11-08T09:52:15.012Z",
+      "attachments": [
+        {
+          "id": "cmw7nl9tr000d6byhgasdv5yk",
+          "itemId": "11276575-16b3-47ce-8e37-01fa01951208",
+          "fileName": "825352897_1701225842005937_3752701117008815188_n.jpg",
+          "mimeType": "image/jpeg",
+          "size": 75672,
+          "storageKey": "items/11276575-16b3-47ce-8e37-01fa01951208/387edcd1-3836-4c9e-8054-d22a4227fd16.jpg",
+          "createdAt": "2026-11-08T09:52:11.775Z",
+          "localFile": "files/cmw7nl9tr000d6byhgasdv5yk",
+          "sha256": "474f57c2743dcc223b73c53f19dbdd2132065e006705af7b0b088578c3d81734"
+        },
+        {
+          "id": "cmw7nl9tr000e6byh7d70wqw7",
+          "itemId": "11276575-16b3-47ce-8e37-01fa01951208",
+          "fileName": "827281862_1701225918672596_3724875046702962372_n.jpg",
+          "mimeType": "image/jpeg",
+          "size": 80164,
+          "storageKey": "items/11276575-16b3-47ce-8e37-01fa01951208/d0d645cb-d899-4a46-86a8-694103bd5760.jpg",
+          "createdAt": "2026-11-08T09:52:11.775Z",
+          "localFile": "files/cmw7nl9tr000e6byh7d70wqw7",
+          "sha256": "6e992b22813bf759a68273925a3bb11700aee79ef869f47342f7b682504fdbb7"
+        },
+        {
+          "id": "cmw7nmyvv000q6byh1li0dmra",
+          "itemId": "11276575-16b3-47ce-8e37-01fa01951208",
+          "fileName": "schedule1.jpg",
+          "mimeType": "image/jpeg",
+          "size": 125893,
+          "storageKey": "items/11276575-16b3-47ce-8e37-01fa01951208/4daa08ae-a3ac-45a5-804f-dbbcd93e6595.jpg",
+          "createdAt": "2026-11-08T09:53:30.907Z",
+          "localFile": "files/cmw7nmyvv000q6byh1li0dmra",
+          "sha256": "05dfc320d6758802e19e390714d020a55dbe73dd5504f5752cccd9de76211188"
+        },
+        {
+          "id": "cmw7nn46j000v6byhwrmv9zo7",
+          "itemId": "11276575-16b3-47ce-8e37-01fa01951208",
+          "fileName": "829781122_1701225845339270_1662837967785722663_n.jpg",
+          "mimeType": "image/jpeg",
+          "size": 115056,
+          "storageKey": "items/11276575-16b3-47ce-8e37-01fa01951208/caf34e88-b1af-488a-88e7-99564988a0d9.jpg",
+          "createdAt": "2026-11-08T09:53:37.772Z",
+          "localFile": "files/cmw7nn46j000v6byhwrmv9zo7",
+          "sha256": "36f373484a664319423fe854d51d29778f0970a2e90e9f0c976a4fa362b82cc1"
+        }
+      ]
+    },
+    {
+      "id": "80d7431f-6f47-4a7a-966e-5e68d6c7c389",
+      "title": "FAQ",
+      "body": "🕯️ ไขข้อข้องใจ... ก่อนก้าวเข้าสู่ดินแดนแห่งการ ”ลองของ“!\r\n🔮 น้อง ๆ คนไหนที่มีข้อสงสัยเกี่ยวกับ ค่าย Let Me Try (ค่ายลองของ ครั้งที่ 6) วันนี้พี่ ๆ สรุปคำถามยอดฮิต (FAQ) มาให้ครบจบในโพสต์นี้แล้ว มาเช็กกันเลย! 👇✨",
+      "type": "ACTIVITY",
+      "audience": "ALL",
+      "targetYear": null,
+      "visibility": "PUBLIC",
+      "status": "PUBLISHED",
+      "details": null,
+      "publishedAt": "2026-11-08T09:54:28.818Z",
+      "eventStart": null,
+      "eventEnd": null,
+      "expiresAt": null,
+      "location": null,
+      "pinned": false,
+      "parentId": "11276575-16b3-47ce-8e37-01fa01951208",
+      "createdAt": "2026-11-08T09:54:28.820Z",
+      "updatedAt": "2026-11-08T09:54:28.820Z",
+      "attachments": [
+        {
+          "id": "cmw7no7kk000z6byhx60cuocz",
+          "itemId": "80d7431f-6f47-4a7a-966e-5e68d6c7c389",
+          "fileName": "1.jpg",
+          "mimeType": "image/jpeg",
+          "size": 111957,
+          "storageKey": "items/80d7431f-6f47-4a7a-966e-5e68d6c7c389/bb2fec0e-e599-4069-8a3c-bb42c50ace94.jpg",
+          "createdAt": "2026-11-08T09:54:28.820Z",
+          "localFile": "files/cmw7no7kk000z6byhx60cuocz",
+          "sha256": "ba4274494f232b38ed28a96fcf01a8f4870158746e704e3fb854e8cfedece060"
+        },
+        {
+          "id": "cmw7no7kk00106byhvrp8oh5n",
+          "itemId": "80d7431f-6f47-4a7a-966e-5e68d6c7c389",
+          "fileName": "2.jpg",
+          "mimeType": "image/jpeg",
+          "size": 115456,
+          "storageKey": "items/80d7431f-6f47-4a7a-966e-5e68d6c7c389/0d2adee7-e722-479e-bdab-b4fb01714c37.jpg",
+          "createdAt": "2026-11-08T09:54:28.820Z",
+          "localFile": "files/cmw7no7kk00106byhvrp8oh5n",
+          "sha256": "fbfdaeccfaf415d27e3e79551f1eebc5f6755f4c5273cf8291a7df9ef6bd9d0c"
+        },
+        {
+          "id": "cmw7no7kk00116byhgch1xa8t",
+          "itemId": "80d7431f-6f47-4a7a-966e-5e68d6c7c389",
+          "fileName": "3.jpg",
+          "mimeType": "image/jpeg",
+          "size": 109117,
+          "storageKey": "items/80d7431f-6f47-4a7a-966e-5e68d6c7c389/5cbde3f8-dd6e-457d-b253-5fa4f11b8046.jpg",
+          "createdAt": "2026-11-08T09:54:28.820Z",
+          "localFile": "files/cmw7no7kk00116byhgch1xa8t",
+          "sha256": "ef843c1e30168534d5694e215232171a2a0a9d73164cfea1369b1c179e647e65"
+        },
+        {
+          "id": "cmw7no7kk00126byh19elstbc",
+          "itemId": "80d7431f-6f47-4a7a-966e-5e68d6c7c389",
+          "fileName": "faq.jpg",
+          "mimeType": "image/jpeg",
+          "size": 81594,
+          "storageKey": "items/80d7431f-6f47-4a7a-966e-5e68d6c7c389/e9b01aff-9d49-462b-afdd-1b36073f3788.jpg",
+          "createdAt": "2026-11-08T09:54:28.820Z",
+          "localFile": "files/cmw7no7kk00126byh19elstbc",
+          "sha256": "ec21841e71f83e5f595b946aa70448fa9dfee62599e8e92f957567483ee63b5f"
+        }
+      ]
+    },
+    {
+      "id": "b2ff283a-4e53-431a-801c-887a0eaa9492",
+      "title": "ขยายเวลารับสมัครค่าย Let Me Try #6 ถึง 5 พฤศจิกายน! 💻⚡️",
+      "body": "ตามคำเรียกร้องสำหรับน้องๆ ที่กรอกฟอร์มหรือเตรียมเอกสารไม่ทันในรอบแรก ค่ายวิศวกรรมคอมพิวเตอร์ ม.เกษตรศาสตร์ (LMT6) ขยายเวลาเปิดรับสมัครเพิ่มจนถึงวันที่ 5 พฤศจิกายน 2026\r\nอย่าปล่อยให้โอกาสหลุดมือ! มาปูพื้นฐานการเขียนโปรแกรม ร่วมทำ Mini-Project จริง และรับฟังประสบการณ์เจาะลึกการเข้าเรียน CPE KU จากพี่ๆ นิสิต 3 วัน 2 คืนเต็ม\r\n\r\n⏰ ปิดรับสมัคร (รอบขยายเวลา): 5 พฤศจิกายน 2026\r\n📲 สมัครได้ที่: https://forms.gle/WXN73Gvs3Lz3bgLu9\r\n\r\nสอบถามรายละเอียดเพิ่มเติม:\r\nFB: Let Me Try Camp | IG: @lmt_camp",
+      "type": "ACTIVITY",
+      "audience": "ALL",
+      "targetYear": null,
+      "visibility": "PUBLIC",
+      "status": "PUBLISHED",
+      "details": null,
+      "publishedAt": "2026-11-08T09:55:54.638Z",
+      "eventStart": null,
+      "eventEnd": null,
+      "expiresAt": null,
+      "location": null,
+      "pinned": false,
+      "parentId": "11276575-16b3-47ce-8e37-01fa01951208",
+      "createdAt": "2026-11-08T09:55:54.640Z",
+      "updatedAt": "2026-11-08T09:55:54.640Z",
+      "attachments": [
+        {
+          "id": "cmw7nq1sf001e6byh2mrbyon0",
+          "itemId": "b2ff283a-4e53-431a-801c-887a0eaa9492",
+          "fileName": "877005192_1738834411578413_4822329061892716301_n.jpg",
+          "mimeType": "image/jpeg",
+          "size": 79602,
+          "storageKey": "items/b2ff283a-4e53-431a-801c-887a0eaa9492/4718b1cf-058b-47f7-b1cb-9646ac4353f4.jpg",
+          "createdAt": "2026-11-08T09:55:54.640Z",
+          "localFile": "files/cmw7nq1sf001e6byh2mrbyon0",
+          "sha256": "eb30c693f8f246ee1c228e1d940a9d4d43fb7199b4622c1c491bbf8fdaea0ffc"
+        },
+        {
+          "id": "cmw7nq1sf001f6byhlrsubwym",
+          "itemId": "b2ff283a-4e53-431a-801c-887a0eaa9492",
+          "fileName": "894543656_1747589817369539_3480540837376539901_n.jpg",
+          "mimeType": "image/jpeg",
+          "size": 87827,
+          "storageKey": "items/b2ff283a-4e53-431a-801c-887a0eaa9492/1b61d261-516c-4844-8cef-24e47893cc99.jpg",
+          "createdAt": "2026-11-08T09:55:54.640Z",
+          "localFile": "files/cmw7nq1sf001f6byhlrsubwym",
+          "sha256": "6cce1f0640f21fa173bf40ed6e2129e0dd849fa91c6446a5d908ebe19b87268e"
+        },
+        {
+          "id": "cmw7nq1sf001g6byhi23672g2",
+          "itemId": "b2ff283a-4e53-431a-801c-887a0eaa9492",
+          "fileName": "schedule2.jpg",
+          "mimeType": "image/jpeg",
+          "size": 126703,
+          "storageKey": "items/b2ff283a-4e53-431a-801c-887a0eaa9492/1a2c9a45-6d5e-4b8c-8c58-18eab7119af0.jpg",
+          "createdAt": "2026-11-08T09:55:54.640Z",
+          "localFile": "files/cmw7nq1sf001g6byhi23672g2",
+          "sha256": "f7b003c52e348016df7d5b01b28837e86e83a983b51ae773b779423bb91afde9"
+        }
+      ]
+    }
+  ]
+}
