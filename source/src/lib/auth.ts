@@ -3,7 +3,6 @@ import Google from "next-auth/providers/google";
 import { db } from "@/lib/db";
 import type { Role, Program } from "@prisma/client";
 
-/** โดเมนที่อนุญาต อ่านจาก env เพื่อให้เพิ่มโดเมนของบุคลากรได้โดยไม่ต้องแก้โค้ด */
 function allowedDomains(): string[] {
   return (process.env.ALLOWED_EMAIL_DOMAINS ?? "ku.th")
     .split(",")
@@ -11,10 +10,6 @@ function allowedDomains(): string[] {
     .filter(Boolean);
 }
 
-/**
- * SRS-10 ตรวจโดเมนฝั่ง server เสมอ
- * ไม่เชื่อค่า hd ที่ Google ส่งมาอย่างเดียวเพราะเป็นเพียง hint
- */
 export function isAllowedEmail(email?: string | null): boolean {
   if (!email) return false;
   const domain = email.split("@")[1]?.toLowerCase();
@@ -33,7 +28,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       const existing = await db.user.findUnique({ where: { email } });
 
       if (!existing) {
-        // SRS-11 บัญชีใหม่ได้สิทธิ์ผู้อ่าน เว้นแต่มีอีเมลอยู่ในรายชื่อที่ใส่ไว้ล่วงหน้า
         const invite = await db.allowlist.findUnique({ where: { email } });
         await db.user.create({
           data: {
@@ -77,7 +71,6 @@ export async function requireUser() {
   return session.user;
 }
 
-/** SRS-13 เขียนได้เฉพาะผู้เขียนและผู้ดูแล */
 export async function requireEditor() {
   const user = await requireUser();
   if (user.role !== "EDITOR" && user.role !== "ADMIN") throw new Error("FORBIDDEN");

@@ -18,7 +18,7 @@ async function editableItem(id: string) {
 export async function markPast(formData: FormData) {
   const id = String(formData.get("id"));
   const { user, item } = await editableItem(id);
-  if (item.status !== "PUBLISHED") throw new Error("ประกาศนี้ไม่ได้อยู่ในสถานะเผยแพร่");
+  if (item.parentId || item.status !== "PUBLISHED") throw new Error("ประกาศนี้ไม่ได้อยู่ในสถานะเผยแพร่");
 
   await db.$transaction(async (tx) => {
     await tx.contentItem.update({ where: { id }, data: { status: "PAST" } });
@@ -44,11 +44,13 @@ export async function extendItem(formData: FormData) {
   if (!Number.isInteger(days) || days < 1 || days > 365) {
     throw new Error("จำนวนวันที่ต่ออายุต้องอยู่ระหว่าง 1 ถึง 365");
   }
-  if (item.status === "HIDDEN") throw new Error("ประกาศที่ซ่อนถาวรแล้วต่ออายุไม่ได้");
+  if (item.parentId || (item.status !== "PAST" && !(item.status === "PUBLISHED" && item.expiresAt && item.expiresAt < new Date()))) {
+    throw new Error("ต่ออายุได้เฉพาะประกาศหลักที่สิ้นสุดแล้ว");
+  }
 
   const next = new Date(Date.now() + days * 86_400_000);
   await db.$transaction(async (tx) => {
-    await tx.contentItem.update({ where: { id }, data: { status: "PUBLISHED", expiresAt: next } });
+    await tx.contentItem.update({ where: { id }, data: { status: "PUBLISHED", expiresAt: next, publishedAt: item.publishedAt ?? new Date() } });
     await writeAudit(tx, {
       actorId: user.id,
       itemId: id,
@@ -66,6 +68,7 @@ export async function extendItem(formData: FormData) {
 export async function setPinned(formData: FormData) {
   const id = String(formData.get("id"));
   const { user, item } = await editableItem(id);
+  if (item.parentId || item.status !== "PUBLISHED") throw new Error("ปักหมุดได้เฉพาะประกาศหลักที่เผยแพร่แล้ว");
   const pinned = formData.get("pinned") === "1";
 
   await db.$transaction(async (tx) => {

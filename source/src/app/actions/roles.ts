@@ -5,17 +5,9 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { writeAudit } from "@/lib/audit";
+import { assertAdminRetention } from "@/lib/role-policy";
 import type { Role } from "@prisma/client";
 
-/**
- * จัดการสิทธิ์ · เจ้าของไฟล์คือ Piyatida (US-8)
- *
- * SRS-12 ผู้ดูแลเปลี่ยนสิทธิ์ได้ และมีผลตั้งแต่คำขอถัดไป
- * SRS-21 บันทึกการเปลี่ยนแปลงทุกครั้ง
- *
- * ที่มีผลตั้งแต่คำขอถัดไปได้ เพราะ callback jwt อ่าน role จากฐานข้อมูลทุกครั้ง
- * ไม่ได้เก็บค้างไว้ใน token ตั้งแต่ iteration 1
- */
 
 const ROLES: Role[] = ["READER", "EDITOR", "ADMIN"];
 
@@ -36,12 +28,7 @@ export async function changeRole(formData: FormData) {
     const target = await tx.user.findUnique({ where: { id: userId } });
     if (!target) throw new Error("ไม่พบบัญชีนี้");
 
-    // กันไม่ให้ผู้ดูแลถอนสิทธิ์ตัวเองจนไม่เหลือผู้ดูแลในระบบ
-    // ถ้าเกิดขึ้นจะไม่มีใครกู้คืนได้เลยนอกจากแก้ในฐานข้อมูลโดยตรง
-    if (target.id === admin.id && role !== "ADMIN") {
-      const admins = await tx.user.count({ where: { role: "ADMIN" } });
-      if (admins <= 1) throw new Error("ต้องมีผู้ดูแลอย่างน้อยหนึ่งคนในระบบ");
-    }
+    await assertAdminRetention(tx, target.role, role);
 
     await tx.user.update({ where: { id: userId }, data: { role } });
 
@@ -50,7 +37,7 @@ export async function changeRole(formData: FormData) {
       action: "ROLE_CHANGE",
       detail: `${target.email} เปลี่ยนจาก ${ROLE_LABEL[target.role]} เป็น ${ROLE_LABEL[role]}`,
     });
-  });
+  }, { isolationLevel: "Serializable" });
 
   revalidatePath("/admin/users");
   redirect("/admin/users");
@@ -77,17 +64,18 @@ export async function addToAllowlist(formData: FormData) {
       update: { role, note },
     });
 
-    // ถ้าบัญชีนี้เคยเข้าสู่ระบบแล้ว ให้ปรับสิทธิ์ทันทีด้วย
-    // ไม่งั้นการใส่รายชื่อจะไม่มีผลกับคนที่เข้ามาก่อนแล้ว ซึ่งขัดกับที่ผู้ใช้คาดหวัง
     const existing = await tx.user.findUnique({ where: { email } });
-    if (existing) await tx.user.update({ where: { email }, data: { role } });
+    if (existing) {
+      await assertAdminRetention(tx, existing.role, role);
+      await tx.user.update({ where: { email }, data: { role } });
+    }
 
     await writeAudit(tx, {
       actorId: admin.id,
       action: "ROLE_CHANGE",
       detail: `เพิ่ม ${email} ในรายชื่อล่วงหน้าด้วยสิทธิ์ ${ROLE_LABEL[role]}`,
     });
-  });
+  }, { isolationLevel: "Serializable" });
 
   revalidatePath("/admin/users");
   redirect("/admin/users");
