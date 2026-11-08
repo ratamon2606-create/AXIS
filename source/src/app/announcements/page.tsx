@@ -12,9 +12,6 @@ export default async function AnnouncementsPage() {
   const items = await db.contentItem.findMany({
     where: visibleWhere(!!session?.user),
     include: {
-      // The first image attachment becomes the visual cover on the bookshelf.
-      // Files still go through /api/files/:id, so the existing access policy
-      // remains the gate before MinIO returns a short-lived signed URL.
       attachments: {
         where: { mimeType: { startsWith: "image/" } },
         select: { id: true },
@@ -40,6 +37,9 @@ export default async function AnnouncementsPage() {
     eventStart: item.eventStart?.toISOString() ?? null,
     eventEnd: item.eventEnd?.toISOString() ?? null,
     expiresAt: item.expiresAt?.toISOString() ?? null,
+    deadlineAt: item.deadlineAt?.toISOString() ?? null,
+    deadlineLabel: item.deadlineLabel,
+    eventLabel: item.eventLabel,
     publishedAt: item.publishedAt?.toISOString() ?? null,
     createdAt: item.createdAt.toISOString(),
     location: item.location,

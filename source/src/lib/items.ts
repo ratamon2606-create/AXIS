@@ -44,6 +44,14 @@ export function canReadItem(
   return item.status === "PUBLISHED" || item.status === "PAST";
 }
 
+/** Follow-up visibility is always intersected with the parent policy. */
+export function canReadItemWithParent(
+  item: { status: ItemStatus | string; visibility: string; parent?: { status: ItemStatus | string; visibility: string } | null },
+  signedIn: boolean
+): boolean {
+  return canReadItem(item, signedIn) && (!item.parent || canReadItem(item.parent, signedIn));
+}
+
 export function canEditItem(
   user: { id: string; role: Role | string },
   item: { authorId: string }
@@ -80,9 +88,11 @@ export function relevantDate(item: {
   type: ItemType | string;
   eventStart: Date | null;
   expiresAt: Date | null;
+  deadlineAt?: Date | null;
   publishedAt: Date | null;
   createdAt: Date;
 }): Date {
+  if (item.deadlineAt) return item.deadlineAt;
   if (item.type === "ACTIVITY" && item.eventStart) return item.eventStart;
   if (item.type === "OPPORTUNITY" && item.expiresAt) return item.expiresAt;
   return item.publishedAt ?? item.createdAt;

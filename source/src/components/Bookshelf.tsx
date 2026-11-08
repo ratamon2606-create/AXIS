@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import SaveButton from "@/components/SaveButton";
+import { importantDate } from "@/lib/smart-dates";
 
 type ShelfItem = {
   id: string;
@@ -15,6 +16,9 @@ type ShelfItem = {
   eventStart: string | null;
   eventEnd: string | null;
   expiresAt: string | null;
+  deadlineAt: string | null;
+  deadlineLabel: string | null;
+  eventLabel: string | null;
   publishedAt: string | null;
   createdAt: string;
   location: string | null;
@@ -50,32 +54,14 @@ function relevantDate(item: ShelfItem) {
     return new Date(item.eventStart);
   }
 
-  if (item.type === "OPPORTUNITY" && item.expiresAt) {
-    return new Date(item.expiresAt);
-  }
+  if (item.deadlineAt) return new Date(item.deadlineAt);
+  if (item.type === "OPPORTUNITY" && item.expiresAt) return new Date(item.expiresAt);
 
   if (item.publishedAt) {
     return new Date(item.publishedAt);
   }
 
   return new Date(item.createdAt);
-}
-
-function endDate(item: ShelfItem) {
-  if (item.expiresAt) return new Date(item.expiresAt);
-  if (item.eventEnd) return new Date(item.eventEnd);
-  if (item.eventStart) return new Date(item.eventStart);
-  return null;
-}
-
-function shortDate(value: Date | null) {
-  if (!value) return "ไม่กำหนดวันสิ้นสุด";
-
-  return new Intl.DateTimeFormat("th-TH", {
-    day: "numeric",
-    month: "short",
-    year: "2-digit",
-  }).format(value);
 }
 
 function fullDate(value: string | null) {
@@ -333,7 +319,7 @@ export default function Bookshelf({ items }: Props) {
             onClick={() => setView("shelf")}
             className={[
               "rounded-full px-3 py-1.5 text-xs",
-              view === "shelf" ? "bg-ink text-white" : "text-muted",
+              view === "shelf" ? "bg-brand text-white" : "text-muted",
             ].join(" ")}
           >
             ชั้นหนังสือ
@@ -344,7 +330,7 @@ export default function Bookshelf({ items }: Props) {
             onClick={() => setView("list")}
             className={[
               "rounded-full px-3 py-1.5 text-xs",
-              view === "list" ? "bg-ink text-white" : "text-muted",
+              view === "list" ? "bg-brand text-white" : "text-muted",
             ].join(" ")}
           >
             รายการ
@@ -389,7 +375,7 @@ export default function Bookshelf({ items }: Props) {
                 <div className="min-w-0 flex-1 p-4">
                   <div className="flex flex-wrap gap-2 text-[11px] uppercase tracking-wider text-muted">
                     <span>{TYPE_LABEL[item.type] ?? item.type}</span>
-                    <span>สิ้นสุด {shortDate(endDate(item))}</span>
+                    {importantDate(item) && <span>{importantDate(item)!.label} {importantDate(item)!.text}</span>}
                   </div>
 
                   <h3 className="mt-1 text-base font-medium">
@@ -441,7 +427,7 @@ export default function Bookshelf({ items }: Props) {
                      * Flat 2D poster/card only.
                      * No top, no spine and no isometric skew.
                      */
-                    <span className="axis-active-poster">
+                    <span className={`axis-active-poster axis-active-poster--${item.type.toLowerCase()}`}>
                       {cover ? (
                         <img
                           src={cover}
@@ -517,7 +503,7 @@ export default function Bookshelf({ items }: Props) {
                       </span>
 
                       <span className="axis-iso-book-top">
-                        <span>{shortDate(endDate(item))}</span>
+                        {importantDate(item) && <span title={`${importantDate(item)!.label}: ${importantDate(item)!.text}`}>{importantDate(item)!.text}</span>}
                       </span>
                     </span>
                   )}
@@ -550,14 +536,14 @@ export default function Bookshelf({ items }: Props) {
               </p>
 
               <div className="axis-selected-meta mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-                <div className="rounded-xl bg-soft p-3">
+                {importantDate(active) && <div className="rounded-xl bg-soft p-3">
                   <p className="text-[10px] uppercase tracking-wider text-muted">
-                    วันสิ้นสุด
+                    {importantDate(active)?.label ?? "วันที่สำคัญ"}
                   </p>
                   <p className="mt-1 text-sm">
-                    {shortDate(endDate(active))}
+                    {importantDate(active)?.text}
                   </p>
-                </div>
+                </div>}
 
                 {active.eventStart && (
                   <div className="rounded-xl bg-soft p-3">

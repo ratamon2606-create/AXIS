@@ -2,6 +2,7 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { AUDIENCE_LABEL, TYPE_LABEL, visibleWhere } from "@/lib/items";
+import { importantDate } from "@/lib/smart-dates";
 import type { ItemType, Prisma } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
@@ -13,17 +14,21 @@ type SearchParams = {
   year?: string;
   past?: string;
   selected?: string;
+  page?: string;
 };
 
 export default async function SearchPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const params = await searchParams;
   const session = await auth().catch(() => null);
-  const q = params.q?.trim() ?? "";
+  const q = params.q?.trim().slice(0, 200) ?? "";
+  const parsedPage = Number(params.page ?? "1");
+  const page = Number.isSafeInteger(parsedPage) && parsedPage >= 1 ? Math.min(parsedPage, 10_000) : 1;
+  const PAGE_SIZE = 30;
   const includePast = params.past === "1";
 
   const conditions: Prisma.ContentItemWhereInput[] = [visibleWhere(!!session?.user, includePast ? "all" : "current")];
 
-  if (params.type && params.type !== "ALL") conditions.push({ type: params.type as ItemType });
+  if (params.type && params.type !== "ALL" && Object.prototype.hasOwnProperty.call(TYPE_LABEL, params.type)) conditions.push({ type: params.type as ItemType });
   if (params.program === "CPE") conditions.push({ audience: { in: ["ALL", "CPE", "CPE_SKE"] } });
   else if (params.program === "SKE") conditions.push({ audience: { in: ["ALL", "SKE", "CPE_SKE"] } });
 
@@ -41,12 +46,16 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
     });
   }
 
-  const results = await db.contentItem.findMany({
+  const fetchedResults = await db.contentItem.findMany({
     where: { AND: conditions },
     orderBy: [{ pinned: "desc" }, { createdAt: "desc" }],
-    take: 100,
+    skip: (page - 1) * PAGE_SIZE,
+    take: PAGE_SIZE + 1,
+    include: { _count: { select: { children: { where: { status: "PUBLISHED", ...(session?.user ? {} : { visibility: "PUBLIC" }) } } } } },
   });
 
+  const hasNext = fetchedResults.length > PAGE_SIZE;
+  const results = fetchedResults.slice(0, PAGE_SIZE);
   const selected = results.find((item) => item.id === params.selected) ?? results[0] ?? null;
   const base = new URLSearchParams();
   if (q) base.set("q", q);
@@ -84,12 +93,13 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
             return (
               <div key={item.id}>
                 <Link href={`/items/${item.id}`} className="axis-card-interactive block rounded-2xl border border-line bg-paper p-4 lg:hidden">
-                  <div className="flex flex-wrap gap-1 text-[10px] text-muted"><span>{TYPE_LABEL[item.type]}</span><span>·</span><span>{AUDIENCE_LABEL[item.audience]}</span>{past && <><span>·</span><span className="text-amber">สิ้นสุดแล้ว</span></>}</div>
+                  <div className="flex flex-wrap gap-1 text-[10px] text-muted"><span>{TYPE_LABEL[item.type]}</span><span>·</span><span>{AUDIENCE_LABEL[item.audience]}</span>{past && <><span>·</span><span className="text-amber">สิ้นสุดแล้ว</span></>}{item._count.children > 0 && <><span>·</span><span className="font-medium text-branddeep">↳ {item._count.children} อัปเดต</span></>}</div>
                   <h2 className="mt-1.5 text-sm font-medium">{item.title}</h2>
                   <p className="mt-1.5 line-clamp-2 text-xs leading-5 text-muted">{item.body}</p>
+                  {importantDate(item) && <p className="mt-2 text-xs font-medium text-branddeep">{importantDate(item)!.label} {importantDate(item)!.text}</p>}
                 </Link>
                 <Link href={`/search?${next.toString()}`} className={`hidden rounded-2xl bg-paper p-3.5 lg:block ${selected?.id === item.id ? "ring-2 ring-brand" : "ring-1 ring-line/60"}`}>
-                  <div className="flex flex-wrap gap-1 text-[10px] text-muted"><span>{TYPE_LABEL[item.type]}</span><span>·</span><span>{AUDIENCE_LABEL[item.audience]}</span>{past && <><span>·</span><span className="text-amber">สิ้นสุดแล้ว</span></>}</div>
+                  <div className="flex flex-wrap gap-1 text-[10px] text-muted"><span>{TYPE_LABEL[item.type]}</span><span>·</span><span>{AUDIENCE_LABEL[item.audience]}</span>{past && <><span>·</span><span className="text-amber">สิ้นสุดแล้ว</span></>}{item._count.children > 0 && <><span>·</span><span className="font-medium text-branddeep">↳ {item._count.children} อัปเดต</span></>}</div>
                   <h2 className="mt-1 text-sm font-medium">{item.title}</h2>
                 </Link>
               </div>
@@ -102,8 +112,9 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
             <div className="rounded-3xl bg-paper p-5 ring-1 ring-line/60 xl:p-6">
               <div className="flex flex-wrap gap-1.5 text-[10px] text-muted"><span className="rounded bg-brandsoft px-2 py-1 text-branddeep">{TYPE_LABEL[selected.type]}</span><span className="rounded bg-wash px-2 py-1">{AUDIENCE_LABEL[selected.audience]}</span>{selected.targetYear && <span className="rounded bg-wash px-2 py-1">ปี {selected.targetYear}</span>}</div>
               <h2 className="mt-3 text-xl xl:text-2xl">{selected.title}</h2>
+              {selected._count.children > 0 && <p className="mt-2 text-xs font-medium text-branddeep">↳ มี {selected._count.children} อัปเดตต่อจากประกาศนี้</p>}
               <p className="mt-3 max-h-[45vh] overflow-y-auto whitespace-pre-wrap pr-1 text-sm leading-7 text-muted">{selected.body}</p>
-              <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted">{selected.location && <span className="rounded-full bg-wash px-3 py-1">📍 {selected.location}</span>}{selected.expiresAt && <span className="rounded-full bg-wash px-3 py-1">หมดเขต {new Intl.DateTimeFormat("th-TH", { dateStyle: "medium", timeZone: "Asia/Bangkok" }).format(selected.expiresAt)}</span>}</div>
+              <div className="mt-3 flex flex-wrap gap-2 text-xs text-muted">{selected.location && <span className="rounded-full bg-wash px-3 py-1">📍 {selected.location}</span>}{importantDate(selected) && <span className="rounded-full bg-brandsoft px-3 py-1 text-branddeep">{importantDate(selected)!.label} {importantDate(selected)!.text}</span>}</div>
               <Link href={`/items/${selected.id}`} className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-brand px-4 text-sm text-white">เปิดประกาศ →</Link>
             </div>
           ) : (
@@ -111,6 +122,11 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
           )}
         </aside>
       </div>
+      {(page > 1 || hasNext) && <nav aria-label="หน้าผลการค้นหา" className="flex items-center justify-center gap-3 text-sm">
+        {page > 1 && <Link href={`/search?${new URLSearchParams([...base.entries(), ["page", String(page - 1)]]).toString()}`} className="rounded-xl border border-line bg-paper px-4 py-2">← ก่อนหน้า</Link>}
+        <span className="text-muted">หน้า {page}</span>
+        {hasNext && <Link href={`/search?${new URLSearchParams([...base.entries(), ["page", String(page + 1)]]).toString()}`} className="rounded-xl border border-line bg-paper px-4 py-2">ถัดไป →</Link>}
+      </nav>}
     </div>
   );
 }

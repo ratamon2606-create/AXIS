@@ -135,10 +135,6 @@ export default async function RootLayout({
 
       <body className="bg-wash font-sans text-ink antialiased">
         <div className="axis-app-shell">
-          {/* ===================================================
-              GLOBAL HEADER
-              =================================================== */}
-
           <header className="axis-app-header">
             <div className="axis-header-inner">
               <MobileMenu items={items} />
@@ -200,11 +196,6 @@ export default async function RootLayout({
               </div>
             </div>
           </header>
-
-          {/* ===================================================
-              APP FRAME
-              =================================================== */}
-
           <div className="axis-app-frame">
             <DesktopSidebar items={items} />
 
@@ -220,11 +211,6 @@ export default async function RootLayout({
               </footer>
             </div>
           </div>
-
-          {/* ===================================================
-              MOBILE BOTTOM NAVIGATION
-              =================================================== */}
-
           <nav
             className="axis-mobile-bottom-nav axis-mobile-safe-bottom"
             style={{

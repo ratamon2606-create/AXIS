@@ -45,6 +45,12 @@ enum ItemStatus {
   HIDDEN
 }
 
+enum ArchivePolicy {
+  AUTO
+  CUSTOM
+  NEVER
+}
+
 enum AuditAction {
   CREATE
   UPDATE
@@ -96,6 +102,10 @@ model ContentItem {
   publishedAt DateTime?
   eventStart  DateTime?
   eventEnd    DateTime?
+  eventLabel  String?
+  deadlineAt  DateTime?
+  deadlineLabel String?
+  archivePolicy ArchivePolicy @default(CUSTOM)
   expiresAt   DateTime?
   location    String?
   pinned      Boolean   @default(false)
@@ -118,6 +128,7 @@ model ContentItem {
   @@index([audience])
   @@index([targetYear])
   @@index([eventStart])
+  @@index([deadlineAt])
   @@index([expiresAt])
 }
 
