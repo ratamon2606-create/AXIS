@@ -31,7 +31,7 @@ export default async function EditItemPage({ params }: { params: Promise<{ id: s
   if (!session?.user || session.user.role === "READER") redirect("/");
 
   const item = await db.contentItem.findUnique({ where: { id }, include: { attachments: true } });
-  if (!item || !canEditItem(session.user, item)) notFound();
+  if (!item || item.status === "HIDDEN" || !!item.parentId || !canEditItem(session.user, item)) notFound();
 
   return (
     <div className="mx-auto max-w-5xl space-y-5">

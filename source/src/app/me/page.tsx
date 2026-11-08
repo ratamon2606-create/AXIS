@@ -122,11 +122,6 @@ export default async function MePage({
           ),
         )}
       </dl>
-
-      {/* =====================================================
-          EDIT PROGRAM / YEAR
-          ===================================================== */}
-
       <details className="group overflow-hidden rounded-2xl bg-paper ring-1 ring-line/60">
         <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-medium transition hover:bg-soft">
           <span>
@@ -236,22 +231,12 @@ export default async function MePage({
           </button>
         </form>
       </details>
-
-      {/* =====================================================
-          ROLE EXPLANATION
-          ===================================================== */}
-
       <p className="rounded-xl bg-paper px-4 py-3 text-sm leading-6 text-muted ring-1 ring-line/60">
         สิทธิ์ของบัญชี เช่น ผู้อ่าน ผู้เขียน หรือผู้ดูแล
         ถูกกำหนดโดยผู้ดูแลระบบและเปลี่ยนผ่านหน้า
         “ผู้ใช้และสิทธิ์”
         ส่วนหลักสูตรและชั้นปีสามารถแก้ไขได้จากโปรไฟล์นี้
       </p>
-
-      {/* =====================================================
-          SIGN OUT
-          ===================================================== */}
-
       <form
         action={async () => {
           "use server";
