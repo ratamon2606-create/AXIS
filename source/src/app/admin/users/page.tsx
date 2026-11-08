@@ -11,12 +11,6 @@ const ROLE_LABEL: Record<string, string> = {
   ADMIN: "ผู้ดูแล",
 };
 
-/**
- * หน้าจัดการสิทธิ์ · เจ้าของไฟล์คือ Piyatida (US-8)
- *
- * แสดงสองกลุ่ม คือบัญชีที่เคยเข้าสู่ระบบแล้ว และอีเมลที่ใส่ไว้ล่วงหน้า
- * แยกให้เห็นชัดเพราะสองกลุ่มนี้ต่างกัน กลุ่มหลังยังไม่มีบัญชีจริงในระบบ
- */
 export default async function UsersPage() {
   const session = await auth();
   if (!session?.user) redirect("/");
@@ -27,9 +21,8 @@ export default async function UsersPage() {
     db.allowlist.findMany({ orderBy: { email: "asc" } }),
   ]);
 
-  const invitedNotJoined = invites.filter(
-    (i) => !users.some((u) => u.email === i.email)
-  );
+  const registeredEmails = new Set(users.map((user) => user.email));
+  const invitedNotJoined = invites.filter((invite) => !registeredEmails.has(invite.email));
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
