@@ -4,19 +4,22 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build",
+    "build": "npm run security:gate && prisma generate && next build",
     "start": "next start",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "verify": "npm run security:gate && npm run quality:comments && npm run typecheck && npm test && npm run build",
+    "security:gate": "node scripts/check-security.mjs",
+    "quality:comments": "node scripts/check-comments.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1135.0",
     "@aws-sdk/s3-request-presigner": "^3.1135.0",
     "@prisma/client": "5.22.0",
-    "next": "^15.5.25",
+    "next": "15.5.29",
     "next-auth": "^5.0.0-beta.32",
     "react": "18.3.1",
     "react-dom": "18.3.1"

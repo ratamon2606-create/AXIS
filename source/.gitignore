@@ -3,3 +3,10 @@ node_modules
 .env
 .env.local
 *.log
+/prisma/seeds/exports/
+# Build artifacts and local-only files
+tsconfig.tsbuildinfo
+*.backup
+*.bak
+.env.*
+!.env.example
