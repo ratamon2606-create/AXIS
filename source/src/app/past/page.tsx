@@ -5,42 +5,40 @@ import { AUDIENCE_LABEL, visibleWhere, TYPE_LABEL } from "@/lib/items";
 
 export const dynamic = "force-dynamic";
 
-/**
- * แท็บของที่จบแล้ว · เจ้าของไฟล์คือ Jehan (US-7)
- *
- * SRS-18 ของที่พ้นวันหมดเขตออกจากฟีดปัจจุบัน แต่ยังค้นหาและเปิดดูได้
- *
- * หน้านี้ไม่ได้เขียนกฎการมองเห็นใหม่ ใช้ visibleWhere ตัวเดิม
- * เปลี่ยนแค่ scope จาก current เป็น past
- * ของที่ซ่อนถาวรจึงไม่โผล่ที่นี่โดยอัตโนมัติ เพราะกฎนั้นอยู่ในฟังก์ชันเดียวกัน
- */
 export default async function PastPage({
   searchParams,
 }: {
-  searchParams: Promise<{ year?: string }>;
+  searchParams: Promise<{ year?: string; page?: string }>;
 }) {
-  const { year } = await searchParams;
+  const { year, page: rawPage } = await searchParams;
+  const parsedPage = Number(rawPage ?? "1");
+  const page = Number.isSafeInteger(parsedPage) && parsedPage >= 1 ? Math.min(parsedPage, 10_000) : 1;
+  const PAGE_SIZE = 30;
   const session = await auth();
   const signedIn = !!session?.user;
 
   const where = visibleWhere(signedIn, "past");
 
-  const yearFilter =
-    year && /^\d{4}$/.test(year)
-      ? {
-          createdAt: {
-            gte: new Date(`${Number(year) - 543}-01-01`),
-            lt: new Date(`${Number(year) - 543 + 1}-01-01`),
-          },
-        }
-      : {};
+  const startYear = year && /^\d{4}$/.test(year) ? Number(year) - 543 : null;
+  const period = startYear && startYear >= 2000 && startYear <= 2100
+    ? { gte: new Date(`${startYear}-01-01T00:00:00+07:00`), lt: new Date(`${startYear + 1}-01-01T00:00:00+07:00`) }
+    : null;
+  // Existing schema has no endedAt; use the deadline for automatic expiry,
+  // and updatedAt as the best available date for manually concluded items.
+  const yearFilter = period ? { OR: [
+    { status: "PAST" as const, updatedAt: period },
+    { status: "PUBLISHED" as const, expiresAt: period },
+  ] } : {};
 
-  const items = await db.contentItem.findMany({
-    where: { ...where, ...yearFilter },
+  const fetchedItems = await db.contentItem.findMany({
+    where: { AND: [where, yearFilter] },
     orderBy: { expiresAt: "desc" },
-    include: { _count: { select: { children: true } } },
-    take: 50,
+    include: { _count: { select: { children: { where: { status: "PUBLISHED", ...(signedIn ? {} : { visibility: "PUBLIC" }) } } } } },
+    skip: (page - 1) * PAGE_SIZE,
+    take: PAGE_SIZE + 1,
   });
+  const hasNext = fetchedItems.length > PAGE_SIZE;
+  const items = fetchedItems.slice(0, PAGE_SIZE);
 
   const thisYearBE = new Date().getFullYear() + 543;
   const years = [thisYearBE, thisYearBE - 1];
@@ -105,6 +103,11 @@ export default async function PastPage({
           ))}
         </ul>
       )}
+      {(page > 1 || hasNext) && <nav aria-label="หน้าคลังย้อนหลัง" className="flex items-center justify-center gap-3 text-sm">
+        {page > 1 && <Link href={`/past?${new URLSearchParams({ ...(year ? { year } : {}), page: String(page - 1) })}`} className="rounded-xl border border-line bg-paper px-4 py-2">← ก่อนหน้า</Link>}
+        <span className="text-muted">หน้า {page}</span>
+        {hasNext && <Link href={`/past?${new URLSearchParams({ ...(year ? { year } : {}), page: String(page + 1) })}`} className="rounded-xl border border-line bg-paper px-4 py-2">ถัดไป →</Link>}
+      </nav>}
     </div>
   );
 }

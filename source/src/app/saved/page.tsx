@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { AUDIENCE_LABEL, canReadItem, TYPE_LABEL } from "@/lib/items";
+import { AUDIENCE_LABEL, TYPE_LABEL, visibleWhere } from "@/lib/items";
 
 export const dynamic = "force-dynamic";
 
@@ -11,11 +11,11 @@ export default async function SavedPage() {
   if (!session?.user) redirect("/");
 
   const rows = await db.savedItem.findMany({
-    where: { userId: session.user.id },
-    include: { item: true },
+    where: { userId: session.user.id, item: visibleWhere(true, "all") },
+    include: { item: { include: { _count: { select: { children: { where: { status: "PUBLISHED" } } } } } } },
     orderBy: { createdAt: "desc" },
   });
-  const rowsVisible = rows.filter(({ item }) => canReadItem(item, true));
+  const rowsVisible = rows;
 
   return (
     <div className="space-y-5">
@@ -31,6 +31,7 @@ export default async function SavedPage() {
             <Link key={item.id} href={`/items/${item.id}`} className="axis-card-interactive flex h-full flex-col rounded-2xl border border-line bg-paper p-4">
               <div className="flex flex-wrap gap-1 text-[11px] text-muted"><span>{TYPE_LABEL[item.type]}</span><span>·</span><span>{AUDIENCE_LABEL[item.audience]}</span>{item.targetYear && <><span>·</span><span>ปี {item.targetYear}</span></>}</div>
               <h2 className="mt-1.5 text-sm font-medium sm:text-base">{item.title}</h2>
+              {item._count.children > 0 && <p className="mt-1 text-xs font-medium text-branddeep">↳ {item._count.children} อัปเดต</p>}
               <p className="mt-2 line-clamp-3 flex-1 text-xs leading-5 text-muted">{item.body}</p>
               <span className="mt-4 text-xs font-medium text-branddeep">เปิดประกาศ →</span>
             </Link>

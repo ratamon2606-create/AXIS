@@ -2,24 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ============================================================
-   AXIS GLOBAL RESPONSIVE SYSTEM
-
-   Width-responsive + height-responsive.
-
-   Every route inherits the same density system through the
-   root layout, so laptop-height windows compact automatically.
-   ============================================================ */
 
 
-/* ============================================================
-   ITEM FORM — SECTION TITLES INSIDE THE PANEL
-   ============================================================ */
 
-/*
- * ทุก section ใช้หัวข้อเป็น div ปกติอยู่ภายใน fieldset
- * ไม่ใช้ <legend> จึงไม่มีอาการหัวข้อไปนั่งทับเส้นกรอบ
- */
+
+
+
 .axis-form-section {
   position: relative;
 
@@ -36,7 +24,7 @@
 }
 
 
-/* หัวข้อ 1. / 2. / 3. / 4. อยู่ด้านในกรอบ */
+
 
 .axis-form-section-title {
   width: 100%;
@@ -93,7 +81,7 @@
 }
 
 
-/* เลข 1. 2. 3. 4. */
+
 
 .axis-form-section-number {
   flex: none;
@@ -105,7 +93,7 @@
 }
 
 
-/* เว้นเนื้อหาข้างใน section ให้สม่ำเสมอ */
+
 
 .axis-form-section
 > .space-y-4
@@ -124,7 +112,7 @@
 }
 
 
-/* Label */
+
 
 .axis-form-section label {
   font-size:
@@ -138,7 +126,7 @@
 }
 
 
-/* Input / textarea / select */
+
 
 .axis-form-section input,
 .axis-form-section textarea,
@@ -152,9 +140,7 @@
 }
 
 
-/* ============================================================
-   SIDEBAR — MAKE "เมนู" BIGGER
-   ============================================================ */
+
 
 .axis-sidebar-title {
   margin:
@@ -182,7 +168,7 @@
 }
 
 
-/* เมนูแต่ละรายการให้อ่านง่ายขึ้นเล็กน้อย */
+
 
 @media (min-width: 1280px) {
   .axis-menu-link {
@@ -205,9 +191,7 @@
 }
 
 
-/* ============================================================
-   SHORT LAPTOP SCREEN
-   ============================================================ */
+
 
 @media (
   max-height: 900px
@@ -322,10 +306,7 @@ html {
   min-width: 320px;
   min-height: 100%;
 
-  /*
-   * Increase UI text across the whole application.
-   * Most Tailwind typography uses rem, so this scales consistently.
-   */
+  
   font-size: clamp(16.5px, 0.18vw + 15.8px, 17.5px);
 
   scroll-behavior: smooth;
@@ -397,9 +378,7 @@ table {
   outline-offset: 2px;
 }
 
-/* ============================================================
-   APP SHELL
-   ============================================================ */
+
 
 .axis-app-shell {
   min-height: 100dvh;
@@ -652,13 +631,7 @@ table {
   font-size: 0.68rem;
 }
 
-/* ============================================================
-   ROUTE-WIDE VERTICAL DENSITY
 
-   Existing pages use Tailwind space-y-* classes.
-   These overrides make those gaps react to viewport height
-   without editing every page separately.
-   ============================================================ */
 
 .axis-route-content .space-y-3 > :not([hidden]) ~ :not([hidden]),
 .axis-route-content .space-y-4 > :not([hidden]) ~ :not([hidden]),
@@ -766,9 +739,7 @@ table {
   }
 }
 
-/* ============================================================
-   DESKTOP SIDEBAR
-   ============================================================ */
+
 
 .axis-desktop-sidebar {
   display: none;
@@ -920,9 +891,7 @@ table {
   text-overflow: ellipsis;
 }
 
-/* ============================================================
-   MOBILE DRAWER
-   ============================================================ */
+
 
 .axis-mobile-menu-trigger {
   width:
@@ -1071,9 +1040,7 @@ table {
   cursor: pointer;
 }
 
-/* ============================================================
-   MOBILE BOTTOM NAV
-   ============================================================ */
+
 
 .axis-mobile-bottom-nav {
   position: fixed;
@@ -1170,9 +1137,7 @@ table {
     );
 }
 
-/* ============================================================
-   RESPONSIVE BREAKPOINTS — WIDTH
-   ============================================================ */
+
 
 @media (min-width: 768px) {
   .axis-desktop-sidebar {
@@ -1233,12 +1198,7 @@ table {
   }
 }
 
-/* ============================================================
-   RESPONSIVE BREAKPOINTS — HEIGHT
 
-   The whole site becomes denser when the browser window is
-   short, instead of requiring each page to be manually edited.
-   ============================================================ */
 
 @media (max-height: 900px) and (min-width: 768px) {
   :root {
@@ -1364,11 +1324,7 @@ table {
   }
 }
 
-/* ============================================================
-   SCROLL SAFETY
 
-   Long data pages remain scrollable and tables remain usable.
-   ============================================================ */
 
 .axis-route-content {
   overflow-wrap: anywhere;
@@ -1389,16 +1345,7 @@ table {
 
 
 
-/* ============================================================
-   EXACT REFERENCE ISOMETRIC SYSTEM
 
-   Measured from the uploaded reference:
-   +30°  broad/front horizontal axis
-   -30°  depth / row axis
-    90°  all vertical edges
-
-   Nothing in the book geometry uses any other angle.
-   ============================================================ */
 
 .axis-bookshelf-scene {
   position: relative;
@@ -1451,9 +1398,7 @@ table {
   pointer-events: none;
 }
 
-/* ============================================================
-   ROW POSITION
-   ============================================================ */
+
 
 .axis-book-position {
   --book-x: var(--book-x-desktop);
@@ -1504,15 +1449,7 @@ table {
   }
 }
 
-/* ============================================================
-   ACTIVE / CURRENT POSTER
 
-   The current announcement is intentionally flat 2D.
-
-   - With image: show the full uploaded poster, never crop it.
-   - Without image: show a flat rectangular category/title cover
-     like the old front cover, but without any isometric skew.
-   ============================================================ */
 
 .axis-active-poster {
   position: absolute;
@@ -1597,11 +1534,7 @@ table {
   user-select: none;
 }
 
-/*
- * Flat fallback cover for announcements without an image.
- * Category at the top, title at the bottom.
- * No skew. No 3D faces.
- */
+
 .axis-active-poster-fallback {
   position: absolute;
   inset: 0;
@@ -1708,28 +1641,10 @@ table {
   outline-offset: 5px;
 }
 
-/* ============================================================
-   BOOK DIMENSIONS
 
-   Geometry uses exact isometric vectors.
-
-   Front face vector:
-     +30°
-
-   Depth vector:
-     -30°
-
-   Vertical:
-     90°
-   ============================================================ */
 
 .axis-iso-book {
-  /*
-   * Inactive book dimensions.
-   *
-   * front rise = front width * tan(30°)
-   * depth rise = depth x * tan(30°)
-   */
+  
   --front-w: 92px;
   --front-h: 150px;
   --front-rise: 53px;
@@ -1782,13 +1697,7 @@ table {
     );
 }
 
-/* ============================================================
-   FRONT FACE
 
-   Rectangle skewed at EXACT +30°.
-
-   CSS skewY keeps BOTH vertical edges vertical.
-   ============================================================ */
 
 .axis-iso-book-front {
   position: absolute;
@@ -1881,13 +1790,7 @@ table {
   opacity: 0.5;
 }
 
-/* ============================================================
-   SIDE / SPINE
 
-   Rectangle skewed at EXACT -30°.
-
-   Again, vertical edges remain vertical.
-   ============================================================ */
 
 .axis-iso-book-side {
   position: absolute;
@@ -1933,43 +1836,30 @@ table {
 .axis-iso-book-side > span {
   position: absolute;
 
-  /*
-   * กันข้อความชนขอบบน/ล่างของสัน
-   */
+  
   top: 12%;
   bottom: 12%;
 
   left: 50%;
 
-  /*
-   * ความกว้างต้องไม่เกินหน้าสัน
-   */
+  
   width: 72%;
 
   transform:
     translateX(-50%);
 
-  /*
-   * เขียนลงตามแนวสันหนังสือ
-   */
+  
   writing-mode: vertical-rl;
   text-orientation: mixed;
 
-  /*
-   * สำคัญ:
-   * ไม่ให้ข้อความแตกไปหลาย column
-   */
+  
   white-space: nowrap;
 
-  /*
-   * ถ้ายาวเกินกรอบ ให้ซ่อนและขึ้น ...
-   */
+  
   overflow: hidden;
   text-overflow: ellipsis;
 
-  /*
-   * จำกัดพื้นที่ตามความสูงของสันจริง
-   */
+  
   max-height: 76%;
   height: 76%;
 
@@ -1991,27 +1881,7 @@ table {
   text-align: start;
 }
 
-/* ============================================================
-   TOP FACE
 
-   Exact polygon from the two measured isometric axes:
-
-   A  = (0, depthRise)
-   B  = (frontW, depthRise + frontRise)
-   B' = (frontW + depthX, frontRise)
-   A' = (depthX, 0)
-
-              A' ---------- B'
-               \            \
-                \            \
-                 A ---------- B
-
-   Edges:
-   A -> B   = +30°
-   A'-> B'  = +30°
-   A -> A'  = -30°
-   B -> B'  = -30°
-   ============================================================ */
 
 .axis-iso-book-top {
   position: absolute;
@@ -2071,10 +1941,7 @@ table {
 }
 
 .axis-iso-book-top > span {
-  /*
-   * Follow the exact long axis of the top face.
-   * The reference uses the same +30° isometric axis.
-   */
+  
   font-size:
   clamp(
     0.48rem,
@@ -2093,9 +1960,7 @@ table {
   transform-origin: center;
 }
 
-/* ============================================================
-   TYPE COLORS
-   ============================================================ */
+
 
 .axis-iso-book--news .axis-iso-book-top,
 .axis-iso-book--news .axis-iso-book-side {
@@ -2122,9 +1987,7 @@ table {
   background: #bad8d2;
 }
 
-/* ============================================================
-   DETAILS
-   ============================================================ */
+
 
 .axis-bookshelf-fit > :not([hidden]) ~ :not([hidden]) {
   margin-top: clamp(0.45rem, 1dvh, 0.8rem) !important;
@@ -2224,9 +2087,7 @@ table {
   align-self: end;
 }
 
-/* ============================================================
-   DOTS + NAV
-   ============================================================ */
+
 
 .axis-shelf-position {
   display: flex;
@@ -2265,7 +2126,7 @@ table {
 
 .axis-shelf-dots button.is-active {
   width: 1.6rem;
-  background: #2d3c31;
+  background: #1B7A47;
 }
 
 .axis-shelf-navigation {
@@ -2282,30 +2143,28 @@ table {
 
 .axis-shelf-navigation button {
   min-height: 2.45rem;
-
-  border:
-    1px solid
-    rgba(125, 141, 128, 0.25);
-
+  border: 1px solid #1B7A47;
   border-radius: 999px;
-
-  background: #fff;
-
-  color: #28362c;
-
+  background: #1B7A47;
+  color: #ffffff;
   font-weight: 700;
-
   cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.axis-shelf-navigation button:not(:disabled):hover {
+  background: #125634;
 }
 
 .axis-shelf-navigation button:disabled {
-  opacity: 0.32;
+  background: #E0F0E6;
+  border-color: #E0F0E6;
+  color: #6A756D;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* ============================================================
-   LIST
-   ============================================================ */
+
 
 .axis-list-cover {
   position: relative;
@@ -2343,9 +2202,7 @@ table {
   object-fit: cover;
 }
 
-/* ============================================================
-   OTHER EXISTING AXIS UTILITIES
-   ============================================================ */
+
 
 .axis-filter-scroll {
   scrollbar-width: none;
@@ -2355,11 +2212,7 @@ table {
   display: none;
 }
 
-/* ============================================================
-   COMPACT CALENDAR
 
-   Smaller footprint, but larger readable text.
-   ============================================================ */
 
 .axis-calendar-page {
   width: min(100%, 68rem);
@@ -2398,9 +2251,7 @@ table {
     );
 }
 
-/* ============================================================
-   TABLET
-   ============================================================ */
+
 
 @media (max-width: 900px) {
   .axis-bookshelf-scene {
@@ -2439,9 +2290,7 @@ table {
   }
 }
 
-/* ============================================================
-   MOBILE
-   ============================================================ */
+
 
 @media (max-width: 640px) {
   .axis-bookshelf-scene {
@@ -2486,15 +2335,7 @@ table {
 }
 
 
-/* ============================================================
-   VIEWPORT-HEIGHT RESPONSIVENESS
 
-   This is what keeps the selected details visible without
-   scrolling down on normal laptop screens.
-
-   The isometric angles stay EXACTLY the same.
-   Only scene/book size and vertical spacing change.
-   ============================================================ */
 
 @media (max-height: 900px) and (min-width: 641px) {
   .axis-bookshelf-scene {
@@ -2642,9 +2483,7 @@ table {
   }
 }
 
-/* ============================================================
-   REDUCED MOTION
-   ============================================================ */
+
 
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -2661,14 +2500,7 @@ table {
   }
 }
 
-/* ============================================================
-   EDITOR / CREATE ANNOUNCEMENT FORM
 
-   Section titles are shown INSIDE each panel instead of sitting
-   on the fieldset border.
-
-   Keep the real <legend> as sr-only for accessibility.
-   ============================================================ */
 
 .axis-form-section {
   position: relative;
@@ -2677,11 +2509,7 @@ table {
 
   margin: 0;
 
-  /*
-   * fieldset normally reserves special space for <legend>.
-   * Because our visible title is now a normal element inside,
-   * reset the browser's default fieldset behavior.
-   */
+  
   padding-top:
     clamp(
       1rem,
@@ -2691,9 +2519,7 @@ table {
 }
 
 
-/* ------------------------------------------------------------
-   Visible title inside each form panel
-   ------------------------------------------------------------ */
+
 
 .axis-form-section-title {
   display: flex;
@@ -2746,7 +2572,7 @@ table {
 }
 
 
-/* Number: 1. / 2. / 3. / 4. */
+
 
 .axis-form-section-number {
   flex: none;
@@ -2758,9 +2584,7 @@ table {
 }
 
 
-/* ------------------------------------------------------------
-   Better spacing inside form sections
-   ------------------------------------------------------------ */
+
 
 .axis-form-section > .space-y-4 > :not([hidden]) ~ :not([hidden]),
 .axis-form-section > .space-y-5 > :not([hidden]) ~ :not([hidden]) {
@@ -2773,7 +2597,7 @@ table {
 }
 
 
-/* Labels */
+
 
 .axis-form-section label {
   font-size:
@@ -2787,7 +2611,7 @@ table {
 }
 
 
-/* Inputs */
+
 
 .axis-form-section input,
 .axis-form-section textarea,
@@ -2801,10 +2625,7 @@ table {
 }
 
 
-/* ------------------------------------------------------------
-   Laptop / short-height window
-   Keep form compact without moving title onto border.
-   ------------------------------------------------------------ */
+
 
 @media (max-height: 900px) and (min-width: 768px) {
   .axis-form-section {
@@ -2844,9 +2665,7 @@ table {
 }
 
 
-/* ------------------------------------------------------------
-   Mobile
-   ------------------------------------------------------------ */
+
 
 @media (max-width: 640px) {
   .axis-form-section {
@@ -2865,3 +2684,126 @@ table {
       0.92rem;
   }
 }
+
+
+
+.axis-bookshelf-fit .axis-bookshelf-scene {
+  height: clamp(23rem, 48dvh, 34rem);
+}
+
+.axis-bookshelf-scene .axis-book-position {
+  --axis-book-zoom: 1.20;
+  transform:
+    translate(-50%, -50%)
+    translate(var(--book-x), var(--book-y))
+    scale(var(--book-scale))
+    scale(var(--axis-book-zoom));
+}
+
+
+:is(.axis-iso-book--news, .axis-active-poster--news) {
+  --axis-book-front: #e5effa;
+  --axis-book-side: #91b7d8;
+  --axis-book-top: #c8e0f2;
+  --axis-book-ink: #254b68;
+}
+
+:is(.axis-iso-book--opportunity, .axis-active-poster--opportunity) {
+  --axis-book-front: #efe6fb;
+  --axis-book-side: #b99dd9;
+  --axis-book-top: #d9c7ef;
+  --axis-book-ink: #50396c;
+}
+
+:is(.axis-iso-book--activity, .axis-active-poster--activity) {
+  --axis-book-front: #f9e7e2;
+  --axis-book-side: #dc9f95;
+  --axis-book-top: #f0c7be;
+  --axis-book-ink: #693a35;
+}
+
+:is(.axis-iso-book--alert, .axis-active-poster--alert) {
+  --axis-book-front: #fff0d9;
+  --axis-book-side: #e3ad5f;
+  --axis-book-top: #f5d59d;
+  --axis-book-ink: #6b471e;
+}
+
+:is(.axis-iso-book--document, .axis-active-poster--document) {
+  --axis-book-front: #e0f1eb;
+  --axis-book-side: #8fbdae;
+  --axis-book-top: #c3e1d4;
+  --axis-book-ink: #285347;
+}
+
+
+.axis-bookshelf-scene .axis-iso-book[class*="axis-iso-book--"] .axis-iso-book-front {
+  background: var(--axis-book-front);
+}
+
+.axis-bookshelf-scene .axis-iso-book[class*="axis-iso-book--"] .axis-iso-book-fallback {
+  color: var(--axis-book-ink);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.64), transparent 43%),
+    var(--axis-book-front);
+}
+
+.axis-bookshelf-scene .axis-iso-book[class*="axis-iso-book--"] .axis-iso-book-side {
+  background: var(--axis-book-side);
+}
+
+.axis-bookshelf-scene .axis-iso-book[class*="axis-iso-book--"] .axis-iso-book-top {
+  background: var(--axis-book-top);
+}
+
+.axis-bookshelf-scene .axis-iso-book[class*="axis-iso-book--"] .axis-iso-book-side-text,
+.axis-bookshelf-scene .axis-iso-book[class*="axis-iso-book--"] .axis-iso-book-top > span {
+  color: var(--axis-book-ink);
+}
+
+
+.axis-bookshelf-scene .axis-active-poster[class*="axis-active-poster--"] {
+  border: 2px solid var(--axis-book-side);
+}
+
+.axis-bookshelf-scene .axis-active-poster[class*="axis-active-poster--"] .axis-active-poster-fallback {
+  color: var(--axis-book-ink);
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.64), transparent 43%),
+    var(--axis-book-front);
+}
+
+.axis-bookshelf-scene .axis-active-poster[class*="axis-active-poster--"] .axis-active-poster-fallback strong,
+.axis-bookshelf-scene .axis-active-poster[class*="axis-active-poster--"] .axis-active-poster-fallback small {
+  color: var(--axis-book-ink);
+}
+
+
+@media (max-height: 900px) and (min-width: 641px) {
+  .axis-bookshelf-fit .axis-bookshelf-scene {
+    height: clamp(22rem, 45dvh, 29rem);
+  }
+}
+
+@media (max-height: 780px) and (min-width: 641px) {
+  .axis-bookshelf-fit .axis-bookshelf-scene {
+    height: clamp(20rem, 44dvh, 27rem);
+  }
+}
+
+@media (max-width: 900px) {
+  .axis-bookshelf-scene .axis-book-position {
+    --axis-book-zoom: 1.13;
+  }
+}
+
+@media (max-width: 640px) {
+  .axis-bookshelf-fit .axis-bookshelf-scene {
+    height: clamp(19rem, 40dvh, 25rem);
+  }
+
+  .axis-bookshelf-scene .axis-book-position {
+    --axis-book-zoom: 1.08;
+  }
+}
+
