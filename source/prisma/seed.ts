@@ -2,6 +2,10 @@ import { PrismaClient } from "@prisma/client";
 
 const db = new PrismaClient();
 
+if (process.env.NODE_ENV === "production" || process.env.VERCEL || process.env.ALLOW_DESTRUCTIVE_SEED !== "YES_LOCAL_ONLY") {
+  throw new Error("Seed ลบข้อมูลทั้งหมด: ตั้ง ALLOW_DESTRUCTIVE_SEED=YES_LOCAL_ONLY เฉพาะฐานข้อมูลทดสอบเท่านั้น");
+}
+
 async function main() {
   await db.savedItem.deleteMany();
   await db.auditLog.deleteMany();

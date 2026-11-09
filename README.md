@@ -51,7 +51,7 @@ Users can search announcement content by keyword.
 
 The current search:
 
-- searches both `title` and `body`,
+- searches `title`, `body`, and type-specific `details` fields,
 - uses case-insensitive matching,
 - searches both current and past announcements,
 - applies the same shared visibility policy as the feed/archive,
@@ -101,7 +101,7 @@ A follow-up has:
 parentId = <parent ContentItem id>
 ```
 
-This keeps later corrections or updates attached to their original context instead of appearing as unrelated posts in the feed. Editors can add follow-up posts directly from the thread page. Follow-ups inherit the parent type, department, and visibility, while read access is still checked server-side.
+This keeps later corrections or updates attached to their original context instead of appearing as unrelated posts in the feed. Editors can add follow-up posts directly from the thread page. Follow-ups inherit the parent type and department when created; their effective read visibility always follows the parent at request time. Changing or hiding a parent therefore also restricts its older updates and files.
 
 Deleting a parent can cascade to its follow-ups so orphan records are not left behind.
 
@@ -213,7 +213,7 @@ The function does not retrieve content by itself. Feed, Search, Past, and other 
 
 `prisma/seed.ts` provides a reproducible development dataset.
 
-Before inserting the seed data, existing development records are cleared so each developer can return to the same known starting state.
+The seed resets records only when explicitly enabled against a local development database. It is refused in production. Running `npm run db:seed` without `ALLOW_DESTRUCTIVE_SEED=true` will fail safely rather than deleting records.
 
 This helps with:
 
@@ -260,14 +260,14 @@ Install:
 ### 1. Clone the repository
 
 ```bash
-git clone <repository-url>
-cd <repository-folder>
+# If using the provided ZIP instead of Git, extract it first.
+cd <extracted-AXIS-folder>/source
 ```
 
 ### 2. Install dependencies
 
 ```bash
-npm install
+npm ci
 ```
 
 ### 3. Configure environment variables
@@ -297,7 +297,8 @@ npx prisma db push
 ### 6. Seed the development database
 
 ```bash
-npm run db:seed
+# ONLY for a disposable local database; permanently deletes its previous data!
+ALLOW_DESTRUCTIVE_SEED=true npm run db:seed
 ```
 
 ### 7. Start the development server
@@ -404,6 +405,15 @@ Docker and seed data help team members work with consistent environments and tes
 ### Keep the architecture appropriate to the scope
 
 The project uses a modular monolith rather than microservices because independent service scaling and deployment are not currently required.
+
+## Security and setup notes
+
+- The `.env.example` file contains placeholders; copy it to `.env`, use different strong passwords for PostgreSQL and MinIO, and update all matching fields (`DATABASE_URL`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`). Do not commit or attach `.env`.
+- Docker Compose binds PostgreSQL and MinIO ports to `127.0.0.1` for local use. Configure a proper private network and secrets manager for production.
+- If an old project ZIP containing a real `.env` was shared, rotate the old Google OAuth secret, auth secret, DB and MinIO credentials; removing it from later ZIPs does not revoke the exposed values.
+- `npm ci` installs pinned Next.js 15.5.29 and Sharp 0.35.5. Run `npm run verify` after installing packages, and confirm deployment builds from this version of the code.
+- File headers (magic bytes) are checked server-side, but enterprise malware scanning/quarantine is not implemented. Do not treat upload validation as antivirus software.
+- PostgreSQL transactions and object storage are different systems. Object cleanup after failed uploads is best-effort and an S3 outage may leave an object needing an administrator's cleanup.
 
 ## Known Limitations
 
