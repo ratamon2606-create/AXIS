@@ -1,17 +1,19 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { auth } from "@/lib/auth";
-import { canReadItem } from "@/lib/items";
+import { canReadItemWithParent } from "@/lib/items";
 import { signedDownloadUrl, signedInlineUrl } from "@/lib/s3";
 
 export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const attachment = await db.attachment.findUnique({ where: { id }, include: { item: true } });
+  const attachment = await db.attachment.findUnique({ where: { id }, include: { item: { include: { parent: { select: { status: true, visibility: true } } } } } });
   if (!attachment) return new NextResponse("Not found", { status: 404 });
 
   const session = await auth().catch(() => null);
-  const adminCanInspectHidden = session?.user?.role === "ADMIN" && attachment.item.status === "HIDDEN";
-  if (!canReadItem(attachment.item, !!session?.user) && !adminCanInspectHidden) {
+  const canPreviewDraft = !!session?.user && attachment.item.status === "DRAFT" && !attachment.item.parentId &&
+    (session.user.role === "ADMIN" || (session.user.role === "EDITOR" && session.user.id === attachment.item.authorId));
+  const adminCanInspectHidden = session?.user?.role === "ADMIN" && attachment.item.status === "HIDDEN" && !attachment.item.parentId;
+  if (!canReadItemWithParent(attachment.item, !!session?.user) && !adminCanInspectHidden && !canPreviewDraft) {
     return new NextResponse("Not found", { status: 404 });
   }
 
