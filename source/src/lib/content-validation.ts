@@ -17,7 +17,7 @@ export function parseBangkokDate(value: FormDataEntryValue | null): Date | null 
   if (!match) throw new Error("วันที่ไม่ถูกต้อง");
   const [year, month, day] = match.slice(1).map(Number);
   if (!validDateComponents(year, month, day)) throw new Error("วันที่ไม่ถูกต้อง");
-  return new Date(Date.UTC(year, month - 1, day, 16, 59, 59));                         
+  return new Date(Date.UTC(year, month - 1, day, 16, 59, 59));
 }
 
 export function parseBangkokDateTime(value: FormDataEntryValue | null): Date | null {

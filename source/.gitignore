@@ -10,3 +10,6 @@ tsconfig.tsbuildinfo
 *.bak
 .env.*
 !.env.example
+
+/prisma/seeds/exports/
+/tsconfig.tsbuildinfo

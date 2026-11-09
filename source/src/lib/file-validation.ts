@@ -16,4 +16,3 @@ export function checkFile(file: { size: number; type: string }): string | null {
   if (!ALLOWED_MIME.has(file.type)) return "รับเฉพาะ PDF รูปภาพ และเอกสารสำนักงาน";
   return null;
 }
-
