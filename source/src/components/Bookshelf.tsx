@@ -382,7 +382,7 @@ export default function Bookshelf({ items }: Props) {
                   {cover ? (
                     <img src={cover} alt="" />
                   ) : (
-                    <span>{TYPE_LABEL[item.type] ?? item.type}</span>
+                    <span className="block break-words px-2 text-center text-sm font-medium leading-snug">{item.title}</span>
                   )}
                 </div>
 
