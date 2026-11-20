@@ -34,12 +34,12 @@ describe("follow-up editing rules", () => {
     expect(() => assertEditableFollowUp({ ...update, status: "HIDDEN" }, parent)).toThrow();
     expect(() => assertEditableFollowUp(update, null)).toThrow();
   });
-  it("accepts up to four images in total", () => {
-    expect(() => assertFollowUpImageCount(2, 2)).not.toThrow();
-    expect(() => assertFollowUpImageCount(4, 0)).not.toThrow();
+  it("accepts up to ten images in total", () => {
+    expect(() => assertFollowUpImageCount(6, 4)).not.toThrow();
+    expect(() => assertFollowUpImageCount(10, 0)).not.toThrow();
   });
-  it("rejects more than four images or invalid counts", () => {
-    expect(() => assertFollowUpImageCount(3, 2)).toThrow("สูงสุด 4 รูป");
+  it("rejects more than ten images or invalid counts", () => {
+    expect(() => assertFollowUpImageCount(9, 2)).toThrow("สูงสุด 10 รูป");
     expect(() => assertFollowUpImageCount(-1, 1)).toThrow();
   });
 });
