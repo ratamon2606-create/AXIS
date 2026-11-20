@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { editFollowUp } from "@/app/actions/thread";
 import { uploadDirect } from "@/lib/direct-upload-client";
 import { checkFile } from "@/lib/file-validation";
+import { MAX_FOLLOW_UP_IMAGES } from "@/lib/follow-ups";
 
 export function EditFollowUpForm({
   followUpId,
@@ -28,8 +29,8 @@ export function EditFollowUpForm({
     const form = event.currentTarget;
     const data = new FormData(form);
     const files = data.getAll("images").filter((v): v is File => v instanceof File && v.size > 0);
-    if (files.length + currentImageCount > 4) {
-      setError(`อัปเดตหนึ่งรายการมีรูปได้สูงสุด 4 รูป (มีอยู่แล้ว ${currentImageCount} รูป) กรุณาลบรูปเก่าก่อนเพิ่มใหม่`);
+    if (files.length + currentImageCount > MAX_FOLLOW_UP_IMAGES) {
+      setError(`อัปเดตหนึ่งรายการมีรูปได้สูงสุด ${MAX_FOLLOW_UP_IMAGES} รูป (มีอยู่แล้ว ${currentImageCount} รูป) กรุณาลบรูปเก่าก่อนเพิ่มใหม่`);
       return;
     }
     for (const file of files) {
@@ -82,9 +83,9 @@ export function EditFollowUpForm({
           </label>
           <label className="block space-y-1 text-xs font-medium">
             <span>เพิ่มรูปภาพ (ไม่บังคับ)</span>
-            <input type="file" name="images" accept="image/jpeg,image/png,image/webp" multiple disabled={busy || currentImageCount >= 4} className="block w-full text-xs" />
+            <input type="file" name="images" accept="image/jpeg,image/png,image/webp" multiple disabled={busy || currentImageCount >= MAX_FOLLOW_UP_IMAGES} className="block w-full text-xs" />
           </label>
-          <p className="text-xs text-muted">มีรูปอยู่แล้ว {currentImageCount}/4 รูป · ต้องการลบรูปเก่าให้ใช้ปุ่ม “ลบ” ใต้รูปในอัปเดตก่อน (รูปเดิมจะไม่ถูกลบเมื่อบันทึกข้อความ)</p>
+          <p className="text-xs text-muted">มีรูปอยู่แล้ว {currentImageCount}/{MAX_FOLLOW_UP_IMAGES} รูป · ต้องการลบรูปเก่าให้ใช้ปุ่ม “ลบ” ใต้รูปในอัปเดตก่อน (รูปเดิมจะไม่ถูกลบเมื่อบันทึกข้อความ)</p>
           {error && <p role="alert" className="text-xs text-danger">{error}</p>}
           <div className="flex flex-wrap gap-2">
             <button disabled={busy} type="submit" className="min-h-10 rounded-xl bg-brand px-4 text-xs font-medium text-white disabled:opacity-60">{busy ? "กำลังบันทึก..." : "บันทึกการแก้ไข"}</button>
