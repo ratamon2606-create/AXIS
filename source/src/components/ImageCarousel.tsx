@@ -5,6 +5,7 @@ type Image = { id: string; fileName: string };
 export function ImageCarousel({ images, initialImageId }: { images: Image[]; initialImageId?: string | null }) {
   const [index, setIndex] = useState(() => Math.max(0, images.findIndex((image) => image.id === initialImageId)));
   useEffect(() => { setIndex((current) => Math.max(0, Math.min(current, images.length - 1))); }, [images.length]);
+  useEffect(() => { setIndex(Math.max(0, images.findIndex((image) => image.id === initialImageId))); }, [initialImageId]);
   if (!images.length) return null;
   const active = images[index] ?? images[0];
   const toImage = (id: string) => "/api/files/" + encodeURIComponent(id) + "?view=1";
