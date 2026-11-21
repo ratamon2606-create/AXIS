@@ -1,5 +1,5 @@
 /** Validation used by both follow-up creation and editing. No database access. */
-export const MAX_FOLLOW_UP_IMAGES = 4;
+export const MAX_FOLLOW_UP_IMAGES = 10;
 export const FOLLOW_UP_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 export function readFollowUpFields(formData: FormData): { title: string; body: string } {

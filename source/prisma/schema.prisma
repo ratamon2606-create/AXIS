@@ -109,6 +109,8 @@ model ContentItem {
   expiresAt   DateTime?
   location    String?
   pinned      Boolean   @default(false)
+  // Explicitly selected image cover; validated against this item in the server action.
+  coverAttachmentId String?
 
   parentId String?
   parent   ContentItem?  @relation("Thread", fields: [parentId], references: [id], onDelete: Cascade)
