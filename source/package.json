@@ -2,6 +2,9 @@
   "name": "dept-hub",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "npm run security:gate && prisma generate && next build",

@@ -427,3 +427,21 @@ The project uses a modular monolith rather than microservices because independen
 **Team AXIS — Project C**
 
 Department Information and Communication Hub for the CPE/SKE department.
+
+## Iteration 6 Release and Documentation
+
+**Code status:** Iteration 6 feature PRs, QA regression tests, and production dependency fixes are merged into `main`. GitHub Actions verify TypeScript, unit tests and Next.js production build. **Hosted deployment status: pending independent verification** — a successful build is not evidence of working Google OAuth, database migrations, storage CORS or production uploads.
+
+- [Iteration 6 acceptance checklist](docs/iter6/ACCEPTANCE.md) — detailed browser, role, storage and migration checks (not marked complete until observed)
+- [Production deployment and rollback runbook](docs/iter6/RELEASE_RUNBOOK.md) — Vercel, PostgreSQL, private S3, Google OAuth, migration and rollback
+- [Iteration 6 Plane planning CSV](docs/iteration6/AXIS_Iteration6_Plane.csv)
+- [Original project requirements](docs/report/AXIS_ISP.pdf)
+- [Iteration 1 report](docs/report/AXIS_Iteration1_Report.docx%20%281%29.pdf)
+- [Iteration 2 report](docs/report/AXIS_Iteration2_Report.docx.pdf)
+- [Iteration 3 report](docs/report/AXIS_Iteration3_Report.docx.pdf)
+- [Iteration 4 report](docs/report/AXIS_Iteration4_Report.docx.pdf)
+- [Iteration 5 report](docs/report/AXIS_Iteration5_Report.docx.pdf)
+
+**Release checklist:** Merge approved changes; confirm green CI; verify `npm audit --omit=dev`; inspect Prisma migration status and back up hosted data; deploy staging preview with OAuth and private S3; complete acceptance checks; deploy production; record URL, SHA and screenshots. Do not commit `.env`, secret tokens, local database dumps or cloud credentials.
+
+**Team ownership:** Jehan Tohdeng (frontend/UI), Thanakorn Innok (content/upload and schema), Piyatida Muanjaingam (roles and authorization), Ratamon Charoenratanakun (QA, CI, integration and release).

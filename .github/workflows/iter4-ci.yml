@@ -60,6 +60,12 @@ jobs:
       - name: Vitest regression suite
         run: npm test
 
+      - name: Comment policy
+        run: npm run quality:comments
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev
+
       - name: Clean production build
         run: |
           rm -rf .next
