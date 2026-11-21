@@ -333,7 +333,7 @@ export default function Bookshelf({ items }: Props) {
             onClick={() => setView("shelf")}
             className={[
               "rounded-full px-3 py-1.5 text-xs",
-              view === "shelf" ? "bg-ink text-white" : "text-muted",
+              view === "shelf" ? "bg-brand text-white" : "text-muted",
             ].join(" ")}
           >
             ชั้นหนังสือ
@@ -344,7 +344,7 @@ export default function Bookshelf({ items }: Props) {
             onClick={() => setView("list")}
             className={[
               "rounded-full px-3 py-1.5 text-xs",
-              view === "list" ? "bg-ink text-white" : "text-muted",
+              view === "list" ? "bg-brand text-white" : "text-muted",
             ].join(" ")}
           >
             รายการ
@@ -382,7 +382,7 @@ export default function Bookshelf({ items }: Props) {
                   {cover ? (
                     <img src={cover} alt="" />
                   ) : (
-                    <span>{TYPE_LABEL[item.type] ?? item.type}</span>
+                    <span className="block break-words px-2 text-center text-sm font-medium leading-snug">{item.title}</span>
                   )}
                 </div>
 

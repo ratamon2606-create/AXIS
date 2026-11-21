@@ -2,6 +2,7 @@ import Bookshelf from "@/components/Bookshelf";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { visibleWhere } from "@/lib/items";
+import { resolveCoverAttachmentId } from "@/lib/cover-image";
 
 export const dynamic = "force-dynamic";
 
@@ -19,7 +20,6 @@ export default async function AnnouncementsPage() {
         where: { mimeType: { startsWith: "image/" } },
         select: { id: true },
         orderBy: { createdAt: "asc" },
-        take: 1,
       },
       savedBy: {
         where: { userId: userId ?? "__visitor__" },
@@ -44,7 +44,7 @@ export default async function AnnouncementsPage() {
     createdAt: item.createdAt.toISOString(),
     location: item.location,
     saved: item.savedBy.length > 0,
-    coverAttachmentId: item.attachments[0]?.id ?? null,
+    coverAttachmentId: resolveCoverAttachmentId(item.attachments, item.coverAttachmentId),
   }));
 
   return (
