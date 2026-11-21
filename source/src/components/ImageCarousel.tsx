@@ -32,7 +32,7 @@ function GalleryImage({
   useEffect(() => {
     const element = imageRef.current;
 
-    // ตรวจรูปที่โหลดล้มเหลวก่อน React พร้อมรับ onError
+    // Catch errors before hydration.
     if (element?.complete && element.naturalWidth === 0) {
       setFailed(true);
     }
