@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { requireUser } from "@/lib/auth";
 import type { Program } from "@prisma/client";
+import { validateProfile } from "@/lib/profile-validation";
 function parseProfile(formData: FormData) {
   const program = String(formData.get("program") ?? "") as Program;
   const year = Number(formData.get("year") ?? 0);
@@ -11,18 +12,6 @@ function parseProfile(formData: FormData) {
     program,
     year,
   };
-}
-function validateProfile(program: Program, year: number) {
-  if (program !== "CPE" &&
-    program !== "SKE") {
-    return "กรุณาเลือกหลักสูตร";
-  }
-  if (!Number.isInteger(year) ||
-    year < 1 ||
-    year > 8) {
-    return "กรุณาเลือกชั้นปี";
-  }
-  return null;
 }
 export async function saveProfile(formData: FormData) {
   const user = await requireUser();
