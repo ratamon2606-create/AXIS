@@ -24,7 +24,6 @@ export default function SaveButton({
     : "กำลังบันทึก...";
 
   async function toggle() {
-    // ป้องกันการกดซ้ำก่อนหน้าจออัปเดตสถานะปุ่ม
     if (inFlight.current) return;
 
     inFlight.current = true;
@@ -41,7 +40,6 @@ export default function SaveButton({
         await unsaveItem(itemId);
       }
 
-      // เปลี่ยนดาวเมื่อคำสั่งสำเร็จเท่านั้น
       setSaved(nextSaved);
       setStatus(
         nextSaved
