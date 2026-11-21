@@ -9,8 +9,8 @@ export type DirectUpload = {
   size: number;
 };
 
-export const MAX_UPLOADS = 4;
-export const MAX_TOTAL_BYTES = 80 * 1024 * 1024;
+export const MAX_UPLOADS = 10;
+export const MAX_TOTAL_BYTES = 200 * 1024 * 1024;
 
 export function parseDirectUploadDescriptors(
   raw: FormDataEntryValue | null,
@@ -60,7 +60,7 @@ export function parseDirectUploadDescriptors(
     if (problem) throw new Error(`${fileName}: ${problem}`);
     totalBytes += size;
     if (totalBytes > MAX_TOTAL_BYTES) {
-      throw new Error("ไฟล์แนบรวมกันต้องไม่เกิน 80 MB");
+      throw new Error("ไฟล์แนบรวมกันต้องไม่เกิน 200 MB");
     }
     seenKeys.add(storageKey);
     return { storageKey, fileName: fileName.trim(), mimeType, size };
