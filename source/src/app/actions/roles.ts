@@ -6,6 +6,7 @@ import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { writeAudit } from "@/lib/audit";
 import { assertAdminRetention } from "@/lib/role-policy";
+import { normalizeAllowlistEmail } from "@/lib/allowlist-email";
 import type { Role } from "@prisma/client";
 
 
@@ -50,11 +51,11 @@ export async function changeRole(formData: FormData) {
  */
 export async function addToAllowlist(formData: FormData) {
   const admin = await requireAdmin();
-  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const email = normalizeAllowlistEmail(formData.get("email"));
   const role = String(formData.get("role") ?? "EDITOR") as Role;
   const note = String(formData.get("note") ?? "").trim() || null;
 
-  if (!email.includes("@")) throw new Error("อีเมลไม่ถูกต้อง");
+  if (!email) throw new Error("อีเมลไม่ถูกต้อง");
   if (!ROLES.includes(role)) throw new Error("สิทธิ์ที่เลือกไม่ถูกต้อง");
 
   await db.$transaction(async (tx) => {
