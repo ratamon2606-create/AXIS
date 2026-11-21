@@ -8,6 +8,7 @@ import { writeAudit } from "@/lib/audit";
 import { deleteObject } from "@/lib/s3";
 import { requireNoMultipartFiles, verifyDirectUploads } from "@/lib/direct-uploads";
 import { withPromotedUploads } from "@/lib/upload-transaction";
+import { resolveCoverAttachmentId } from "@/lib/cover-image";
 
 export async function uploadAttachment(formData: FormData) {
   const user = await requireEditor();
@@ -44,10 +45,48 @@ export async function removeAttachment(formData: FormData) {
   }
   await db.$transaction(async (tx) => {
     await tx.attachment.delete({ where: { id } });
+    if (attachment.item.coverAttachmentId === id) {
+      const remaining = await tx.attachment.findMany({
+        where: { itemId: attachment.itemId, mimeType: { startsWith: "image/" } },
+        select: { id: true },
+        orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+      });
+      await tx.contentItem.update({
+        where: { id: attachment.itemId },
+        data: { coverAttachmentId: resolveCoverAttachmentId(remaining, null) },
+      });
+    }
     await writeAudit(tx, { actorId: user.id, itemId: attachment.itemId, action: "DETACH", detail: `ลบไฟล์แนบ ${attachment.fileName}` });
   });
   // Failed deletion leaves an orphan object, not a broken attachment entry.
   await deleteObject(attachment.storageKey).catch((err) => console.error("Object cleanup failed", err));
   revalidatePath(`/items/${attachment.itemId}`);
+  revalidatePath("/announcements");
   if (attachment.item.parentId) revalidatePath(`/items/${attachment.item.parentId}`);
+}
+
+/** A cover must be an image attached to this main announcement. */
+export async function setCoverImage(formData: FormData) {
+  const user = await requireEditor();
+  const itemId = String(formData.get("itemId") ?? "");
+  const attachmentId = String(formData.get("attachmentId") ?? "");
+  if (!itemId || !attachmentId) throw new Error("กรุณาเลือกรูปหน้าปก");
+  await db.$transaction(async (tx) => {
+    const item = await tx.contentItem.findUnique({ where: { id: itemId } });
+    if (!item || item.parentId || item.status === "HIDDEN" || !canEditItem(user, item)) {
+      throw new Error("ไม่มีสิทธิ์เปลี่ยนรูปหน้าปก");
+    }
+    const image = await tx.attachment.findFirst({
+      where: { id: attachmentId, itemId, mimeType: { startsWith: "image/" } },
+      select: { id: true },
+    });
+    if (!image) throw new Error("รูปนี้ไม่ได้อยู่ในประกาศ");
+    await tx.contentItem.update({ where: { id: itemId }, data: { coverAttachmentId: image.id } });
+    await writeAudit(tx, { actorId: user.id, itemId, action: "UPDATE", detail: "เปลี่ยนรูปหน้าปก" });
+  });
+  revalidatePath("/announcements");
+  revalidatePath("/search");
+  revalidatePath("/saved");
+  revalidatePath("/past");
+  revalidatePath("/items/" + itemId);
 }

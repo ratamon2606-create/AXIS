@@ -60,6 +60,15 @@ describe("pure direct-upload descriptor validation", () => {
   it("rejects files with invalid size", () => {
     expect(() => parseDirectUploadDescriptors(JSON.stringify([{ ...descriptor, size: -1 }]), "user123")).toThrow();
   });
+  it("accepts ten distinct file descriptors and rejects an eleventh", () => {
+    const files = Array.from({ length: 11 }, (_, index) => ({
+      ...descriptor,
+      storageKey: key.replace("22222222-2222-4222-8222-222222222222",
+        `22222222-2222-4222-8222-${String(index + 1).padStart(12, "0")}`),
+    }));
+    expect(parseDirectUploadDescriptors(JSON.stringify(files.slice(0, 10)), "user123")).toHaveLength(10);
+    expect(() => parseDirectUploadDescriptors(JSON.stringify(files), "user123")).toThrow(/สูงสุด 10/);
+  });
   it("rejects duplicate files before contacting storage", () => {
     expect(() => parseDirectUploadDescriptors(JSON.stringify([descriptor, descriptor]), "user123")).toThrow(/ซ้ำ/);
   });
