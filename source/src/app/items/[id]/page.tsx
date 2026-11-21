@@ -96,7 +96,7 @@ export default async function ItemPage({
             </section>
           )}
 
-          {item.attachments.length > 0 && <div className="mt-7 space-y-2"><h2 className="text-base">ไฟล์แนบ</h2><AttachmentList attachments={item.attachments} canEdit={canEdit} /></div>}
+          {item.attachments.length > 0 && <div className="mt-7 space-y-2"><h2 className="text-base">ไฟล์แนบ</h2><AttachmentList attachments={item.attachments} canEdit={canEdit && item.status !== "HIDDEN"} allowCover={!item.parentId} selectedCoverId={item.coverAttachmentId} /></div>}
           {canEdit && item.status !== "HIDDEN" && <div className="mt-4"><AttachmentUpload itemId={item.id} /></div>}
         </section>
 
