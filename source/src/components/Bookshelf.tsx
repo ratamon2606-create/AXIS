@@ -1,29 +1,15 @@
 "use client";
 
-import type { CSSProperties } from "react";
+import { bookTitleSize, endDate, fullDate, positionVars, shortDate, truncate, type ShelfItem } from "@/lib/bookshelf-utils";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import SaveButton from "@/components/SaveButton";
-
-type ShelfItem = {
-  id: string;
-  title: string;
-  body: string;
-  type: string;
-  audience: string;
-  targetYear: number | null;
-  eventStart: string | null;
-  eventEnd: string | null;
-  expiresAt: string | null;
-  publishedAt: string | null;
-  createdAt: string;
-  location: string | null;
-  saved: boolean;
-  coverAttachmentId: string | null;
-};
+import { BookshelfList } from "@/components/BookshelfList";
+import { relevantDate } from "@/lib/items";
 
 type Props = {
   items: ShelfItem[];
+  signedIn: boolean;
 };
 
 const FILTERS = [
@@ -43,174 +29,7 @@ const TYPE_LABEL: Record<string, string> = {
   DOCUMENT: "เอกสาร",
 };
 
-const TAN_30 = 0.5773502692;
-
-function relevantDate(item: ShelfItem) {
-  if (item.type === "ACTIVITY" && item.eventStart) {
-    return new Date(item.eventStart);
-  }
-
-  if (item.type === "OPPORTUNITY" && item.expiresAt) {
-    return new Date(item.expiresAt);
-  }
-
-  if (item.publishedAt) {
-    return new Date(item.publishedAt);
-  }
-
-  return new Date(item.createdAt);
-}
-
-function endDate(item: ShelfItem) {
-  if (item.expiresAt) return new Date(item.expiresAt);
-  if (item.eventEnd) return new Date(item.eventEnd);
-  if (item.eventStart) return new Date(item.eventStart);
-  return null;
-}
-
-function shortDate(value: Date | null) {
-  if (!value) return "ไม่กำหนดวันสิ้นสุด";
-
-  return new Intl.DateTimeFormat("th-TH", {
-    day: "numeric",
-    month: "short",
-    year: "2-digit",
-  }).format(value);
-}
-
-function fullDate(value: string | null) {
-  if (!value) return "ไม่ระบุ";
-
-  return new Intl.DateTimeFormat("th-TH", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(new Date(value));
-}
-
-function truncate(text: string, max = 380) {
-  const cleaned = text.replace(/\s+/g, " ").trim();
-  if (cleaned.length <= max) return cleaned;
-  return `${cleaned.slice(0, max).trim()}…`;
-}
-
-/*
- * Exact isometric row from the reference:
- *
- * x axis of the row: right
- * y axis of the row: up
- * slope: -tan(30deg) = -0.5773502692
- *
- * Every inactive book is on THIS SAME LINE.
- * Only the distance touching the active center slot is enlarged.
- */
-function positionVars(
-  offset: number,
-  active: boolean,
-): CSSProperties {
-  if (active) {
-    return {
-      "--book-x-desktop": "0px",
-      "--book-y-desktop": "46px",
-      "--book-x-tablet": "0px",
-      "--book-y-tablet": "40px",
-      "--book-x-mobile": "0px",
-      "--book-y-mobile": "34px",
-      "--book-scale": "1",
-      zIndex: 100,
-    } as CSSProperties;
-  }
-
-  const direction = offset < 0 ? -1 : 1;
-  const distance = Math.abs(offset);
-
-  /*
-   * The closest inactive books are far away from the active slot.
-   * Books after that use a tight repeated step.
-   *
-   * IMPORTANT:
-   * Y is derived from X using tan(30deg), so all inactive books
-   * remain exactly on one -30° isometric row.
-   */
-  const desktopCenterX = 205;
-  const desktopStepX = 66;
-
-  const tabletCenterX = 166;
-  const tabletStepX = 54;
-
-  const mobileCenterX = 122;
-  const mobileStepX = 40;
-
-  const desktopX =
-    direction *
-    (desktopCenterX + Math.max(0, distance - 1) * desktopStepX);
-
-  const tabletX =
-    direction *
-    (tabletCenterX + Math.max(0, distance - 1) * tabletStepX);
-
-  const mobileX =
-    direction *
-    (mobileCenterX + Math.max(0, distance - 1) * mobileStepX);
-
-  const desktopY = -desktopX * TAN_30;
-  const tabletY = -tabletX * TAN_30;
-  const mobileY = -mobileX * TAN_30;
-
-  /*
-   * Reference books are nearly equal in size.
-   * Keep only a very subtle distance reduction.
-   */
-  const scale = Math.max(
-    0.9,
-    0.96 - Math.max(0, distance - 1) * 0.015,
-  );
-
-  /*
-   * Depth order follows the actual isometric row.
-   *
-   * lower-left  = closer to the viewer = higher layer
-   * upper-right = farther away         = lower layer
-   *
-   * So z-index must be monotonic along offset,
-   * not symmetrical by distance from the active book.
-   */
-  const zIndex = 70 - offset;
-
-  return {
-    "--book-x-desktop": `${desktopX}px`,
-    "--book-y-desktop": `${desktopY}px`,
-    "--book-x-tablet": `${tabletX}px`,
-    "--book-y-tablet": `${tabletY}px`,
-    "--book-x-mobile": `${mobileX}px`,
-    "--book-y-mobile": `${mobileY}px`,
-    "--book-scale": String(scale),
-    zIndex,
-  } as CSSProperties;
-}
-
-function bookTitleSize(title: string) {
-  const length = title.trim().length;
-
-  if (length >= 70) {
-    return "axis-book-title-xxs";
-  }
-
-  if (length >= 50) {
-    return "axis-book-title-xs";
-  }
-
-  if (length >= 34) {
-    return "axis-book-title-sm";
-  }
-
-  if (length >= 22) {
-    return "axis-book-title-md";
-  }
-
-  return "axis-book-title-lg";
-}
-
-export default function Bookshelf({ items }: Props) {
+export default function Bookshelf({ items, signedIn }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -357,53 +176,11 @@ export default function Bookshelf({ items }: Props) {
           ไม่มีข่าวในหมวดนี้
         </div>
       ) : view === "list" ? (
-        <div className="space-y-3">
-          {filtered.map((item, index) => {
-            const cover = item.coverAttachmentId
-              ? `/api/files/${item.coverAttachmentId}?view=1`
-              : null;
-
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() =>
-                  router.push(
-                    itemDetailHref(
-                      item.id,
-                      index,
-                      "list",
-                    ),
-                  )
-                }
-                className="axis-panel axis-card-interactive flex w-full overflow-hidden text-left"
-              >
-                <div className="axis-list-cover">
-                  {cover ? (
-                    <img src={cover} alt="" />
-                  ) : (
-                    <span className="block break-words px-2 text-center text-sm font-medium leading-snug">{item.title}</span>
-                  )}
-                </div>
-
-                <div className="min-w-0 flex-1 p-4">
-                  <div className="flex flex-wrap gap-2 text-[11px] uppercase tracking-wider text-muted">
-                    <span>{TYPE_LABEL[item.type] ?? item.type}</span>
-                    <span>สิ้นสุด {shortDate(endDate(item))}</span>
-                  </div>
-
-                  <h3 className="mt-1 text-base font-medium">
-                    {item.title}
-                  </h3>
-
-                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-muted">
-                    {item.body}
-                  </p>
-                </div>
-              </button>
-            );
-          })}
-        </div>
+        <BookshelfList
+          items={filtered}
+          typeLabels={TYPE_LABEL}
+          onOpen={(item, index) => router.push(itemDetailHref(item.id, index, "list"))}
+        />
       ) : (
         <>
           <div className="axis-bookshelf-scene">
@@ -539,10 +316,10 @@ export default function Bookshelf({ items }: Props) {
                   </h2>
                 </div>
 
-                <SaveButton
+                {signedIn && <SaveButton
                   itemId={active.id}
                   initialSaved={active.saved}
-                />
+                />}
               </div>
 
               <p className="axis-selected-body mt-3 whitespace-pre-wrap text-sm leading-6 text-muted">

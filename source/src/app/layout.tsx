@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
+import "./styles/interactive.css";
+import "./styles/refinements.css";
 
 import { auth, signOut } from "@/lib/auth";
 import { signInWithGoogle } from "@/app/actions/google-sign-in";

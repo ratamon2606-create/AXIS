@@ -2,7 +2,8 @@ import Link from "next/link";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { AUDIENCE_LABEL, TYPE_LABEL, visibleWhere } from "@/lib/items";
-import type { ItemType, Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
+import { ITEM_TYPES } from "@/lib/content-validation";
 
 export const dynamic = "force-dynamic";
 
@@ -13,23 +14,28 @@ type SearchParams = {
   year?: string;
   past?: string;
   selected?: string;
+  page?: string;
 };
 
 export default async function SearchPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const params = await searchParams;
   const session = await auth().catch(() => null);
-  const q = params.q?.trim() ?? "";
+  const q = (typeof params.q === "string" ? params.q : "").trim().slice(0, 120);
   const includePast = params.past === "1";
 
   const conditions: Prisma.ContentItemWhereInput[] = [visibleWhere(!!session?.user, includePast ? "all" : "current")];
 
-  if (params.type && params.type !== "ALL") conditions.push({ type: params.type as ItemType });
+  if (params.type && ITEM_TYPES.some((type) => type === params.type)) {
+    conditions.push({ type: params.type as (typeof ITEM_TYPES)[number] });
+  }
   if (params.program === "CPE") conditions.push({ audience: { in: ["ALL", "CPE", "CPE_SKE"] } });
   else if (params.program === "SKE") conditions.push({ audience: { in: ["ALL", "SKE", "CPE_SKE"] } });
 
   if (params.year) {
     const year = Number(params.year);
-    if (Number.isInteger(year)) conditions.push({ OR: [{ targetYear: null }, { targetYear: year }] });
+    if (Number.isInteger(year) && year >= 1 && year <= 8) {
+      conditions.push({ OR: [{ targetYear: null }, { targetYear: year }] });
+    }
   }
 
   if (q) {
@@ -41,11 +47,20 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
     });
   }
 
-  const results = await db.contentItem.findMany({
-    where: { AND: conditions },
-    orderBy: [{ pinned: "desc" }, { createdAt: "desc" }],
-    take: 100,
-  });
+  const pageNumber = Number(params.page ?? "1");
+  const page = Number.isSafeInteger(pageNumber) && pageNumber >= 1 ? Math.min(pageNumber, 10_000) : 1;
+  const PAGE_SIZE = 30;
+  const where: Prisma.ContentItemWhereInput = { AND: conditions };
+  const [results, total] = await Promise.all([
+    db.contentItem.findMany({
+      where,
+      orderBy: [{ pinned: "desc" }, { createdAt: "desc" }],
+      skip: (page - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+    }),
+    db.contentItem.count({ where }),
+  ]);
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   const selected = results.find((item) => item.id === params.selected) ?? results[0] ?? null;
   const base = new URLSearchParams();
@@ -75,7 +90,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
 
       <div className="grid gap-5 lg:grid-cols-[minmax(18rem,0.9fr)_minmax(0,1.25fr)] xl:grid-cols-[minmax(20rem,0.8fr)_minmax(0,1.4fr)]">
         <section className="min-w-0 space-y-2">
-          <div className="flex items-center"><p className="text-xs text-muted">พบ {results.length} รายการ</p></div>
+          <div className="flex items-center"><p className="text-xs text-muted">พบ {total} รายการ</p></div>
           {results.length === 0 && <p className="rounded-2xl border border-dashed border-line bg-paper/50 p-8 text-center text-sm text-muted">ไม่พบประกาศที่ตรงกับตัวกรอง ลองลดเงื่อนไขหรือค้นคำอื่น</p>}
           {results.map((item) => {
             const next = new URLSearchParams(base);
@@ -111,6 +126,13 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
           )}
         </aside>
       </div>
+      {totalPages > 1 && (
+        <nav className="flex justify-center items-center gap-3 text-sm" aria-label="หน้าผลการค้นหา">
+          {page > 1 && <Link href={`/search?${new URLSearchParams({ ...Object.fromEntries(base.entries()), page: String(page - 1) })}`} className="rounded-xl border border-line px-4 py-2">← ก่อนหน้า</Link>}
+          <span className="text-muted">หน้า {page} / {totalPages}</span>
+          {page < totalPages && <Link href={`/search?${new URLSearchParams({ ...Object.fromEntries(base.entries()), page: String(page + 1) })}`} className="rounded-xl border border-line px-4 py-2">ถัดไป →</Link>}
+        </nav>
+      )}
     </div>
   );
 }

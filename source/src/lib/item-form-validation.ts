@@ -1,7 +1,5 @@
 import { AUDIENCES } from "@/lib/content-validation";
-
-const MAX_FILE_BYTES = 20 * 1024 * 1024;
-const MAX_TOTAL_BYTES = 80 * 1024 * 1024;
+import { MAX_FILE_BYTES, MAX_TOTAL_BYTES, MAX_UPLOADS } from "@/lib/file-validation";
 
 export function validateItemForm(formData: FormData): Record<string, string> {
   const errors: Record<string, string> = {};
@@ -9,11 +7,12 @@ export function validateItemForm(formData: FormData): Record<string, string> {
     (value): value is File => value instanceof File && value.size > 0,
   );
 
+  if (files.length > MAX_UPLOADS) errors.attachments = `แนบไฟล์ได้สูงสุด ${MAX_UPLOADS} ไฟล์`;
   const oversized = files.find((file) => file.size > MAX_FILE_BYTES);
   if (oversized) errors.attachments = `${oversized.name} ใหญ่เกิน 20 MB`;
   const totalBytes = files.reduce((sum, file) => sum + file.size, 0);
   if (totalBytes > MAX_TOTAL_BYTES) {
-    errors.attachments = "ไฟล์แนบรวมกันต้องไม่เกิน 80 MB ต่อการบันทึกหนึ่งครั้ง";
+    errors.attachments = `ไฟล์แนบรวมกันต้องไม่เกิน ${MAX_TOTAL_BYTES / 1024 / 1024} MB`;
   }
 
   if (!String(formData.get("title") ?? "").trim()) {

@@ -1,6 +1,8 @@
 import { db } from "@/lib/db";
 import { randomUUID } from "node:crypto";
 import { checkFile, headObject, copyObject, deleteObject, validateStoredFileType } from "@/lib/s3";
+import { MAX_UPLOADS, MAX_TOTAL_BYTES } from "@/lib/file-validation";
+export { MAX_UPLOADS, MAX_TOTAL_BYTES } from "@/lib/file-validation";
 
 export type DirectUpload = {
   storageKey: string;
@@ -9,8 +11,6 @@ export type DirectUpload = {
   size: number;
 };
 
-export const MAX_UPLOADS = 10;
-export const MAX_TOTAL_BYTES = 200 * 1024 * 1024;
 
 export function parseDirectUploadDescriptors(
   raw: FormDataEntryValue | null,

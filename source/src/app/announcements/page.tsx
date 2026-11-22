@@ -40,6 +40,7 @@ export default async function AnnouncementsPage() {
     eventStart: item.eventStart?.toISOString() ?? null,
     eventEnd: item.eventEnd?.toISOString() ?? null,
     expiresAt: item.expiresAt?.toISOString() ?? null,
+    deadlineAt: item.deadlineAt?.toISOString() ?? null,
     publishedAt: item.publishedAt?.toISOString() ?? null,
     createdAt: item.createdAt.toISOString(),
     location: item.location,
@@ -56,7 +57,7 @@ export default async function AnnouncementsPage() {
           สำรวจข่าว
         </p>
       </div>
-      <Bookshelf items={shelfItems} />
+      <Bookshelf items={shelfItems} signedIn={!!session?.user} />
     </div>
   );
 }

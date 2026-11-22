@@ -1,4 +1,6 @@
 export const MAX_FILE_BYTES = 20 * 1024 * 1024;
+export const MAX_UPLOADS = 10;
+export const MAX_TOTAL_BYTES = 200 * 1024 * 1024;
 
 export const ALLOWED_MIME = new Set([
   "application/pdf",
