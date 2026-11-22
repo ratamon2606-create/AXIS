@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { signInWithGoogle } from "@/app/actions/google-sign-in";
 import { db } from "@/lib/db";
 import { audienceMatches, visibleWhere } from "@/lib/items";
+import type { ContentItem } from "@prisma/client";
 import { Card } from "@/components/Card";
 
 export const dynamic = "force-dynamic";
@@ -22,8 +23,8 @@ export default async function HomePage() {
   const now = new Date();
   const sevenDays = new Date(now.getTime() + 7 * 86_400_000);
   const deadlines = items
-    .filter((item) => item.expiresAt && item.expiresAt >= now && item.expiresAt <= sevenDays)
-    .sort((a, b) => a.expiresAt!.getTime() - b.expiresAt!.getTime());
+    .filter((item) => item.deadlineAt && item.deadlineAt >= now && item.deadlineAt <= sevenDays)
+    .sort((a, b) => a.deadlineAt!.getTime() - b.deadlineAt!.getTime());
   const events = items
     .filter((item) => item.eventStart && item.eventStart >= now && item.eventStart <= sevenDays)
     .sort((a, b) => a.eventStart!.getTime() - b.eventStart!.getTime());
@@ -40,7 +41,7 @@ export default async function HomePage() {
 
   const saved = session?.user
     ? await db.savedItem.findMany({
-        where: { userId: session.user.id },
+        where: { userId: session.user.id, item: visibleWhere(true, "all") },
         include: { item: true },
         orderBy: { createdAt: "desc" },
         take: 4,
@@ -103,7 +104,7 @@ export default async function HomePage() {
   );
 }
 
-function Section({ title, subtitle, items }: { title: string; subtitle: string; items: Array<any> }) {
+function Section({ title, subtitle, items }: { title: string; subtitle: string; items: ContentItem[] }) {
   return (
     <section className="space-y-3">
       <div><h2 className="text-lg">{title}</h2><p className="text-xs text-muted">{subtitle}</p></div>
@@ -116,7 +117,7 @@ function Section({ title, subtitle, items }: { title: string; subtitle: string; 
   );
 }
 
-function CompactSection({ title, subtitle, items, mode }: { title: string; subtitle: string; items: Array<any>; mode: "deadline" | "event" }) {
+function CompactSection({ title, subtitle, items, mode }: { title: string; subtitle: string; items: ContentItem[]; mode: "deadline" | "event" }) {
   return (
     <section className="axis-panel p-4 sm:p-5">
       <div className="mb-3"><h2 className="text-lg">{title}</h2><p className="text-xs text-muted">{subtitle}</p></div>
@@ -125,7 +126,7 @@ function CompactSection({ title, subtitle, items, mode }: { title: string; subti
       ) : (
         <div className="divide-y divide-line">
           {items.map((item) => {
-            const date = mode === "deadline" ? item.expiresAt : item.eventStart;
+            const date = mode === "deadline" ? item.deadlineAt : item.eventStart;
             return (
               <Link key={item.id} href={`/items/${item.id}`} className="flex min-w-0 items-center gap-3 py-3 first:pt-1 last:pb-1">
                 <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-brandsoft text-center text-branddeep">
@@ -133,7 +134,7 @@ function CompactSection({ title, subtitle, items, mode }: { title: string; subti
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium">{item.title}</p>
-                  <p className="mt-0.5 truncate text-xs text-muted">{mode === "deadline" ? "กำหนดส่ง/หมดเขต" : item.location ?? "กิจกรรม"}</p>
+                  <p className="mt-0.5 truncate text-xs text-muted">{mode === "deadline" ? "กำหนดส่ง" : item.location ?? "กิจกรรม"}</p>
                 </div>
                 <span className="text-muted">→</span>
               </Link>
