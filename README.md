@@ -1,5 +1,4 @@
-# AXIS
-## Department Information and Communication Hub
+# AXIS Department Information and Communication Hub
 
 **A centralized, searchable announcement platform for CPE and SKE students at Kasetsart University.**
 
