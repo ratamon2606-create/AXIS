@@ -1,4 +1,4 @@
-# AXIS Department Information and Communication Hub
+# AXIS - Department Information and Communication Hub
 
 **A centralized, searchable announcement platform for CPE and SKE students at Kasetsart University.**
 
@@ -19,7 +19,6 @@
 
 [**Live application**](https://axis-isp.vercel.app/) · [**Build & run**](#getting-started-local-development) · [**Documentation**](#documentation) · [**CI results**](https://github.com/ratamon2606-create/AXIS/actions/workflows/ci.yml)
 
-> **Academic project notice:** AXIS is a student-developed software engineering project, not an officially operated Kasetsart University information service. The hosted demonstration uses free-tier services and may not always be available.
 
 ## Table of contents
 
