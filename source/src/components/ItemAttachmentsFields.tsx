@@ -1,6 +1,7 @@
 "use client";
 import { useState, type Dispatch, type SetStateAction } from "react";
 import { removeAttachment } from "@/app/actions/attachments";
+import { TYPE_FIELDS, TYPE_LABEL } from "@/lib/items";
 
 export type ExistingAttachment = {
   id: string;
@@ -10,13 +11,17 @@ export type ExistingAttachment = {
 
 /** Attachment management and upload-picker UI, isolated from the core editor. */
 export function ItemAttachmentsFields({
-  attachments = [], setErrors,
+  attachments = [], details = {}, type, field, ok, setErrors,
 }: {
   attachments?: ExistingAttachment[];
+  details?: Record<string, string>;
+  type: string;
+  field: string;
+  ok: string;
   setErrors: Dispatch<SetStateAction<Record<string, string>>>;
 }) {
   const [removedAttachmentIds, setRemovedAttachmentIds] = useState<string[]>([]);
-  const values = { attachments };
+  const values = { attachments, details };
   return (
     <>
     <fieldset className="axis-panel axis-form-section" aria-labelledby="axis-form-section-files">
