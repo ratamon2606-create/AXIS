@@ -84,18 +84,29 @@ export function audienceMatches(
   return audience === program;
 }
 
-export function relevantDate(item: {
+type DateInput = Date | string | null;
+type DatedItem = {
   type: ItemType | string;
-  eventStart: Date | null;
-  expiresAt: Date | null;
-  deadlineAt?: Date | null;
-  publishedAt: Date | null;
-  createdAt: Date;
-}): Date {
-  if (item.deadlineAt) return item.deadlineAt;
-  if (item.type === "ACTIVITY" && item.eventStart) return item.eventStart;
-  if (item.type === "OPPORTUNITY" && item.expiresAt) return item.expiresAt;
-  return item.publishedAt ?? item.createdAt;
+  eventStart: DateInput;
+  expiresAt: DateInput;
+  deadlineAt?: DateInput;
+  publishedAt: DateInput;
+  createdAt: Date | string;
+};
+
+function dateValue(value: DateInput): Date | null {
+  return value ? (value instanceof Date ? value : new Date(value)) : null;
+}
+
+/** The same relevant-date priority is shared by the feed and bookshelf. */
+export function relevantDate(item: DatedItem): Date {
+  const deadline = dateValue(item.deadlineAt ?? null);
+  if (deadline) return deadline;
+  const event = dateValue(item.eventStart);
+  if (item.type === "ACTIVITY" && event) return event;
+  const expiry = dateValue(item.expiresAt);
+  if (item.type === "OPPORTUNITY" && expiry) return expiry;
+  return dateValue(item.publishedAt) ?? dateValue(item.createdAt) ?? new Date(0);
 }
 
 export const feedOrder: Prisma.ContentItemOrderByWithRelationInput[] = [
