@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, type Dispatch, type SetStateAction } from "react";
 import { removeAttachment } from "@/app/actions/attachments";
 
 export type ExistingAttachment = {
@@ -13,7 +13,7 @@ export function ItemAttachmentsFields({
   attachments = [], setErrors,
 }: {
   attachments?: ExistingAttachment[];
-  setErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  setErrors: Dispatch<SetStateAction<Record<string, string>>>;
 }) {
   const [removedAttachmentIds, setRemovedAttachmentIds] = useState<string[]>([]);
   const values = { attachments };
