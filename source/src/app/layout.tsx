@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 
-import { auth, signIn, signOut } from "@/lib/auth";
+import { auth, signOut } from "@/lib/auth";
+import { signInWithGoogle } from "@/app/actions/google-sign-in";
 import {
   DesktopSidebar,
   MobileMenu,
@@ -180,19 +181,8 @@ export default async function RootLayout({
                     </button>
                   </form>
                 ) : (
-                  <form
-                    action={async () => {
-                      "use server";
-
-                      await signIn(
-                        "google",
-                        {
-                          redirectTo: "/",
-                        },
-                      );
-                    }}
-                  >
-                    <button className="axis-header-auth-button axis-header-auth-button-primary">
+                  <form action={signInWithGoogle}>
+                    <button type="submit" className="axis-header-auth-button axis-header-auth-button-primary">
                       เข้าสู่ระบบ
                     </button>
                   </form>
