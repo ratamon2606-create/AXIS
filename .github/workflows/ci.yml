@@ -79,3 +79,30 @@ jobs:
 
       - name: Production build
         run: npm run build
+
+      - name: Production smoke test (no production credentials)
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          PORT=3100 npm run start >/tmp/axis-ci-next.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          ready=0
+          for attempt in {1..25}; do
+            if curl --fail --silent --show-error http://127.0.0.1:3100/denied -o /tmp/axis-ci-denied.html 2>/dev/null; then
+              ready=1
+              break
+            fi
+            if ! kill -0 "$server_pid" 2>/dev/null; then
+              cat /tmp/axis-ci-next.log
+              exit 1
+            fi
+            sleep 1
+          done
+          if [ "$ready" -ne 1 ]; then
+            cat /tmp/axis-ci-next.log
+            exit 1
+          fi
+          grep -q 'AXIS' /tmp/axis-ci-denied.html
+          grep -q 'ต้องใช้บัญชีมหาวิทยาลัย' /tmp/axis-ci-denied.html
+          echo 'Production smoke test passed: app layout and public denial route render.'
