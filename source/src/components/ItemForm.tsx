@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import DateTime24Input from "@/components/DateTime24Input";
 import { uploadDirect } from "@/lib/direct-upload-client";
 import { importantDate } from "@/lib/smart-dates";
 import { validateItemForm } from "@/lib/item-form-validation";
@@ -253,11 +254,11 @@ export default function ItemForm({ action, values = {}, mode, }: {
         </div>)}
         {(dateMode === "period" || dateMode === "both") && (<div className="grid gap-3 sm:grid-cols-2">
           <label className="block"><span className="mb-1.5 block text-sm font-medium">เริ่มเหตุการณ์</span>
-            <input type="datetime-local" name="eventStart" required value={eventStart} onChange={e => setEventStart(e.target.value)} className={`${field} ${errors.eventStart ? bad : ok}`} />
+            <DateTime24Input name="eventStart" required value={eventStart} onChange={setEventStart} className={`${field} ${errors.eventStart ? bad : ok}`} />
             {errors.eventStart && <span className="mt-1 text-xs text-danger">{errors.eventStart}</span>}
           </label>
           <label className="block"><span className="mb-1.5 block text-sm font-medium">สิ้นสุดเหตุการณ์ (ไม่บังคับ)</span>
-            <input type="datetime-local" name="eventEnd" value={eventEnd} min={eventStart || undefined} onChange={e => setEventEnd(e.target.value)} className={`${field} ${errors.eventEnd ? bad : ok}`} />
+            <DateTime24Input name="eventEnd" value={eventEnd} min={eventStart || undefined} onChange={setEventEnd} className={`${field} ${errors.eventEnd ? bad : ok}`} />
             {errors.eventEnd && <span className="mt-1 text-xs text-danger">{errors.eventEnd}</span>}
           </label>
           <label className="block sm:col-span-2"><span className="mb-1.5 block text-sm font-medium">ป้ายกำกับช่วงเวลา (ไม่บังคับ)</span>
