@@ -20,7 +20,7 @@ type SearchParams = {
 export default async function SearchPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const params = await searchParams;
   const session = await auth().catch(() => null);
-  const q = params.q?.trim() ?? "";
+  const q = (typeof params.q === "string" ? params.q : "").trim().slice(0, 120);
   const includePast = params.past === "1";
 
   const conditions: Prisma.ContentItemWhereInput[] = [visibleWhere(!!session?.user, includePast ? "all" : "current")];
@@ -33,7 +33,9 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
 
   if (params.year) {
     const year = Number(params.year);
-    if (Number.isInteger(year)) conditions.push({ OR: [{ targetYear: null }, { targetYear: year }] });
+    if (Number.isInteger(year) && year >= 1 && year <= 8) {
+      conditions.push({ OR: [{ targetYear: null }, { targetYear: year }] });
+    }
   }
 
   if (q) {
