@@ -1,268 +1,153 @@
-# Department Information and Communication Hub
+# AXIS — Department Information and Communication Hub
 
-A web application for the CPE/SKE department that provides a single, searchable source for department announcements and related information.
+**A centralized, searchable announcement platform for CPE and SKE students at Kasetsart University.**
 
-The project is designed for students, content editors, and department administrators. It focuses on making department information easier to find, easier to update, and safer to access according to each user's permissions.
+## Team
 
-## Project Goals
+| Name | Student ID | GitHub | Contribution areas |
+| --- | --- | --- | --- |
+| **Jehan Tohdeng** | 6810545514 | [@jehan-t](https://github.com/jehan-t) | UI/UX, Bookshelf, Calendar, responsive layouts, gallery |
+| **Thanakorn Innok** | 6810545620 | [@NtNyx](https://github.com/NtNyx) | Content creation, attachments, Smart Dates, cover data model |
+| **Piyatida Muanjaingam** | 6810545760 | [@piyatida-pm](https://github.com/piyatida-pm) | Authentication, role management, authorization and auditing |
+| **Ratamon Charoenratanakun** | 6810545883 | [@ratamon2606-create](https://github.com/ratamon2606-create) | Database/environment setup, integration, testing, CI/CD and deployment |
 
-Department information is often spread across multiple channels such as Discord, university portals, course platforms, and email. This can make important announcements difficult to find and easy to miss.
+---
 
-This project provides one place where users can:
+[![CI](https://github.com/ratamon2606-create/AXIS/actions/workflows/ci.yml/badge.svg)](https://github.com/ratamon2606-create/AXIS/actions/workflows/ci.yml)
+[![Next.js](https://img.shields.io/badge/Next.js-15.5.29-black?logo=nextdotjs)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
-- browse department announcements,
-- search by keyword,
-- sign in with a university Google account,
-- view information according to visibility rules,
-- create and edit announcements when authorized,
-- keep follow-up updates connected to the original post.
+[**Live application**](https://axis-isp.vercel.app/) · [**Build & run**](#getting-started-local-development) · [**Documentation**](#documentation) · [**CI results**](https://github.com/ratamon2606-create/AXIS/actions/workflows/ci.yml)
 
-## Core Features
+> **Academic project notice:** AXIS is a student-developed software engineering project, not an officially operated Kasetsart University information service. The hosted demonstration uses free-tier services and may not always be available.
 
-### Authentication
+## Table of contents
 
-- Google OAuth 2.0 through Auth.js
-- Only approved university email domains are accepted
-- New users receive the default `READER` role
-- Pre-approved accounts can receive a role from the allowlist
-- Server-side authorization protects write operations
+- [Overview](#overview)
+- [Core features](#core-features)
+- [Roles and permissions](#roles-and-permissions)
+- [Architecture and design decisions](#architecture-and-design-decisions)
+- [Technology stack](#technology-stack)
+- [Getting started (local development)](#getting-started-local-development)
+- [Building and running a production build](#building-and-running-a-production-build)
+- [Testing and continuous integration](#testing-and-continuous-integration)
+- [Project structure](#project-structure)
+- [Documentation](#documentation)
+- [Development process](#development-process)
+- [Troubleshooting](#troubleshooting)
+- [Security and data safety](#security-and-data-safety)
+- [Release status and limitations](#release-status-and-limitations)
+- [Team](#team)
 
-### Multi-role Access
+## Overview
 
-The system supports role-based access such as:
+Department information—scholarships, internships, activities, alerts, forms, and other announcements—was spread across Discord, university portals, course platforms, and forwarded email. Students could miss important updates and struggle to find them again.
 
-- `READER` — read available department information
-- `EDITOR` — create and edit announcements
-- `ADMIN` — administrative permissions and role management
+**AXIS** provides one place to publish, discover, organize, and revisit department information, with separate permissions for visitors, readers, editors, and administrators.
 
-Authentication answers **who the user is**, while authorization determines **what the user is allowed to do**.
+The team developed AXIS across **six iterations** for the **Individual Software Development Process (ISP), 2026** course. Our process applied requirements engineering, SRS, iterative planning, version control, integration, automated quality checks, and deployment.
 
-### Feed and Visibility
+## Core features
 
-Published content is filtered through a shared visibility rule.
+| Area | Capabilities |
+| --- | --- |
+| Announcements | News, Opportunities, Activities, Alerts, and Documents |
+| Discovery | Home feed, search, filters, Bookshelf and List views, Saved posts, and Calendar |
+| Publishing | Drafts, publishing, audience/year targeting, Smart Dates, and follow-up updates |
+| Content lifecycle | Deadlines, event periods, archive policy, current and past posts |
+| Attachments | Private files, image previews, gallery carousel, thumbnails, and selectable cover images |
+| Identity and management | University Google sign-in, account roles, profiles, allowlist, and audit logging |
 
-The project follows a **one rule, one place** design: Feed, Search, and other read paths reuse the same visibility policy instead of implementing separate versions of the rule.
+### Roles and permissions
 
-This reduces duplicated logic and helps prevent inconsistent access control.
+| Action | Visitor | Reader | Editor | Admin |
+| --- | :---: | :---: | :---: | :---: |
+| View public announcements | Yes | Yes | Yes | Yes |
+| View authorized university-only posts | No | Yes | Yes | Yes |
+| Browse, search, and use Calendar | Yes | Yes | Yes | Yes |
+| Save announcements | No | Yes | Yes | Yes |
+| Create announcements | No | No | Yes | Yes |
+| Edit announcements | No | No | Own posts | Authorized posts |
+| Manage user roles and administrative logs | No | No | No | Yes |
 
-### Search
+**Target audience is not an access permission.** Program and year help identify *relevant* content. Visibility, publication status, and server-side authorization determine who may actually access or modify it.
 
-Users can search announcement content by keyword.
+## Architecture and design decisions
 
-The current search:
+AXIS follows a **modular monolith** architecture. One Next.js application handles the UI and server-side logic, with internally separated modules for authentication, authorization, business rules, validation, and database access.
 
-- searches `title`, `body`, and type-specific `details` fields,
-- uses case-insensitive matching,
-- searches both current and past announcements,
-- applies the same shared visibility policy as the feed/archive,
-- performs filtering through the database query rather than loading all records into the application first.
-
-### Content Types
-
-All supported announcement types use one `ContentItem` model.
-
-Current types:
-
-- `NEWS`
-- `OPPORTUNITY`
-- `ACTIVITY`
-- `ALERT`
-- `DOCUMENT`
-
-An enum is used so content types stay consistent.
-
-Type-specific display data can be stored in JSON, while values that need to be queried, compared, or sorted frequently are stored as normal database columns.
-
-Examples:
-
-- `details` → flexible JSON data
-- `eventStart` → normal column
-- `expiresAt` → normal column
-
-### Threads and Follow-up Posts
-
-Follow-up updates are stored as `ContentItem` records and connected to the original item using a self-relation.
+This design was selected because a four-person project with one main content domain does not require the extra deployment and communication complexity of independent microservices.
 
 ```text
-Main ContentItem
-├── Follow-up ContentItem
-└── Follow-up ContentItem
+                     Browser
+                        |
+                     Next.js
+              (UI + Server Actions)
+                 /          \
+        Auth.js / RBAC     Business Logic
+                 \          /
+                    Prisma
+                       |
+                  PostgreSQL
+
+          Protected attachment routes
+                       |
+             S3-compatible storage
 ```
 
-A main post has:
+**Key decisions**
 
-```text
-parentId = null
-```
+- **PostgreSQL and Prisma** store structured, relational records: users, content items, follow-up threads, saved items, attachment metadata, and audit events.
+- **S3-compatible object storage** keeps binary attachments separate from the database. File download links are issued only after an access check and expire after five minutes.
+- **Shared read policies** apply the same visibility and content-lifecycle rules to feeds, search, details, and related entry points.
+- **Google OAuth + role-based authorization** distinguish who a user is from what they are allowed to do.
+- **Smart Dates** distinguish registration deadlines, event periods, and archiving instead of overloading one date field.
 
-A follow-up has:
+| Layer | Local development | Hosted release |
+| --- | --- | --- |
+| Web application | Next.js with Node.js | Vercel |
+| Relational data | PostgreSQL 16 (Docker Compose) | Supabase PostgreSQL |
+| File storage | MinIO (Docker Compose) | Supabase Storage |
+| Authentication | Google OAuth / Auth.js | Google OAuth / Auth.js |
+| Quality checks | npm scripts and Vitest | GitHub Actions |
 
-```text
-parentId = <parent ContentItem id>
-```
+> The checked-in `source/docker-compose.yml` starts **PostgreSQL and MinIO**, not the Next.js app. Start Next.js separately with `npm run dev` or `npm run start`.
 
-This keeps later corrections or updates attached to their original context instead of appearing as unrelated posts in the feed. Editors can add follow-up posts directly from the thread page. Follow-ups inherit the parent type and department when created; their effective read visibility always follows the parent at request time. Changing or hiding a parent therefore also restricts its older updates and files.
+## Technology stack
 
-Deleting a parent can cascade to its follow-ups so orphan records are not left behind.
+| Area | Technologies |
+| --- | --- |
+| Framework | Next.js 15.5.29, React 18 |
+| Language and UI | TypeScript, Tailwind CSS |
+| Authentication | Auth.js / NextAuth, Google OAuth 2.0 |
+| Database | PostgreSQL, Prisma 5.22 |
+| Storage | AWS SDK, S3-compatible API, MinIO for local development |
+| Testing | Vitest, TypeScript |
+| CI/CD | GitHub Actions, Vercel |
+| Local infrastructure | Docker, Docker Compose |
 
-## Architecture
+The application manifest specifies **Node.js 22.x**.
 
-The application uses a **modular monolith** architecture.
-
-It is deployed as one application, while responsibilities are separated internally.
-
-```text
-Browser
-  |
-  v
-Next.js UI
-  |
-  v
-Next.js Server-side Logic
-  |-- Authentication
-  |-- Authorization
-  |-- Server Actions
-  |-- Business Rules
-  |
-  v
-Prisma
-  |
-  v
-PostgreSQL
-```
-
-Next.js is used as a full-stack framework: it handles both the user interface and server-side application logic.
-
-For the current project scope, a separate backend service would add API and deployment complexity without enough benefit.
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Framework | Next.js |
-| Language | TypeScript |
-| Styling | Tailwind CSS |
-| Authentication | Auth.js / Google OAuth 2.0 |
-| ORM | Prisma |
-| Database | PostgreSQL |
-| Environment | Docker Compose |
-| Version Control | Git / GitHub |
-
-## Database Design
-
-Important models include:
-
-### `User`
-
-Stores user account information and the current role.
-
-Important rules include:
-
-- email is unique,
-- the safe default role is `READER`.
-
-### `Allowlist`
-
-Used during a user's first sign-in to assign a predefined privileged role to approved accounts.
-
-The allowlist does **not** determine whether an email domain is allowed to sign in. Domain validation and initial role assignment are separate concerns.
-
-### `ContentItem`
-
-Stores announcements and follow-up posts.
-
-It contains common fields shared by all content types and can relate back to another `ContentItem` through `parentId`.
-
-## Search Example
-
-The search combines the shared visibility rule with keyword matching and includes both current and past announcements:
-
-```ts
-const results = await db.contentItem.findMany({
-  where: {
-    AND: [
-      visibleWhere(signedIn, "all"),
-      {
-        OR: [
-          { title: { contains: q, mode: "insensitive" } },
-          { body: { contains: q, mode: "insensitive" } },
-        ],
-      },
-    ],
-  },
-});
-```
-
-This means:
-
-```text
-visibility conditions
-AND
-(title contains keyword OR body contains keyword)
-```
-
-## Shared Visibility Rule
-
-The project centralizes the main read policy in `src/lib/items.ts`.
-
-Conceptually, the function builds a Prisma `where` condition from three concerns: thread level, account visibility, and lifecycle scope (`current`, `past`, or `all`). Current items must be published and not expired; past items are explicitly marked `PAST` or have passed `expiresAt`; `HIDDEN` items are excluded from reader scopes.
-
-The function does not retrieve content by itself. Feed, Search, Past, and other read paths reuse the same policy rather than maintaining separate copies.
-
-## Seed Data
-
-`prisma/seed.ts` provides a reproducible development dataset.
-
-The seed resets records only when explicitly enabled against a local development database. It is refused in production. Running `npm run db:seed` without `ALLOW_DESTRUCTIVE_SEED=true` will fail safely rather than deleting records.
-
-This helps with:
-
-- consistent development environments,
-- repeatable demos,
-- easier bug reproduction,
-- avoiding duplicate seed records.
-
-> The destructive reset strategy is intended for development/testing, not production data.
-
-## Docker
-
-Docker Compose is used to keep the development environment consistent across team members.
-
-The current Compose stack contains:
-
-- `db` — PostgreSQL 16 for application data,
-- `minio` — S3-compatible object storage for attachments,
-- `createbucket` — a short-lived helper that creates the `hub-files` bucket.
-
-PostgreSQL and MinIO both use health checks so dependent work starts only after the service is actually ready.
-
-Current local ports are:
-
-```text
-PostgreSQL  localhost:5432
-MinIO API   localhost:9000
-MinIO UI    localhost:9001
-```
-
-The Next.js application itself currently runs on the local Node.js runtime (`npm run dev`) rather than in its own container.
-
-## Getting Started
+## Getting started (local development)
 
 ### Prerequisites
 
-Install:
-
-- Node.js
-- npm
-- Docker with Docker Compose
 - Git
+- **Node.js 22.x** and npm
+- Docker Engine or Docker Desktop with **Docker Compose v2**
+- A Google Cloud OAuth client configured with a local callback
+- Available ports **3000**, **5432**, **9000**, and **9001** (or an appropriately adapted local configuration)
 
 ### 1. Clone the repository
 
 ```bash
-# If using the provided ZIP instead of Git, extract it first.
-cd <extracted-AXIS-folder>/source
+git clone https://github.com/ratamon2606-create/AXIS.git
+cd AXIS/source
+node --version
+npm --version
 ```
+
+The `node --version` output should show version **22.x**.
 
 ### 2. Install dependencies
 
@@ -270,178 +155,242 @@ cd <extracted-AXIS-folder>/source
 npm ci
 ```
 
-### 3. Configure environment variables
+`npm ci` installs from the committed lockfile and is preferred over an unpinned installation.
 
-Copy the example environment file:
+### 3. Configure environment variables
 
 ```bash
 cp .env.example .env
 ```
 
-Fill in the required values in `.env`, including the database connection and Google OAuth configuration.
+Edit `source/.env` and replace **all placeholder values**. See the tracked [environment template](source/.env.example).
 
-The project also supports configuring allowed email domains through environment configuration.
+| Variable | Purpose |
+| --- | --- |
+| `POSTGRES_PASSWORD` | Local PostgreSQL password |
+| `MINIO_ROOT_USER`, `MINIO_ROOT_PASSWORD` | Local MinIO credentials |
+| `DATABASE_URL` | PostgreSQL connection string, with the same password as the container |
+| `S3_ENDPOINT`, `S3_PUBLIC_ENDPOINT` | Server-side and browser-reachable object storage endpoints |
+| `S3_ACCESS_KEY`, `S3_SECRET_KEY` | Credentials matching the MinIO account |
+| `S3_BUCKET`, `S3_REGION` | S3-compatible storage bucket and region |
+| `AUTH_SECRET` | Strong authentication secret |
+| `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` | Google OAuth client ID and secret |
+| `ALLOWED_EMAIL_DOMAINS` | Approved account domains, e.g., `ku.th` |
+
+Generate a local authentication secret with:
+
+```bash
+openssl rand -base64 32
+```
+
+In Google Cloud, register the authorized redirect URI:
+
+```text
+http://localhost:3000/api/auth/callback/google
+```
+
+Also configure `http://localhost:3000` as an authorized JavaScript origin where applicable, and allow your test users if the Google OAuth app is in testing mode.
+
+**Never commit `.env`, credentials, database passwords, or OAuth secrets.** If your database password contains URL-special characters, URL-encode it in `DATABASE_URL`.
 
 ### 4. Start PostgreSQL and MinIO
 
+From the `source/` directory:
+
 ```bash
 docker compose up -d
+docker compose ps
 ```
 
-### 5. Apply the Prisma schema
+| Service | Local endpoint |
+| --- | --- |
+| PostgreSQL | `127.0.0.1:5432` |
+| MinIO API | `http://127.0.0.1:9000` |
+| MinIO Console | `http://127.0.0.1:9001` |
+
+The Compose configuration creates persistent `dbdata` and `miniodata` volumes, and a helper initializes the `hub-files` bucket.
+
+### 5. Prepare the local database
+
+For a **new local development database**:
 
 ```bash
+npx prisma generate
 npx prisma db push
 ```
 
-### 6. Seed the development database
+`prisma db push` is convenient for a disposable local environment. The repository also includes committed Prisma migrations for controlled release changes.
+
+**Optional: destructive demo seed**
+
+The seed script **deletes existing database records**, including users, announcements, saved items, attachments, and audit logs. Run it **only on a disposable local database**:
 
 ```bash
-# ONLY for a disposable local database; permanently deletes its previous data!
-ALLOW_DESTRUCTIVE_SEED=true npm run db:seed
+ALLOW_DESTRUCTIVE_SEED=YES_LOCAL_ONLY npm run db:seed
 ```
 
-### 7. Start the development server
+This is the exact opt-in value required by `source/prisma/seed.ts`. The script refuses to run in production. **Never run the seed on shared or production data.**
+
+### 6. Run the application
 
 ```bash
 npm run dev
 ```
 
-Then open:
+Open **http://localhost:3000**.
 
-```text
-http://localhost:3000
+Public content can be browsed as a visitor; university-only content and privileged actions require an eligible Google account.
+
+### 7. Stop the local environment
+
+Stop the Next.js process with `Ctrl+C`, then:
+
+```bash
+docker compose down
 ```
 
-## Project Structure
+This preserves named volumes. **Do not run `docker compose down -v` unless you intend to delete all local database and object-storage data in those volumes.**
 
-```text
-prisma/
-├── schema.prisma
-└── seed.ts
+## Building and running a production build
 
-src/
-├── app/
-│   ├── actions/
-│   ├── admin/
-│   ├── api/
-│   ├── denied/
-│   ├── items/
-│   ├── me/
-│   ├── onboarding/
-│   ├── search/
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx
-│
-├── components/
-│   ├── Card.tsx
-│   ├── ItemForm.tsx
-│   └── Menu.tsx
-│
-├── lib/
-│   ├── auth.ts
-│   ├── db.ts
-│   ├── fonts.ts
-│   └── items.ts
-│
-└── types/
-    └── next-auth.d.ts
+After configuring the environment and starting its dependent services:
+
+```bash
+cd source
+npm ci
+npx prisma generate
+npm run build
+npm run start
 ```
 
-## Current Status
+The default server listens on **http://localhost:3000**. A production-style local build still requires the configured database, authentication, and file storage for the relevant runtime workflows.
 
-### Iteration 1 — Completed
+### Hosted deployment checklist
 
-- university Google sign-in
-- domain validation
-- initial role assignment
-- create and edit announcements
-- feed and thread flow
-- shared visibility rule
-- keyword search
-- sign out and restricted-content checks
+1. Provision PostgreSQL and S3-compatible object storage. Configure Google OAuth for the actual deployed domain.
+2. Set the required environment variables in the hosting provider's secure settings, **not in Git**.
+3. Back up existing production data and review schema migrations. Use `npx prisma migrate deploy` for committed migrations against the intended database.
+4. Deploy the Next.js application with `source/` as the project root. AXIS uses Vercel for its hosted release.
+5. Verify sign-in, access control, Create/Edit, search, uploads, file previews, cover selection, and major navigation routes in the deployed environment.
 
-### Iteration 2 — Completed
+Never execute destructive seeding, `prisma db push --force-reset`, or `docker compose down -v` against a production dataset.
 
-- authenticated attachments stored in MinIO,
-- permission-checked five-minute download links,
-- expiry and completed-item lifecycle,
-- past-items archive and search,
-- role management and allowlist administration,
-- audit logging for writes,
-- follow-up posting from the thread page,
-- automated unit tests and GitHub Actions CI.
+## Testing and continuous integration
 
-## Testing
+From `source/`, run the project verification script:
 
-The current project has manual behavior-based checks covering important flows such as:
+```bash
+npm run verify
+```
 
-- accounts outside the allowed domain are rejected,
-- required fields are validated,
-- restricted information is hidden from visitors,
-- Feed, Search, and direct-address access are treated as separate entry points.
+You can also run checks individually:
 
-Automated unit tests cover shared visibility/thread rules and expiry behavior. GitHub Actions runs dependency installation, Prisma generation, TypeScript checking, unit tests, and a production build on pushes and pull requests.
+```bash
+npm run typecheck          # TypeScript validation
+npm test                   # Vitest unit and regression tests
+npm run security:gate      # Next.js version and lockfile checks
+npm run quality:comments   # Source comment policy
+npm run build              # Production build
+```
 
-## Design Principles
+The [GitHub Actions workflow](.github/workflows/ci.yml) also validates the Prisma schema, generates the Prisma client, audits production dependencies, builds the application, and runs a limited smoke test.
 
-### One rule, one place
+**Documented final release evidence (22 November 2026):** 84 automated tests passed across 15 files, and the release build and deployment checks passed. The automated smoke test serves the public `/denied` route; it does **not** prove that live Google OAuth, uploads, storage permissions, and all browser workflows work end to end. Those require separate manual acceptance checks.
 
-Security and visibility policies are centralized instead of duplicated across pages.
+## Project structure
 
-### Safe defaults
+```text
+AXIS/
+├── .github/
+│   └── workflows/ci.yml       # Continuous integration
+├── docs/
+│   ├── report/                # SRS and iteration reports
+│   ├── diagram/               # KAOS, activity/sequence and use-case diagrams
+│   └── chart/                 # Planning exports
+├── source/
+│   ├── .env.example           # Environment template
+│   ├── docker-compose.yml     # PostgreSQL and MinIO locally
+│   ├── prisma/
+│   │   ├── schema.prisma
+│   │   ├── migrations/
+│   │   └── seed.ts
+│   ├── src/
+│   │   ├── app/               # Routes, actions, API
+│   │   ├── components/        # UI components
+│   │   └── lib/               # Business rules, auth, storage and validation
+│   ├── scripts/               # Security and quality checks
+│   └── package.json
+└── README.md
+```
 
-New users default to `READER`, and content visibility can use a restrictive default.
+## Documentation
 
-### Server-side enforcement
+The following links point to files and folders **verified in this repository**:
 
-Frontend controls improve the user experience, but security is enforced on the server.
+| Resource | Link |
+| --- | --- |
+| Original SRS / Software Proposal | [AXIS SRS](docs/report/AXIS_ISP.pdf) |
+| Iteration 1 report | [Iteration 1](docs/report/AXIS_Iteration1_Report.docx%20%281%29.pdf) |
+| Iteration 2 report | [Iteration 2](docs/report/AXIS_Iteration2_Report.docx.pdf) |
+| Iteration 3 report | [Iteration 3](docs/report/AXIS_Iteration3_Report.docx.pdf) |
+| Iteration 4 report | [Iteration 4](docs/report/AXIS_Iteration4_Report.docx.pdf) |
+| Iteration 5 report | [Iteration 5](docs/report/AXIS_Iteration5_Report.docx.pdf) |
+| Iteration 6 report | [Iteration 6](docs/report/AXIS_Iteration6_Report.docx.pdf) |
+| KAOS, activity, sequence, and use-case diagram sources | [Diagrams](docs/diagram/) |
+| Planning and Gantt chart exports | [Charts](docs/chart/) |
+| CI workflow and run results | [GitHub Actions](https://github.com/ratamon2606-create/AXIS/actions/workflows/ci.yml) |
+| Production application | [AXIS on Vercel](https://axis-isp.vercel.app/) |
 
-### Reproducible development
+Some diagram/chart files are JSON exports, not rendered images. Files that are not present in the repository are intentionally not linked as though they were already published.
 
-Docker and seed data help team members work with consistent environments and test conditions.
+## Development process
 
-### Keep the architecture appropriate to the scope
+We used a repeatable workflow: **requirements and sprint planning → task ownership → feature branches → integration → verification → retrospective and scope adjustment**.
 
-The project uses a modular monolith rather than microservices because independent service scaling and deployment are not currently required.
+| Iteration | Focus | Main outcomes |
+| --- | --- | --- |
+| 1 | Secure foundation | University login, roles, Create/Edit, feed, 22 manual tests |
+| 2 | Complete content lifecycle | Protected attachments, expiry/past workflow, roles/audit, CI |
+| 3 | Discovery | Bookshelf/List, Home/Saved, Calendar, follow-up images, program/audience correction |
+| 4 | Responsive UX | Mobile/desktop usability, accessible alternative views, responsive editor/admin pages |
+| 5 | Maintainability and reliability | Smart Dates, shared validation, authorization safeguards, refactoring, 63 tests |
+| 6 | Release preparation | Ten-image follow-ups, carousel, cover selection, 84 tests, hosted deployment |
 
-## Security and setup notes
+Changes were organized using feature branches and pull requests. Re-run automated checks before integration and carefully review any changes affecting access control, file handling, or schema migrations.
 
-- The `.env.example` file contains placeholders; copy it to `.env`, use different strong passwords for PostgreSQL and MinIO, and update all matching fields (`DATABASE_URL`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`). Do not commit or attach `.env`.
-- Docker Compose binds PostgreSQL and MinIO ports to `127.0.0.1` for local use. Configure a proper private network and secrets manager for production.
-- If an old project ZIP containing a real `.env` was shared, rotate the old Google OAuth secret, auth secret, DB and MinIO credentials; removing it from later ZIPs does not revoke the exposed values.
-- `npm ci` installs pinned Next.js 15.5.29 and Sharp 0.35.5. Run `npm run verify` after installing packages, and confirm deployment builds from this version of the code.
-- File headers (magic bytes) are checked server-side, but enterprise malware scanning/quarantine is not implemented. Do not treat upload validation as antivirus software.
-- PostgreSQL transactions and object storage are different systems. Object cleanup after failed uploads is best-effort and an S3 outage may leave an object needing an administrator's cleanup.
+## Troubleshooting
 
-## Known Limitations
+| Problem | Check / suggested action |
+| --- | --- |
+| Wrong Node.js version | Use **Node 22.x**; re-run `npm ci` |
+| PostgreSQL or MinIO unavailable | Run `docker compose ps` and `docker compose logs db minio`; check ports 5432/9000/9001 |
+| Prisma cannot connect | Verify `DATABASE_URL`, the PostgreSQL password, and that the container is healthy |
+| OAuth `redirect_uri_mismatch` | Make the configured Google callback match the actual host and `/api/auth/callback/google` path |
+| Non-KU login denied | Check `ALLOWED_EMAIL_DOMAINS`, Google OAuth test users, and app access rules |
+| Browser upload fails | Check `S3_PUBLIC_ENDPOINT`, object-storage CORS, and the origin `http://localhost:3000` |
+| Files cannot be previewed | Verify bucket/credentials, permitted content visibility, and signed-link expiry |
+| UI or routes appear stale | Stop Next.js, remove only the local `source/.next` build cache, and restart |
+| CI/build fails | Run `npm ci`, `npx prisma generate`, and `npm run verify`; inspect the earliest error |
 
-- Search currently uses simple substring matching rather than advanced relevance ranking.
-- Automated test coverage is still focused on shared business rules rather than full end-to-end browser tests.
-- The current UI is functional and will receive a larger UX/design pass in the next iteration.
-- The current architecture is optimized for the web application; additional clients such as a native mobile application may require a more explicit reusable API design.
+## Security and data safety
 
-## Team
+- Enforce access control **on the server**, not only by hiding UI buttons.
+- Use permission-checked access to private attachments; presigned links expire after five minutes.
+- Validate upload count, file type, and size. Current upload handling supports up to **10 files per upload**, **20 MB per file**, and **200 MB total**; follow-up updates support up to **10 images**.
+- Never commit `.env`, OAuth credentials, passwords, storage keys, database exports, or real student data.
+- Back up live data and review migrations before changing production schemas.
+- A green CI status does not replace browser acceptance tests or an independent security audit.
 
-**Team AXIS — Project C**
+## Release status and limitations
 
-Department Information and Communication Hub for the CPE/SKE department.
+The documented academic release reached a **READY** Vercel deployment with Supabase services on **22 November 2026**. The hosted version uses free-tier infrastructure and may be affected by usage or availability limits.
 
-## Iteration 6 Release and Documentation
+**Deferred scope:** Facebook imports, AI-assisted extraction, and iCalendar subscriptions were not part of the final delivered release. Manual content publishing remains the core workflow.
 
-**Code status:** Iteration 6 feature PRs, QA regression tests, and production dependency fixes are merged into `main`. GitHub Actions verify TypeScript, unit tests and Next.js production build. **Hosted deployment status: pending independent verification** — a successful build is not evidence of working Google OAuth, database migrations, storage CORS or production uploads.
+**Verification boundary:** Automated unit tests and limited smoke tests do not prove every OAuth, storage, permission, or browser workflow. The project does not claim a complete penetration test or guaranteed uptime.
 
-- [Iteration 6 acceptance checklist](docs/iter6/ACCEPTANCE.md) — detailed browser, role, storage and migration checks (not marked complete until observed)
-- [Production deployment and rollback runbook](docs/iter6/RELEASE_RUNBOOK.md) — Vercel, PostgreSQL, private S3, Google OAuth, migration and rollback
-- [Iteration 6 Plane planning CSV](docs/iteration6/AXIS_Iteration6_Plane.csv)
-- [Original project requirements](docs/report/AXIS_ISP.pdf)
-- [Iteration 1 report](docs/report/AXIS_Iteration1_Report.docx%20%281%29.pdf)
-- [Iteration 2 report](docs/report/AXIS_Iteration2_Report.docx.pdf)
-- [Iteration 3 report](docs/report/AXIS_Iteration3_Report.docx.pdf)
-- [Iteration 4 report](docs/report/AXIS_Iteration4_Report.docx.pdf)
-- [Iteration 5 report](docs/report/AXIS_Iteration5_Report.docx.pdf)
 
-**Release checklist:** Merge approved changes; confirm green CI; verify `npm audit --omit=dev`; inspect Prisma migration status and back up hosted data; deploy staging preview with OAuth and private S3; complete acceptance checks; deploy production; record URL, SHA and screenshots. Do not commit `.env`, secret tokens, local database dumps or cloud credentials.
 
-**Team ownership:** Jehan Tohdeng (frontend/UI), Thanakorn Innok (content/upload and schema), Piyatida Muanjaingam (roles and authorization), Ratamon Charoenratanakun (QA, CI, integration and release).
+**Developed for Individual Software Development Process (ISP), Kasetsart University, 2026.**
+
+**License:** No repository license file was found during this review. Please do not assume a right to copy, modify, or redistribute the source without appropriate permission.
