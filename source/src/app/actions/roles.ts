@@ -31,6 +31,12 @@ export async function changeRole(formData: FormData) {
     await assertAdminRetention(tx, target.role, role);
 
     await tx.user.update({ where: { id: userId }, data: { role } });
+    // Keep first-login allowlist and subsequent Admin changes in sync.
+    await tx.allowlist.upsert({
+      where: { email: target.email },
+      create: { email: target.email, role, note: "Role set by administrator" },
+      update: { role },
+    });
 
     await writeAudit(tx, {
       actorId: admin.id,
