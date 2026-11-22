@@ -15,20 +15,27 @@ export default async function HomePage() {
   const signedIn = !!session?.user;
   if (session?.user && !session.user.program) redirect("/onboarding");
 
-  const items = await db.contentItem.findMany({
-    where: visibleWhere(signedIn),
-    orderBy: [{ pinned: "desc" }, { createdAt: "desc" }],
-    take: 80,
-  });
-
   const now = new Date();
   const sevenDays = new Date(now.getTime() + 7 * 86_400_000);
-  const deadlines = items
-    .filter((item) => item.deadlineAt && item.deadlineAt >= now && item.deadlineAt <= sevenDays)
-    .sort((a, b) => a.deadlineAt!.getTime() - b.deadlineAt!.getTime());
-  const events = items
-    .filter((item) => item.eventStart && item.eventStart >= now && item.eventStart <= sevenDays)
-    .sort((a, b) => a.eventStart!.getTime() - b.eventStart!.getTime());
+  const visibility = visibleWhere(signedIn);
+  // Query the upcoming items independently: they may not be among the 80 newest posts.
+  const [items, deadlines, events] = await Promise.all([
+    db.contentItem.findMany({
+      where: visibility,
+      orderBy: [{ pinned: "desc" }, { createdAt: "desc" }],
+      take: 80,
+    }),
+    db.contentItem.findMany({
+      where: { AND: [visibility, { deadlineAt: { gte: now, lte: sevenDays } }] },
+      orderBy: [{ deadlineAt: "asc" }, { createdAt: "desc" }],
+      take: 5,
+    }),
+    db.contentItem.findMany({
+      where: { AND: [visibility, { eventStart: { gte: now, lte: sevenDays } }] },
+      orderBy: [{ eventStart: "asc" }, { createdAt: "desc" }],
+      take: 5,
+    }),
+  ]);
 
   const personal = session?.user
     ? [...items].sort((a, b) => {
