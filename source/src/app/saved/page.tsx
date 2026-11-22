@@ -2,7 +2,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { AUDIENCE_LABEL, TYPE_LABEL, visibleWhere } from "@/lib/items";
+import { AUDIENCE_LABEL, TYPE_LABEL } from "@/lib/items";
+import { savedItemsWhere } from "@/lib/saved-items-query";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,7 @@ export default async function SavedPage() {
   if (!session?.user) redirect("/");
 
   const rows = await db.savedItem.findMany({
-    where: { userId: session.user.id, item: visibleWhere(true, "all") },
+    where: savedItemsWhere(session.user.id),
     include: { item: { include: { _count: { select: { children: { where: { status: "PUBLISHED" } } } } } } },
     orderBy: { createdAt: "desc" },
   });
