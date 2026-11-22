@@ -29,8 +29,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       if (!existing) {
         const invite = await db.allowlist.findUnique({ where: { email } });
-        await db.user.create({
-          data: {
+        await db.user.upsert({
+          where: { email },
+          update: {},
+          create: {
             email,
             name: profile?.name ?? null,
             image: (profile as { picture?: string })?.picture ?? null,
