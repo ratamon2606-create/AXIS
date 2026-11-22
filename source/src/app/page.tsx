@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { auth, signIn } from "@/lib/auth";
+import { auth } from "@/lib/auth";
+import { signInWithGoogle } from "@/app/actions/google-sign-in";
 import { db } from "@/lib/db";
 import { audienceMatches, visibleWhere } from "@/lib/items";
 import { Card } from "@/components/Card";
@@ -56,8 +57,8 @@ export default async function HomePage() {
               <h1 className="mt-2 text-2xl leading-tight sm:text-3xl lg:text-4xl">ข่าวสารภาควิชา ที่เดียวจบ</h1>
               <p className="mt-3 max-w-2xl text-sm leading-7 text-white/85 sm:text-base">ค้นหา กรอง ดูกิจกรรม และกลับมาอ่านประกาศสำคัญได้ง่ายขึ้น โดยยังใช้กฎการมองเห็นและความปลอดภัยชุดเดียวกันทุกหน้า</p>
             </div>
-            <form action={async () => { "use server"; await signIn("google", { redirectTo: "/" }); }}>
-              <button className="min-h-11 w-full rounded-xl bg-paper px-5 py-2.5 text-sm font-medium text-branddeep lg:w-auto">เข้าสู่ระบบด้วยบัญชี @ku.th</button>
+            <form action={signInWithGoogle} className="relative z-10 shrink-0">
+              <button type="submit" className="relative z-10 inline-flex min-h-11 w-full cursor-pointer items-center justify-center rounded-xl bg-paper px-5 py-2.5 text-sm font-medium text-branddeep transition-colors hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:w-auto">เข้าสู่ระบบด้วยบัญชี @ku.th</button>
             </form>
           </div>
         </section>
