@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import SaveButton from "@/components/SaveButton";
+import { relevantDate } from "@/lib/items";
 
 type ShelfItem = {
   id: string;
@@ -15,6 +16,7 @@ type ShelfItem = {
   eventStart: string | null;
   eventEnd: string | null;
   expiresAt: string | null;
+  deadlineAt: string | null;
   publishedAt: string | null;
   createdAt: string;
   location: string | null;
@@ -24,6 +26,7 @@ type ShelfItem = {
 
 type Props = {
   items: ShelfItem[];
+  signedIn: boolean;
 };
 
 const FILTERS = [
@@ -45,25 +48,10 @@ const TYPE_LABEL: Record<string, string> = {
 
 const TAN_30 = 0.5773502692;
 
-function relevantDate(item: ShelfItem) {
-  if (item.type === "ACTIVITY" && item.eventStart) {
-    return new Date(item.eventStart);
-  }
-
-  if (item.type === "OPPORTUNITY" && item.expiresAt) {
-    return new Date(item.expiresAt);
-  }
-
-  if (item.publishedAt) {
-    return new Date(item.publishedAt);
-  }
-
-  return new Date(item.createdAt);
-}
-
 function endDate(item: ShelfItem) {
-  if (item.expiresAt) return new Date(item.expiresAt);
+  if (item.deadlineAt) return new Date(item.deadlineAt);
   if (item.eventEnd) return new Date(item.eventEnd);
+  if (item.expiresAt) return new Date(item.expiresAt);
   if (item.eventStart) return new Date(item.eventStart);
   return null;
 }
@@ -75,6 +63,7 @@ function shortDate(value: Date | null) {
     day: "numeric",
     month: "short",
     year: "2-digit",
+    timeZone: "Asia/Bangkok",
   }).format(value);
 }
 
@@ -84,6 +73,8 @@ function fullDate(value: string | null) {
   return new Intl.DateTimeFormat("th-TH", {
     dateStyle: "medium",
     timeStyle: "short",
+    timeZone: "Asia/Bangkok",
+    hour12: false,
   }).format(new Date(value));
 }
 
@@ -210,7 +201,7 @@ function bookTitleSize(title: string) {
   return "axis-book-title-lg";
 }
 
-export default function Bookshelf({ items }: Props) {
+export default function Bookshelf({ items, signedIn }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -539,10 +530,10 @@ export default function Bookshelf({ items }: Props) {
                   </h2>
                 </div>
 
-                <SaveButton
+                {signedIn && <SaveButton
                   itemId={active.id}
                   initialSaved={active.saved}
-                />
+                />}
               </div>
 
               <p className="axis-selected-body mt-3 whitespace-pre-wrap text-sm leading-6 text-muted">
