@@ -2,45 +2,80 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - "iter4/**"
   pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   check:
+    name: check
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+    timeout-minutes: 20
 
-      - uses: actions/setup-node@v4
+    defaults:
+      run:
+        working-directory: source
+
+    # Build-time placeholders only. CI never connects to production services.
+    env:
+      DATABASE_URL: postgresql://hub:hub@127.0.0.1:5432/hub?schema=public
+      AUTH_SECRET: ci-only-secret-not-used-in-production
+      AUTH_GOOGLE_ID: ci-placeholder
+      AUTH_GOOGLE_SECRET: ci-placeholder
+      AUTH_TRUST_HOST: "true"
+      ALLOWED_EMAIL_DOMAINS: ku.th
+      S3_ENDPOINT: http://127.0.0.1:9000
+      S3_PUBLIC_ENDPOINT: http://127.0.0.1:9000
+      S3_REGION: us-east-1
+      S3_BUCKET: hub-files
+      S3_ACCESS_KEY: ci-placeholder
+      S3_SECRET_KEY: ci-placeholder
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22 with npm cache
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
           cache-dependency-path: source/package-lock.json
 
-      - name: Install
-        working-directory: source
+      - name: Validate pinned Next.js and lockfile integrity
+        run: npm run security:gate
+
+      - name: Install dependencies from lockfile
         run: npm ci
 
-      - name: Generate Prisma client
-        working-directory: source
+      - name: Validate Prisma schema
+        run: npx prisma validate
+
+      - name: Generate Prisma Client
         run: npx prisma generate
 
-      - name: Type check
-        working-directory: source
-        run: npx tsc --noEmit
+      - name: Typecheck
+        run: npm run typecheck
 
-      - name: Unit tests
-        working-directory: source
-        run: npx vitest run
+      - name: Unit and regression tests
+        run: npm test
 
       - name: Comment policy
-        working-directory: source
         run: npm run quality:comments
 
       - name: Audit production dependencies
-        working-directory: source
         run: npm audit --omit=dev
 
-      - name: Build
-        working-directory: source
+      - name: Production build
         run: npm run build
