@@ -5,7 +5,7 @@ import { ItemAccessFields } from "@/components/ItemAccessFields";
 import { uploadDirect } from "@/lib/direct-upload-client";
 import { validateItemForm } from "@/lib/item-form-validation";
 import { AUDIENCES, ITEM_TYPES } from "@/lib/content-validation";
-import { AUDIENCE_LABEL, TYPE_FIELDS, TYPE_LABEL, } from "@/lib/items";
+import { AUDIENCE_LABEL, TYPE_LABEL } from "@/lib/items";
 import { ItemAttachmentsFields, type ExistingAttachment } from "@/components/ItemAttachmentsFields";
 type Values = {
   id?: string;
@@ -209,7 +209,7 @@ export default function ItemForm({ action, values = {}, mode, }: {
       </div>
       <SmartDateFields values={values} mode={mode} errors={errors} field={field} ok={ok} bad={bad} />
     </fieldset>
-    <ItemAttachmentsFields attachments={values.attachments} setErrors={setErrors} />
+    <ItemAttachmentsFields attachments={values.attachments} details={values.details} type={type} field={field} ok={ok} setErrors={setErrors} />
     <ItemAccessFields initialVisibility={values.visibility} status={values.status} mode={mode} field={field} ok={ok} />
     <div className="sticky bottom-[4.25rem] z-10 rounded-2xl border border-line bg-paper/95 p-3 shadow-lg backdrop-blur md:bottom-3">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
