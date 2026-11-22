@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { signInWithGoogle } from "@/app/actions/google-sign-in";
 import { db } from "@/lib/db";
 import { audienceMatches, visibleWhere } from "@/lib/items";
+import { savedItemsWhere } from "@/lib/saved-items-query";
 import type { ContentItem } from "@prisma/client";
 import { Card } from "@/components/Card";
 
@@ -41,7 +42,7 @@ export default async function HomePage() {
 
   const saved = session?.user
     ? await db.savedItem.findMany({
-        where: { userId: session.user.id, item: visibleWhere(true, "all") },
+        where: savedItemsWhere(session.user.id),
         include: { item: true },
         orderBy: { createdAt: "desc" },
         take: 4,
