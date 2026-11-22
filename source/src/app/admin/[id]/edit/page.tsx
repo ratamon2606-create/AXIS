@@ -4,26 +4,9 @@ import { auth } from "@/lib/auth";
 import { canEditItem } from "@/lib/items";
 import { updateItem } from "@/app/actions/content";
 import ItemForm from "@/components/ItemForm";
+import { itemDateFormValues } from "@/lib/edit-form-dates";
 
 export const dynamic = "force-dynamic";
-
-function localDateTime(value: Date | null) {
-  if (!value) return "";
-  return new Intl.DateTimeFormat("sv-SE", {
-    timeZone: "Asia/Bangkok",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(value).replace(" ", "T");
-}
-
-function localDate(value: Date | null) {
-  if (!value) return "";
-  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Bangkok", year: "numeric", month: "2-digit", day: "2-digit" }).format(value);
-}
 
 export default async function EditItemPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -49,9 +32,7 @@ export default async function EditItemPage({ params }: { params: Promise<{ id: s
           targetYear: item.targetYear,
           visibility: item.visibility,
           status: item.status,
-          eventStart: localDateTime(item.eventStart),
-          eventEnd: localDateTime(item.eventEnd),
-          expiresAt: localDate(item.expiresAt),
+          ...itemDateFormValues(item),
           location: item.location ?? "",
           details: (item.details ?? {}) as Record<string, string>,
           attachments: item.attachments,
