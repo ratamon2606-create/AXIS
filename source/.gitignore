@@ -1,15 +1,14 @@
 node_modules
 .next
-.env
-.env.local
 *.log
-/prisma/seeds/exports/
-# Build artifacts and local-only files
-tsconfig.tsbuildinfo
-*.backup
-*.bak
+
+# Local credentials and environment overrides
+.env
 .env.*
 !.env.example
 
+# Generated files and local backups
 /prisma/seeds/exports/
-/tsconfig.tsbuildinfo
+tsconfig.tsbuildinfo
+*.backup
+*.bak
